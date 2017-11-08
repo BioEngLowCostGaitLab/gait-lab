@@ -1,6 +1,13 @@
 #Visual Studio files
 *.[Oo]bj
 *.user
+*.lastbuildstate
+*.tlog
+*.obj
+*.idb
+*.pdb
+*.exe
+*.ilk
 *.aps
 *.pch
 *.vspscc
