@@ -3,6 +3,9 @@
 *.user
 *.lastbuildstate
 *.tlog
+*.db
+*.vcxproj
+*.filters
 *.obj
 *.idb
 *.pdb
