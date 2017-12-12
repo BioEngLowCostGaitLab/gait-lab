@@ -1,3 +1,11 @@
+"""
+    NOTE: you need python 2.7, opencv-contrib-python and numpy.
+    install python from https://www.python.org/downloads/release/python-2714/
+    select to add python to your path variable and to install pip
+    then enter "pip install numpy" and "pip install opencv-contrib-python"
+    to your terminal.
+"""
+
 from __future__ import print_function
 import cv2
 import numpy as np
@@ -11,6 +19,7 @@ MIN_THRESHOLD = 1e3
 MAX_THRESHOLD = 5e4
 
 def get_args():
+    # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
     default = join(os.getcwd(), 'resources', '20171129_163535.mp4'),
@@ -23,12 +32,15 @@ def get_args():
 	help="path to Caffe pre-trained model")
     ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections")
+    ap.add_argument("-d", "--draw", type=bool, default=False,
+	help="minimum probability to filter weak detections")
 
     return vars(ap.parse_args())
 
 def evaluate_net(net, frame, n_frame, last_found, opts):
     # args: network, frame, number of passed frames, number of frame in which person was last found, opts
-    # returns: frame with rectangle drawn on it, number of frame in which person was last found
+    # returns: top left corner and bottom right corner of rectangle in which person lies,
+    # number of frame in which person was last found
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 0.007843,
     (300, 300), 127.5)
     found = False
@@ -50,7 +62,7 @@ def evaluate_net(net, frame, n_frame, last_found, opts):
     if found:
         return startX, startY, endX, endY, last_found, conf_f
     else:
-        return 0, 0, 0, 0, 0, 0
+        return 0, 0, 0, 0, last_found, 0
 
 def filter_kp(kp, startX, startY, endX, endY, w):
     # filtering criteria: must be smaller than maximum diameter, must be inside rectangle specified by net
@@ -69,10 +81,10 @@ def filter_kp(kp, startX, startY, endX, endY, w):
 opts = get_args()
 
 cap = cv2.VideoCapture(opts['video'])
-net = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model'])
+net = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
 
 threshold = MAX_THRESHOLD
-surf = cv2.xfeatures2d.SURF_create(threshold) # make this adaptive
+surf = cv2.xfeatures2d.SURF_create(threshold) # SURF blob detector
 surf.setUpright(True) # we dont need blob orientation
 
 n_frame = 0
@@ -82,11 +94,14 @@ while(True):
     ret, frame = cap.read()
     grey_frame = cv2.equalizeHist(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8))
     (h, w) = frame.shape[:2]
-    if n_frame > 900:
+    if n_frame > 900: # because for now first 900 frames are not interesting
         startX, startY, endX, endY, last_found, confidence = evaluate_net(net, frame, n_frame, last_found, opts)
         if confidence > opts['confidence']: #
             while True:
-                kp, des = surf.detectAndCompute(grey_frame, None) # something else than greyscale
+                # adaptive filtering:
+                # we want to find between 5-10 blobs in this particular video (2x actual number of markers visible)
+                # the detection threshold of the SURF detector is adjusted according to that withing reasonable range
+                kp, des = surf.detectAndCompute(grey_frame, None)
                 kp = filter_kp(kp, startX, startY, endX, endY, w)
                 if len(kp) >= MIN_BLOBS and len(kp) <= MAX_BLOBS:
                     break
@@ -96,8 +111,12 @@ while(True):
                 elif len(kp) > MAX_BLOBS and threshold < MAX_THRESHOLD:
                     threshold *= 1.1
                     surf.setHessianThreshold(threshold)
-
-        frame = cv2.drawKeypoints(frame,kp,None,(0,255,0),4)
+                else:
+                    break
+        if opts['draw']:
+            cv2.rectangle(frame, (startX, startY), (endX, endY),
+			(0, 255, 0), 10)
+        frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
     cv2.imshow("output", cv2.resize(frame, (640, 360)))
     n_frame +=1
     if cv2.waitKey(1) & 0xFF == ord('q'):
