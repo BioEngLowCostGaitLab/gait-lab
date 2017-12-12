@@ -5,6 +5,11 @@ import argparse
 from os.path import join
 import os
 
+MIN_BLOBS = 5
+MAX_BLOBS = 10
+MIN_THRESHOLD = 1e3
+MAX_THRESHOLD = 5e4
+
 def get_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
@@ -41,8 +46,6 @@ def evaluate_net(net, frame, n_frame, last_found, opts):
                 (startX, startY, endX, endY) = box.astype("int")
                 print('[INFO] p: %.2f%% missed frames: %d' %
                 (confidence * 100, n_frame - last_found - 1))
-                #cv2.rectangle(frame, (startX, startY), (endX, endY),
-                #LINECOLOR, 30)
                 last_found = n_frame
     if found:
         return startX, startY, endX, endY, last_found, conf_f
@@ -67,7 +70,9 @@ opts = get_args()
 
 cap = cv2.VideoCapture(opts['video'])
 net = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model'])
-surf = cv2.xfeatures2d.SURF_create(10000)
+
+threshold = MAX_THRESHOLD
+surf = cv2.xfeatures2d.SURF_create(threshold) # make this adaptive
 surf.setUpright(True) # we dont need blob orientation
 
 n_frame = 0
@@ -78,12 +83,22 @@ while(True):
     grey_frame = cv2.equalizeHist(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8))
     (h, w) = frame.shape[:2]
     if n_frame > 900:
-        kp, des = surf.detectAndCompute(grey_frame, None)
         startX, startY, endX, endY, last_found, confidence = evaluate_net(net, frame, n_frame, last_found, opts)
-        #if confidence > opts['confidence']:
-            #kp = filter_kp(kp, startX, startY, endX, endY, w)
-        grey_frame = cv2.drawKeypoints(grey_frame,kp,None,(255,0,0),4)
-    cv2.imshow("output", cv2.resize(grey_frame, (640, 360)))
+        if confidence > opts['confidence']: #
+            while True:
+                kp, des = surf.detectAndCompute(grey_frame, None) # something else than greyscale
+                kp = filter_kp(kp, startX, startY, endX, endY, w)
+                if len(kp) >= MIN_BLOBS and len(kp) <= MAX_BLOBS:
+                    break
+                elif threshold > MIN_THRESHOLD and len(kp) < MIN_BLOBS:
+                    threshold /= 1.1
+                    surf.setHessianThreshold(threshold)
+                elif len(kp) > MAX_BLOBS and threshold < MAX_THRESHOLD:
+                    threshold *= 1.1
+                    surf.setHessianThreshold(threshold)
+
+        frame = cv2.drawKeypoints(frame,kp,None,(0,255,0),4)
+    cv2.imshow("output", cv2.resize(frame, (640, 360)))
     n_frame +=1
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
