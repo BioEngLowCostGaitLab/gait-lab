@@ -71,9 +71,35 @@ def evaluate_net(net, frame, n_frame, last_found, opts):
     else:
         return 0, 0, 0, 0, last_found, 0
 
+def overlap(p1, p2):
+    # return True if two keypoints overlap
+    distance = np.sqrt((p1.pt[0] - p2.pt[0]) ** 2 + (p1.pt[1] - p2.pt[1]) ** 2)
+    if distance < p1.size or distance < p2.size:
+        return True
+    else:
+        return False
+
+def delete_overlap(kp):
+    # delete overlapping keypoints from list
+    # preserve the keypoint with higher response (better keypoint)
+    filtered = []
+
+    for i in range(len(kp)):
+        for j in range(i + 1, len(kp)):
+            if overlap(kp[i], kp[j]):
+                if kp[i].response > kp[j].response:
+                    kp[j].response = 0
+                else:
+                    kp[i].response = 0
+    for i in range(len(kp)):
+        if kp[i].response > 0:
+            filtered.append(kp[i])
+
+    return filtered
+
 def filter_kp(kp, w):
     # filtering criteria: must be smaller than maximum diameter
-    max_size = w * 0.015 # maximum diameter of keypoint
+    max_size = w * 0.015  # maximum diameter of keypoint
     filtered = []
 
     for i in range(len(kp)):
@@ -81,15 +107,16 @@ def filter_kp(kp, w):
             # filtering criteria met
             filtered.append(kp[i])
 
-    for j in range(len(filtered)):
+    for i in range(len(filtered)):
         # move the keypoint to match their location in the image
-        filtered[j].pt = (filtered[j].pt[0] + startX, filtered[j].pt[1] + startY)
+        filtered[i].pt = (filtered[i].pt[0] + startX, filtered[i].pt[1] + startY)
 
+    filtered = delete_overlap(filtered)
     return filtered
 
 def save_keypoints(kp, frame, n_frame, opts):
-
-    final_size = 64
+    # save detected keypoints as 32x32 images
+    final_size = 32
     print('[INFO] saving images')
     for i, keypoint in enumerate(kp):
         final_image = frame[int(keypoint.pt[1]) - final_size / 2:int(keypoint.pt[1]) + final_size / 2,
@@ -114,7 +141,7 @@ detector.setUpright(True) # we dont need blob orientation
 n_frame = 0
 last_found = 0
 
-if opts['save']:
+if opts['save'] == True:
     try:
         os.mkdir(opts['dir'])
     except:
@@ -148,12 +175,12 @@ while(True):
                     detector.setHessianThreshold(threshold)
                 else:
                     break
-            frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
-            if opts['save']:
+            if opts['save'] == True:
                 save_keypoints(kp, frame, n_frame, opts)
-            if opts['rec']:
+            if opts['rec'] == True:
                 cv2.rectangle(frame, (startX, startY), (endX, endY),
 			(0, 255, 0), 10)
+            frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
     if n_frame % (60 / opts['freq']) == 0:
         cv2.imshow("output", cv2.resize(frame, (640, 360)))
     n_frame +=1
