@@ -25,24 +25,24 @@ class Markers(data.Dataset):
         self.traindata = []
         self.trainlabels = []
         self.testdata = []
-        self.testabels = []
+        self.testlabels = []
         if self.train:
-            f = open('labels_xxxx.txt', 'r')
+            f = open(join(self.root, 'trainlabels.txt'), 'r')
             file = f.readlines()
             for line in file:
                 filename = line.split(',')[0]
                 label = line.split(',')[1]
                 self.traindata.append(join(self.root, self.filename, 'train', filename))
-                self.trainlabels.append(int(label))
+                self.trainlabels.append(np.float32(label))
 
         else:
-            f = open('labels_xxxx.txt', 'r')
+            f = open(join(self.root, 'testlabels.txt'), 'r')
             file = f.readlines()
             for line in file:
                 filename = line.split(',')[0]
                 label = line.split(',')[1]
                 self.testdata.append(join(self.root, self.filename, 'test', filename))
-                self.testlabels.append(int(label))
+                self.testlabels.append(np.float32(label))
 
 
 
@@ -58,4 +58,7 @@ class Markers(data.Dataset):
         return img, label
 
     def __len__(self):
-        return len(self.data)
+        if self.train:
+            return len(self.traindata)
+        else:
+            return len(self.testdata)
