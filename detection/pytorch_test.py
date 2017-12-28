@@ -34,6 +34,8 @@ class Net(nn.Module):
         # 8*fSize x 2 x 2
 		self.batchnorm4 = nn.BatchNorm2d(8 * fSize)
 
+		self.conv5 = nn.Conv2d(fSize * 8, 1, 4, stride=2, padding=1, bias=False)
+
 		self.fc1 = nn.Linear(2048, 1000)
 		self.fc2 = nn.Linear(1000, 1)
 
@@ -45,9 +47,7 @@ class Net(nn.Module):
 		x = self.lRelu(self.batchnorm2(self.conv2(x)))
 		x = self.lRelu(self.batchnorm3(self.conv3(x)))
 		x = self.lRelu(self.batchnorm4(self.conv4(x)))
-		x = x.view(x.size(0), -1)
-		x = self.lRelu(self.fc1(x))
-		x = F.sigmoid(self.fc2(x))
+		x = F.sigmoid(self.conv5(x))
 
 		return x
 
