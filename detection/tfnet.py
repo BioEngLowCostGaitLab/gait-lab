@@ -49,12 +49,12 @@ iterator = batched_dataset.make_one_shot_iterator()
 #print(sess.run(next_element))  # ==> ([0, 1, 2,   3],   [ 0, -1,  -2,  -3])
 
 
-x = tf.placeholder(tf.float32, [None, 12288])
+x = tf.placeholder(tf.float32, [12288])
 W = tf.Variable(tf.zeros([12288, 1]))
 b = tf.Variable(tf.zeros([1]))
 y = tf.matmul(x, W) + b
 
-y_ = tf.placeholder(tf.float32, [None, 1])
+y_ = tf.placeholder(tf.float32, [1])
 
 cross_entropy = tf.reduce_mean(
       tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
@@ -65,7 +65,8 @@ tf.global_variables_initializer().run()
 
 for _ in range(1000):
     batch_xs, batch_ys = iterator.get_next()
-    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    batch_xs = tf.reshape(batch_xs, [-1])
+    sess.run(train_step, feed_dict={x: batch_xs.eval(), y_: batch_ys.eval()})
 
   # Test trained model
 #correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
