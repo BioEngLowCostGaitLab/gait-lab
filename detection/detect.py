@@ -2,8 +2,10 @@
     NOTE: you need python 2.7, opencv-contrib-python and numpy.
     install python from https://www.python.org/downloads/release/python-2714/
     select to add python to your path variable and to install pip
-    then enter "pip install numpy" and "pip install opencv-contrib-python"
-    to your terminal.
+
+    Install numpy and opencv-contrib-python:
+        "pip install numpy"
+        "pip install opencv-contrib-python"
 """
 
 from __future__ import print_function
@@ -114,9 +116,8 @@ def filter_kp(kp, w):
     filtered = delete_overlap(filtered)
     return filtered
 
-def save_keypoints(kp, frame, n_frame, opts):
+def save_keypoints(kp, frame, n_frame, opts, final_size=32):
     # save detected keypoints as 32x32 images
-    final_size = 32
     print('[INFO] saving images')
     for i, keypoint in enumerate(kp):
         final_image = frame[int(keypoint.pt[1]) - final_size / 2:int(keypoint.pt[1]) + final_size / 2,
@@ -132,6 +133,7 @@ if opts['freq'] > 60:
 
 cap = cv2.VideoCapture(opts['video'])
 net = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
+test = cv2.dnn.readNetFromTorch('edp_params1')
 
 threshold = MAX_THRESHOLD
 

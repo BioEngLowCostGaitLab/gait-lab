@@ -26,13 +26,10 @@ class Net(nn.Module):
         # fSize x 16 x 16
 		self.conv2 = nn.Conv2d(fSize, fSize * 2, 4, stride=2, padding=1, bias=False)
         # 2*fSize x 8 x 8
-		self.batchnorm2 = nn.BatchNorm2d(2 * fSize)
 		self.conv3 = nn.Conv2d(fSize * 2, fSize * 4, 4, stride=2, padding=1, bias=False)
         # 4*fSize x 4 x 4
-		self.batchnorm3 = nn.BatchNorm2d(4 * fSize)
 		self.conv4 = nn.Conv2d(fSize * 4, fSize * 8, 4, stride=2, padding=1, bias=False)
         # 8*fSize x 2 x 2
-		self.batchnorm4 = nn.BatchNorm2d(8 * fSize)
 
 		self.conv5 = nn.Conv2d(fSize * 8, 1, 4, stride=2, padding=1, bias=False)
 
@@ -44,20 +41,20 @@ class Net(nn.Module):
 	def forward(self, x):
 		# forward pass of network
 		x = self.lRelu(self.conv1(x))
-		x = self.lRelu(self.batchnorm2(self.conv2(x)))
-		x = self.lRelu(self.batchnorm3(self.conv3(x)))
-		x = self.lRelu(self.batchnorm4(self.conv4(x)))
+		x = self.lRelu(self.conv2(x))
+		x = self.lRelu(self.conv3(x))
+		x = self.lRelu(self.conv4(x))
 		x = F.sigmoid(self.conv5(x))
 
 		return x
 
 	def save_params(self, exDir):
 		print('saving params...')
-		torch.save(self.state_dict(), join(exDir, 'edp_params'))
+		torch.save(self.state_dict(), join(exDir, 'edp_params1'))
 
 	def load_params(self, exDir):
 		print('loading params...')
-		self.load_state_dict(torch.load(join(exDir, 'edp_params')))
+		self.load_state_dict(torch.load(join(exDir, 'edp_params1')))
 
 transform = transforms.ToTensor()
 

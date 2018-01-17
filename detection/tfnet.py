@@ -44,15 +44,12 @@ dataset = tf.contrib.data.Dataset.from_tensor_slices((filenames, labels))
 dataset = dataset.map(_parse_function)
 batched_dataset = dataset.batch(4)
 iterator = batched_dataset.make_one_shot_iterator()
-#next_element = iterator.get_next()
-
-#print(sess.run(next_element))  # ==> ([0, 1, 2,   3],   [ 0, -1,  -2,  -3])
 
 
-x = tf.placeholder(tf.float32, [12288])
-W = tf.Variable(tf.zeros([12288, 1]))
+x = tf.placeholder(tf.float32, [3072, 1])
+W = tf.Variable(tf.zeros([3072, 1]))
 b = tf.Variable(tf.zeros([1]))
-y = tf.matmul(x, W) + b
+y = tf.matmul(tf.transpose(W), x) + b
 
 y_ = tf.placeholder(tf.float32, [1])
 
@@ -63,12 +60,15 @@ train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 sess = tf.InteractiveSession()
 tf.global_variables_initializer().run()
 
-for _ in range(1000):
+for _ in range(5):
     batch_xs, batch_ys = iterator.get_next()
-    batch_xs = tf.reshape(batch_xs, [-1])
+    batch_xs = tf.reshape(batch_xs, [3072, 1])
     sess.run(train_step, feed_dict={x: batch_xs.eval(), y_: batch_ys.eval()})
 
-  # Test trained model
-#correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-#accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-#print
+
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+saver = tf.train.Saver()
+save_path = saver.save(sess, join(os.getcwd(), 'model.ckpt'))
+print("Model saved in file: %s" % save_path)
