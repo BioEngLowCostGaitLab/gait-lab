@@ -42,14 +42,13 @@ opts = get_args()
 filenames, labels = create_dataset(opts, 'trainlabels.txt')
 dataset = tf.contrib.data.Dataset.from_tensor_slices((filenames, labels))
 dataset = dataset.map(_parse_function)
-batched_dataset = dataset.batch(4)
+batched_dataset = dataset.batch(batch_size)
 iterator = batched_dataset.make_one_shot_iterator()
 
-
-x = tf.placeholder(tf.float32, [3072, 1])
+x = tf.placeholder(tf.float32, [None, 3072])
 W = tf.Variable(tf.zeros([3072, 1]))
 b = tf.Variable(tf.zeros([1]))
-y = tf.matmul(tf.transpose(W), x) + b
+y = tf.matmul(x, W) + b
 
 y_ = tf.placeholder(tf.float32, [1])
 
@@ -62,7 +61,8 @@ tf.global_variables_initializer().run()
 
 for _ in range(5):
     batch_xs, batch_ys = iterator.get_next()
-    batch_xs = tf.reshape(batch_xs, [3072, 1])
+    print(sess.run(batch_xs))
+    batch_xs = tf.reshape(batch_xs, [4, 3072])
     sess.run(train_step, feed_dict={x: batch_xs.eval(), y_: batch_ys.eval()})
 
 
@@ -70,5 +70,5 @@ correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 saver = tf.train.Saver()
-save_path = saver.save(sess, join(os.getcwd(), 'model.ckpt'))
+save_path = saver.save(sess, join(os.getcwd(), 'edp_model'))
 print("Model saved in file: %s" % save_path)

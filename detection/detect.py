@@ -40,7 +40,7 @@ def get_args():
 	help="number of images to show per 1 second of footage")
     ap.add_argument("-s", "--save", type=bool, default=False,
 	help="option to save detected keypoints")
-    ap.add_argument("-d", "--dir", type=str, default='C:\Users\Antti\Documents\images',
+    ap.add_argument("-d", "--dir", type=str, default=join(os.getcwd(), 'saved_images'),
 	help="directory to save detected keypoints")
 
 
@@ -133,7 +133,7 @@ if opts['freq'] > 60:
 
 cap = cv2.VideoCapture(opts['video'])
 net = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
-test = cv2.dnn.readNetFromTorch('edp_params1')
+#test = cv2.dnn.readNetFromTensorflow
 
 threshold = MAX_THRESHOLD
 
