@@ -161,7 +161,7 @@ while(True):
             grey_frame = grey_frame[startY:endY, startX:endX]
             while True:
                 # adaptive filtering:
-                # we want to find between 5-10 blobs in this particular video (2x actual number of markers visible)
+                # we want to find between 5-10 blobs in this particular video (2-4 times the actual number of markers visible)
                 # the detection threshold of the SURF detector is adjusted according to that withing reasonable range
                 kp = detector.detect(grey_frame, None)
                 kp = filter_kp(kp, w)

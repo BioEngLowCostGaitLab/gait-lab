@@ -2,13 +2,13 @@ import tensorflow as tf
 import argparse
 from os.path import join
 import os
+from tensorflow.python.tools.freeze_graph import freeze_graph
 
 
+# ok, currently not a convolutional net. the point is to make it one though once everything else is running properly
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--root', default=join('/home', 'antti', 'Projects', 'gait-lab'), type=str) # path to images
-    parser.add_argument('--imgdir', default=join('/home', 'antti', 'Projects', 'gait-lab', 'detection', 'resources'), type=str) # path to save figures
-    parser.add_argument('--modeldir', default=join('/home', 'antti', 'Projects', 'gait-lab', 'detection', 'tfmodels'), type=str) # path to save models
+    parser.add_argument('--imgdir', default=join(os.getcwd(), 'resources'), type=str) # path to save figures
     parser.add_argument('--batchSize', default=32, type=int)
     parser.add_argument('--maxEpochs', default=100, type=int) # epochs to train for
     parser.add_argument('--trainedEpochs', default=0, type=int) # previously trained epochs on same parameters
@@ -54,6 +54,8 @@ def multilayer_perceptron(x, weights, biases):
     out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
     return out_layer
 
+opts = get_args()
+
 # Training Parameters
 batch_size = opts.batchSize
 n_epochs = opts.maxEpochs * 2 # fix this bug
@@ -72,8 +74,7 @@ dataset = dataset.map(_parse_function)
 dataset = dataset.repeat(n_epochs)
 dataset = dataset.batch(batch_size)
 iterator = dataset.make_one_shot_iterator()
-total_batches = dataset_length // batch_size
-print(total_batches)
+n_batches = dataset_length // batch_size
 
 test_images, test_labels, test_length = create_dataset(opts, 'testlabels.txt', train=False)
 print(test_length)
@@ -93,7 +94,7 @@ n_input = 3072 # Number of features
 
 # tf Graph input
 x = tf.placeholder("float", [None, n_input])
-y = tf.placeholder("float", [None, n_classes])
+y = tf.placeholder("float", [None, 1])
 
 
 # Store layers weight & bias
@@ -124,10 +125,10 @@ init = tf.global_variables_initializer()
 with tf.Session() as sess:
     sess.run(init)
     # Training cycle
-    for epoch in range(n_epochs // 2):
+    for epoch in range(n_epochs // 2): # for some reason bugs with outofrange with all epochs
         # Loop over all batches
         avg_cost = 0.0
-        for i in range(total_batches):
+        for i in range(n_batches):
             batch_x, batch_y = iterator.get_next()
             batch_x = tf.reshape(batch_x, [batch_size, 3072])
             batch_y = tf.reshape(batch_y, [batch_size, 1])
@@ -152,5 +153,5 @@ with tf.Session() as sess:
 
 
     saver = tf.train.Saver()
-    save_path = saver.save(sess, join(os.getcwd(), 'edp_model'))
+    save_path = saver.save(sess, join(os.getcwd(), 'edp_model.ckpt'))
     print("Model saved in file: %s" % save_path)
