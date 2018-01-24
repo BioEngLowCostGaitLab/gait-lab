@@ -17,14 +17,12 @@ import os
 
 MIN_BLOBS = 10
 MAX_BLOBS = 10
-MIN_THRESHOLD = 1e3
-MAX_THRESHOLD = 50
 
 def get_args():
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(os.getcwd(), 'resources', '20171129_163535.mp4'),
+    default = join(os.getcwd(), 'resources', '20180118_150839.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(os.getcwd(), 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -111,7 +109,7 @@ def filter_kp(kp, h, w):
     filtered = []
 
     for i in range(len(kp)):
-        if kp[i].size < max_size:# and kp[i].pt[1] > 0.3 * h :
+        if kp[i].size < max_size and kp[i].pt[1] > 0.3 * h :
             # filtering criteria met
             filtered.append(kp[i])
 
@@ -122,19 +120,19 @@ def filter_kp(kp, h, w):
     filtered = delete_overlap(filtered)
     return filtered
 
-def save_keypoints(kp, frame, n_frame, opts, final_size=32):
+def save_keypoints(kp, frame, n_frame, opts):
     # save detected keypoints as 32x32 images
     print('[INFO] saving images')
     for i, keypoint in enumerate(kp):
-        final_image = frame[int(keypoint.pt[1]) - final_size / 2:int(keypoint.pt[1]) + final_size / 2,
-                            int(keypoint.pt[0]) - final_size / 2:int(keypoint.pt[0]) + final_size / 2]
+        final_image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
+                            int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
         cv2.imwrite(join(opts['dir'], '%s_%d_%d.png' % (opts['video'].split('\\')[-1], n_frame, i)), final_image)
 
 def get_keypoint_images(kp, frame):
     out = []
     for i, keypoint in enumerate(kp):
-        image = frame[int(keypoint.pt[1]) - 16:int(keypoint.pt[1]) + 16,
-                            int(keypoint.pt[0]) - 16:int(keypoint.pt[0]) + 16]
+        image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
+                            int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
         out.append(image)
     return out
 
@@ -163,10 +161,9 @@ cap = cv2.VideoCapture(opts['video'])
 ssd = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
 classifier = cv2.dnn.readNetFromTensorflow(join(os.getcwd(), 'frozen_model.pb')) # blob classifier
 
-threshold = MAX_THRESHOLD
 
 
-detector = cv2.xfeatures2d.SURF_create(MAX_THRESHOLD) # SURF feature detector
+detector = cv2.xfeatures2d.SURF_create(1) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
 n_frame = 0
 last_found = 0
@@ -177,14 +174,13 @@ if opts['save'] == True:
     except:
         pass
 startX, startY, endX, endY = 0, 0, 0, 0
-kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
 while(True):
     ret, frame = cap.read()
     frame = cv2.resize(frame, (1280, 720))
-    #frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 900 and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
+    if n_frame > 100 and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
                                                              # also analyse only opts['freq'] frames per second of video
         startX, startY, endX, endY, last_found, confidence = evaluate_ssd(ssd, frame, n_frame, last_found, opts, startX, startY, endX, endY)
         startX, endX = startX - int(0.1 * (endX - startX)), endX + int(0.1 * (endX - startX))
