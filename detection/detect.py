@@ -166,7 +166,7 @@ n_frame = 0
 cap = cv2.VideoCapture(opts['video'])
 
 ssd = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
-classifier = cv2.dnn.readNetFromTensorflow(join(os.getcwd(), 'frozen_model.pb')) # blob classifier
+classifier = cv2.dnn.readNetFromTensorflow(join(os.getcwd(), 'frozen_model1.pb')) # blob classifier
 
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
