@@ -1,5 +1,6 @@
 import os
 from os.path import join
+from time import time
 """
     Data labeling tool for Windows. For other operating systems, the os.system
     commands have to be modified accordingly
