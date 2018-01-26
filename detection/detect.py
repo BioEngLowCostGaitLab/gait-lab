@@ -20,7 +20,7 @@ def get_args():
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(os.getcwd(), 'resources', '20180118_150719.mp4'),
+    default = join(os.getcwd(), 'resources', '20180118_150839.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(os.getcwd(), 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -76,7 +76,11 @@ def evaluate_classifier(classifier, kp, frame):
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
-    return output
+    colors = [(0, 0, 0)] * len(output)
+    for i in range(len(output)):
+        if output[i] > 0.5:
+            colors[i] = get_marker_color(images[i])
+    return output, colors
 
 def overlap(p1, p2):
     # return True if two keypoints overlap
@@ -106,7 +110,7 @@ def delete_overlap(kp):
 
 def filter_kp(kp, h, w):
     # filtering criteria: must be smaller than maximum diameter
-    max_size = w * 0.05  # maximum diameter of keypoint
+    max_size = w * 0.06  # maximum diameter of keypoint
     filtered = []
 
     for i in range(len(kp)):
@@ -147,13 +151,29 @@ def separate(preds, kp):
             ghosts.append(kp[i])
     return markers, ghosts
 
+def get_marker_color(image):
+    colors = 0.7 * np.array([[255, 255, 255], [0, 255, 255], [0, 0, 255]])
+    pixel = image[12,12]
+    errors = np.array([0, 0, 0])
+    for i in range(3):
+        for j in range(3):
+            errors[i] += (pixel[j] - colors[i, j]) ** 2
+    index = np.argmin(errors)
+    return tuple(colors[index, :])
+
+def plot_with_colors(frame, kp, colors):
+    for i in range(len(colors)):
+        if sum(colors[i]) > 0:
+            frame = cv2.drawKeypoints(frame, [kp[i]], None, colors[i], 4)
+    return frame
+
 n_markers = 2
 MIN_BLOBS = 4 * n_markers
 MAX_BLOBS = 8 * n_markers
 
 MIN_THRESHOLD = 5e2
 MAX_THRESHOLD = 5e4
-threshold = MAX_THRESHOLD
+threshold = 2000
 
 opts = get_args() # argument list
 if opts['freq'] > 60:
@@ -166,7 +186,7 @@ n_frame = 0
 cap = cv2.VideoCapture(opts['video'])
 
 ssd = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
-classifier = cv2.dnn.readNetFromTensorflow(join(os.getcwd(), 'frozen_model1.pb')) # blob classifier
+classifier = cv2.dnn.readNetFromTensorflow(join(os.getcwd(), 'frozen_model.pb')) # blob classifier
 
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
@@ -186,7 +206,7 @@ while(True):
     frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 250: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
+    if n_frame > 0: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
 
         if opts["noise"]:                                                     # also analyse only opts['freq'] frames per second of video
             startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
@@ -227,10 +247,11 @@ while(True):
 			(0, 255, 0), 10)
 
         if (len(kp) > 0): # if blobs found, classify them
-            pred = evaluate_classifier(classifier, kp,  frame)
-            markers, ghosts = separate(pred, kp)
-            frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-            frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
+            pred, colors = evaluate_classifier(classifier, kp,  frame)
+            #markers, ghosts = separate(pred, kp)
+            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
+            #frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
+            frame = plot_with_colors(frame, kp, colors)
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 
