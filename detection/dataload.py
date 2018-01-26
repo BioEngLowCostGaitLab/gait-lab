@@ -17,31 +17,34 @@ class Markers(data.Dataset):
     Instead, run resize_ISIC.py from scripts_retrieval to resize
     images prior to training.
     """
-    def __init__(self, train=True, transform=None):
+    def __init__(self, train=True, transform=None, labelfile='none.txt'):
         self.root = join(os.getcwd(), 'resources')
         self.filename='images'
         self.transform=transform
+        self.labelfile = labelfile
         self.train = train
         self.traindata = []
         self.trainlabels = []
         self.testdata = []
         self.testlabels = []
         if self.train:
-            f = open(join(self.root, 'trainlabels.txt'), 'r')
+            f = open(join(self.root, self.labelfile), 'r')
             file = f.readlines()
             for line in file:
-                filename = line.split(',')[0]
-                label = line.split(',')[1]
-                self.traindata.append(join(self.root, self.filename, 'train', filename))
-                self.trainlabels.append(np.float32(label))
+                if '_0.' in line or '_1.' in line or '_2.' in line or '_3.' or '_4' or ',1' in line:
+                    filename = line.split(',')[0]
+                    label = line.split(',')[1]
+                    self.traindata.append(join(self.root, self.filename, 'saved_images', filename))
+                    self.trainlabels.append(np.float32(label))
 
         else:
-            f = open(join(self.root, 'testlabels.txt'), 'r')
+            f = open(join(self.root, self.labelfile), 'r')
             file = f.readlines()
             for line in file:
+
                 filename = line.split(',')[0]
                 label = line.split(',')[1]
-                self.testdata.append(join(self.root, self.filename, 'test', filename))
+                self.testdata.append(join(self.root, self.filename, 'saved_images', filename))
                 self.testlabels.append(np.float32(label))
 
 
