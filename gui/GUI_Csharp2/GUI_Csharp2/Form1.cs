@@ -66,12 +66,6 @@ namespace GUI_Csharp2
             Video_label.Text = "Video 4";
         }
 
-        private void rightKneeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GraphBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            GraphBox.ImageLocation = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\Graph1.png";
-        }
-
         private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This will allow you to laod a previous session.");
@@ -90,11 +84,6 @@ namespace GUI_Csharp2
         private void analyseToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This will begin the analysis of the footage and will automatically make graphs. These can be seen using the 'Graph' menu button.");
-        }
-
-        private void graphaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("You can click on which graph you would like to see, it will then be displayed on the left.");
         }
 
         private void videosToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -140,6 +129,11 @@ namespace GUI_Csharp2
         private void kneeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("The figures shown here are the angles of the respective knee.");
+        }
+
+        private void printToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This will print the selected graph");
         }
     }
 }
