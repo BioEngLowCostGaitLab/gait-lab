@@ -58,13 +58,13 @@ namespace EDP_GUI {
 	private: System::Windows::Forms::Label^  VideoLabel;
 	private: System::Windows::Forms::MenuStrip^  menuStrip2;
 	private: System::Windows::Forms::ToolStripMenuItem^  GraphDM;
-	private: System::Windows::Forms::ToolStripMenuItem^  PlotGraph_Button;
+
 	private: System::Windows::Forms::Button^  Help_button;
-	private: AxWMPLib::AxWindowsMediaPlayer^  VideoDisplay;
+
 	private: System::Windows::Forms::Button^  Record_Button;
-	private: System::Windows::Forms::ToolStripMenuItem^  SaveGraphs_button;
+
 	private: System::Windows::Forms::Label^  DataLabel;
-	private: System::Windows::Forms::ToolStripMenuItem^  loadGraphsToolStripMenuItem;
+
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 	private: System::Windows::Forms::FlowLayoutPanel^  flowLayoutPanel2;
@@ -73,6 +73,13 @@ namespace EDP_GUI {
 	private: System::Windows::Forms::Label^  ControlLabel;
 	private: System::Windows::Forms::Button^  Play_button;
 	private: System::Windows::Forms::Button^  Pause_button;
+	private: System::Windows::Forms::ToolStripMenuItem^  trunkSwayToolStripMenuItem;
+	private: AxWMPLib::AxWindowsMediaPlayer^  VideoDisplay;
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+
+
+
+
 
 	protected:
 
@@ -98,9 +105,7 @@ namespace EDP_GUI {
 			this->Analyse_button = (gcnew System::Windows::Forms::Button());
 			this->menuStrip2 = (gcnew System::Windows::Forms::MenuStrip());
 			this->GraphDM = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->PlotGraph_Button = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->SaveGraphs_button = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->loadGraphsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->trunkSwayToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->VideoDM = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->Video1_button = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -113,7 +118,6 @@ namespace EDP_GUI {
 			this->StatusLabel = (gcnew System::Windows::Forms::ToolStripStatusLabel());
 			this->ProgressBar = (gcnew System::Windows::Forms::ToolStripProgressBar());
 			this->VideoLabel = (gcnew System::Windows::Forms::Label());
-			this->VideoDisplay = (gcnew AxWMPLib::AxWindowsMediaPlayer());
 			this->DataLabel = (gcnew System::Windows::Forms::Label());
 			this->flowLayoutPanel2 = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->ControlLabel = (gcnew System::Windows::Forms::Label());
@@ -121,6 +125,8 @@ namespace EDP_GUI {
 			this->Pause_button = (gcnew System::Windows::Forms::Button());
 			this->PrevFrame_button = (gcnew System::Windows::Forms::Button());
 			this->NextFrame_button = (gcnew System::Windows::Forms::Button());
+			this->VideoDisplay = (gcnew AxWMPLib::AxWindowsMediaPlayer());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->tableLayoutPanel1->SuspendLayout();
@@ -128,8 +134,9 @@ namespace EDP_GUI {
 			this->menuStrip2->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->VideoDisplay))->BeginInit();
 			this->flowLayoutPanel2->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->VideoDisplay))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -140,19 +147,21 @@ namespace EDP_GUI {
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				65.72638F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				63)));
+				70)));
 			this->tableLayoutPanel1->Controls->Add(this->flowLayoutPanel1, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->statusStrip1, 0, 4);
+			this->tableLayoutPanel1->Controls->Add(this->statusStrip1, 0, 5);
 			this->tableLayoutPanel1->Controls->Add(this->VideoLabel, 1, 1);
-			this->tableLayoutPanel1->Controls->Add(this->VideoDisplay, 1, 2);
 			this->tableLayoutPanel1->Controls->Add(this->DataLabel, 0, 1);
-			this->tableLayoutPanel1->Controls->Add(this->flowLayoutPanel2, 1, 3);
+			this->tableLayoutPanel1->Controls->Add(this->flowLayoutPanel2, 1, 4);
+			this->tableLayoutPanel1->Controls->Add(this->VideoDisplay, 1, 2);
+			this->tableLayoutPanel1->Controls->Add(this->pictureBox1, 0, 2);
 			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
-			this->tableLayoutPanel1->RowCount = 5;
+			this->tableLayoutPanel1->RowCount = 6;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 37)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 24)));
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 232)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 35)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 37)));
@@ -173,7 +182,7 @@ namespace EDP_GUI {
 			this->flowLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->flowLayoutPanel1->Location = System::Drawing::Point(3, 3);
 			this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
-			this->flowLayoutPanel1->Size = System::Drawing::Size(1231, 31);
+			this->flowLayoutPanel1->Size = System::Drawing::Size(1224, 31);
 			this->flowLayoutPanel1->TabIndex = 3;
 			// 
 			// Load_button
@@ -231,34 +240,17 @@ namespace EDP_GUI {
 			// 
 			// GraphDM
 			// 
-			this->GraphDM->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
-				this->PlotGraph_Button,
-					this->SaveGraphs_button, this->loadGraphsToolStripMenuItem
-			});
+			this->GraphDM->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->trunkSwayToolStripMenuItem });
 			this->GraphDM->Name = L"GraphDM";
 			this->GraphDM->Size = System::Drawing::Size(67, 24);
 			this->GraphDM->Text = L"Graphs";
 			// 
-			// PlotGraph_Button
+			// trunkSwayToolStripMenuItem
 			// 
-			this->PlotGraph_Button->Name = L"PlotGraph_Button";
-			this->PlotGraph_Button->Size = System::Drawing::Size(167, 26);
-			this->PlotGraph_Button->Text = L"Plot";
-			this->PlotGraph_Button->Click += gcnew System::EventHandler(this, &MyForm::PlotGraph_Button_Click);
-			// 
-			// SaveGraphs_button
-			// 
-			this->SaveGraphs_button->Name = L"SaveGraphs_button";
-			this->SaveGraphs_button->Size = System::Drawing::Size(167, 26);
-			this->SaveGraphs_button->Text = L"Save Graphs";
-			this->SaveGraphs_button->Click += gcnew System::EventHandler(this, &MyForm::SaveGraphs_button_Click);
-			// 
-			// loadGraphsToolStripMenuItem
-			// 
-			this->loadGraphsToolStripMenuItem->Name = L"loadGraphsToolStripMenuItem";
-			this->loadGraphsToolStripMenuItem->Size = System::Drawing::Size(167, 26);
-			this->loadGraphsToolStripMenuItem->Text = L"Load Graphs";
-			this->loadGraphsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::loadGraphsToolStripMenuItem_Click);
+			this->trunkSwayToolStripMenuItem->Name = L"trunkSwayToolStripMenuItem";
+			this->trunkSwayToolStripMenuItem->Size = System::Drawing::Size(155, 26);
+			this->trunkSwayToolStripMenuItem->Text = L"Trunk sway";
+			this->trunkSwayToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::trunkSwayToolStripMenuItem_Click);
 			// 
 			// menuStrip1
 			// 
@@ -340,7 +332,7 @@ namespace EDP_GUI {
 			this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) { this->StatusLabel, this->ProgressBar });
 			this->statusStrip1->Location = System::Drawing::Point(0, 657);
 			this->statusStrip1->Name = L"statusStrip1";
-			this->statusStrip1->Size = System::Drawing::Size(1237, 25);
+			this->statusStrip1->Size = System::Drawing::Size(1230, 25);
 			this->statusStrip1->TabIndex = 2;
 			this->statusStrip1->Text = L"statusStrip1";
 			// 
@@ -359,22 +351,12 @@ namespace EDP_GUI {
 			// 
 			this->VideoLabel->AutoSize = true;
 			this->VideoLabel->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->VideoLabel->Location = System::Drawing::Point(427, 44);
+			this->VideoLabel->Location = System::Drawing::Point(424, 44);
 			this->VideoLabel->Name = L"VideoLabel";
-			this->VideoLabel->Size = System::Drawing::Size(807, 17);
+			this->VideoLabel->Size = System::Drawing::Size(803, 17);
 			this->VideoLabel->TabIndex = 4;
 			this->VideoLabel->Text = L"Video #no";
 			this->VideoLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			// 
-			// VideoDisplay
-			// 
-			this->VideoDisplay->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->VideoDisplay->Enabled = true;
-			this->VideoDisplay->Location = System::Drawing::Point(427, 64);
-			this->VideoDisplay->Name = L"VideoDisplay";
-			this->VideoDisplay->OcxState = (cli::safe_cast<System::Windows::Forms::AxHost::State^>(resources->GetObject(L"VideoDisplay.OcxState")));
-			this->VideoDisplay->Size = System::Drawing::Size(807, 543);
-			this->VideoDisplay->TabIndex = 8;
 			// 
 			// DataLabel
 			// 
@@ -382,7 +364,7 @@ namespace EDP_GUI {
 			this->DataLabel->Dock = System::Windows::Forms::DockStyle::Bottom;
 			this->DataLabel->Location = System::Drawing::Point(3, 44);
 			this->DataLabel->Name = L"DataLabel";
-			this->DataLabel->Size = System::Drawing::Size(418, 17);
+			this->DataLabel->Size = System::Drawing::Size(415, 17);
 			this->DataLabel->TabIndex = 9;
 			this->DataLabel->Text = L"Data";
 			this->DataLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
@@ -395,9 +377,9 @@ namespace EDP_GUI {
 			this->flowLayoutPanel2->Controls->Add(this->PrevFrame_button);
 			this->flowLayoutPanel2->Controls->Add(this->NextFrame_button);
 			this->flowLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->flowLayoutPanel2->Location = System::Drawing::Point(427, 613);
+			this->flowLayoutPanel2->Location = System::Drawing::Point(424, 613);
 			this->flowLayoutPanel2->Name = L"flowLayoutPanel2";
-			this->flowLayoutPanel2->Size = System::Drawing::Size(807, 29);
+			this->flowLayoutPanel2->Size = System::Drawing::Size(803, 29);
 			this->flowLayoutPanel2->TabIndex = 10;
 			// 
 			// ControlLabel
@@ -440,7 +422,7 @@ namespace EDP_GUI {
 			this->PrevFrame_button->Name = L"PrevFrame_button";
 			this->PrevFrame_button->Size = System::Drawing::Size(75, 23);
 			this->PrevFrame_button->TabIndex = 0;
-			this->PrevFrame_button->Text = L"Prev";
+			this->PrevFrame_button->Text = L"<<";
 			this->PrevFrame_button->UseVisualStyleBackColor = true;
 			this->PrevFrame_button->Click += gcnew System::EventHandler(this, &MyForm::PrevFrame_button_Click);
 			// 
@@ -450,9 +432,29 @@ namespace EDP_GUI {
 			this->NextFrame_button->Name = L"NextFrame_button";
 			this->NextFrame_button->Size = System::Drawing::Size(75, 23);
 			this->NextFrame_button->TabIndex = 1;
-			this->NextFrame_button->Text = L"Next";
+			this->NextFrame_button->Text = L">>";
 			this->NextFrame_button->UseVisualStyleBackColor = true;
 			this->NextFrame_button->Click += gcnew System::EventHandler(this, &MyForm::NextFrame_button_Click);
+			// 
+			// VideoDisplay
+			// 
+			this->VideoDisplay->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->VideoDisplay->Enabled = true;
+			this->VideoDisplay->Location = System::Drawing::Point(424, 64);
+			this->VideoDisplay->Name = L"VideoDisplay";
+			this->VideoDisplay->OcxState = (cli::safe_cast<System::Windows::Forms::AxHost::State^>(resources->GetObject(L"VideoDisplay.OcxState")));
+			this->tableLayoutPanel1->SetRowSpan(this->VideoDisplay, 2);
+			this->VideoDisplay->Size = System::Drawing::Size(803, 543);
+			this->VideoDisplay->TabIndex = 8;
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->pictureBox1->Location = System::Drawing::Point(3, 64);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(415, 226);
+			this->pictureBox1->TabIndex = 11;
+			this->pictureBox1->TabStop = false;
 			// 
 			// openFileDialog1
 			// 
@@ -477,10 +479,12 @@ namespace EDP_GUI {
 			this->menuStrip1->PerformLayout();
 			this->statusStrip1->ResumeLayout(false);
 			this->statusStrip1->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->VideoDisplay))->EndInit();
 			this->flowLayoutPanel2->ResumeLayout(false);
 			this->flowLayoutPanel2->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->VideoDisplay))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
+
 		}
 #pragma endregion
 	private: System::Void tableLayoutPanel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
@@ -494,24 +498,16 @@ namespace EDP_GUI {
 
 	private: System::Void Load_button_Click(System::Object^  sender, System::EventArgs^  e) {
 		this->StatusLabel->Text = L"Loading";
+		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
 
-		// Displays a OpenFileDialog so the user can save the Graph
-		MessageBox::Show("Choose a session and load the videos");
-		OpenFileDialog ^ openFileDialog1 = gcnew OpenFileDialog();
-		openFileDialog1->Filter = "MP4 Video|*.mp4";
-		openFileDialog1->Title = "Load Videos ";
-		openFileDialog1->ShowDialog();
-		// If the file name is not an empty string, open it for saving.
-		if (openFileDialog1->FileName != "") {
-		}
+		openFileDialog1->InitialDirectory = "c:\\";
+		openFileDialog1->Filter = "Mp4 files (*.mp4)|*.mp4|All files (*.*)|*.*";
+		openFileDialog1->FilterIndex = 2;
+		openFileDialog1->RestoreDirectory = true;
 
-		MessageBox::Show("Choose the same session and load the data");
-		OpenFileDialog ^ openFileDialog2 = gcnew OpenFileDialog();
-		openFileDialog1->Filter = "MP4 Video|*.mp4"; // Need to change the file type
-		openFileDialog1->Title = "Load Data ";
-		openFileDialog1->ShowDialog();
-		// If the file name is not an empty string, open it for saving.
-		if (openFileDialog1->FileName != "") {
+		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			
 		}
 	}
 
@@ -559,8 +555,8 @@ namespace EDP_GUI {
 			"\n\nVideo:\nThis is the video drop down menu, selecting any of the videos will display it on the screen."
 			"\n\nPlay:\nThis will play the video."
 			"\n\nPause:\nThis will pause the video."
-			"\n\nPrev:\nThis will go to the previous frame."
-			"\n\nNext:\nThis will go to the next frame."
+			"\n\n<<:\nThis will go to the previous frame."
+			"\n\n>>:\nThis will go to the next frame."
 		);
 	}
 
@@ -588,9 +584,6 @@ namespace EDP_GUI {
 	private: System::Void Video5_button_Click(System::Object^  sender, System::EventArgs^  e) {
 		this->VideoLabel->Text = L"Video 5";
 		this->VideoDisplay->URL = ".\\TestVideo\\Video5.mp4";
-	}
-
-	private: System::Void PlotGraph_Button_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 
 	private: System::Void SaveGraphs_button_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -626,10 +619,12 @@ namespace EDP_GUI {
 	}
 
 	private: System::Void PrevFrame_button_Click(System::Object^  sender, System::EventArgs^  e) {
-		(static_cast<IWMPControls2>(VideoDisplay->Ctlcontrols).step(1));
+		//(static_cast<IWMPControls2>(VideoDisplay->Ctlcontrols).step(1));
 	}
 
 	private: System::Void NextFrame_button_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
+	private: System::Void trunkSwayToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 };
 }
