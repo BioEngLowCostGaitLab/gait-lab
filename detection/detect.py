@@ -20,7 +20,7 @@ def get_args():
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(os.getcwd(), 'resources', '20180118_150839.mp4'),
+    default = join(os.getcwd(), 'resources', '20180118_150719.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(os.getcwd(), 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -206,8 +206,8 @@ while(True):
     frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 0: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
-
+    if n_frame > 280: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
+        print(n_frame)
         if opts["noise"]:                                                     # also analyse only opts['freq'] frames per second of video
             startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
             startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
@@ -239,6 +239,21 @@ while(True):
                 detector.setHessianThreshold(threshold)
             else:
                 break
+
+        if n_frame == 290:
+            tosave = frame
+            #cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
+			#(0, 255, 0), 10)
+            pred, colors = evaluate_classifier(classifier, kp,  frame)
+            markers, ghosts = separate(pred, kp)
+            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
+            tosave = plot_with_colors(tosave, kp, colors)
+            cv2.imwrite('final1.png', tosave)
+            frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
+            cv2.imwrite('markers1.png', frame)
+            frame = plot_with_colors(frame, kp, colors)
+            cv2.imwrite('final.png', frame)
+
 
         if opts['save']:
             save_keypoints(kp, frame, n_frame, opts)
