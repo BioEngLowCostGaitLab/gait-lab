@@ -197,13 +197,13 @@ if opts['save'] == True:
     except:
         pass
 
-#pdir = join(os.getcwd(), 'Cameras')
-#for img in os.listdir(pdir):
-#    frame = cv2.imread(join(pdir, img))
-while(True):
-    ret, frame = cap.read()
+#pdir = join(os.getcwd(), 'Cameras') #uncomment this if you are using images instead of video
+#for img in os.listdir(pdir): #uncomment this if you are using images instead of video
+#    frame = cv2.imread(join(pdir, img)) #uncomment this if you are using images instead of video
+while(True): # disable this if you are using images
+    ret, frame = cap.read() #disable this if you are using images
     frame = cv2.resize(frame, (1280, 720))
-    frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 0) #disable this if you are using images
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
     if n_frame > 280: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
@@ -240,19 +240,22 @@ while(True):
             else:
                 break
 
-        if n_frame == 290:
-            tosave = frame
+
+                # this bit was used to save some images for the
+                # presentation. Ive kept it in case we need it again.
+        #if n_frame == 290:
+        #    tosave = frame
             #cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
 			#(0, 255, 0), 10)
-            pred, colors = evaluate_classifier(classifier, kp,  frame)
-            markers, ghosts = separate(pred, kp)
+        #    pred, colors = evaluate_classifier(classifier, kp,  frame)
+        #    markers, ghosts = separate(pred, kp)
             #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-            tosave = plot_with_colors(tosave, kp, colors)
-            cv2.imwrite('final1.png', tosave)
-            frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
-            cv2.imwrite('markers1.png', frame)
-            frame = plot_with_colors(frame, kp, colors)
-            cv2.imwrite('final.png', frame)
+        #    tosave = plot_with_colors(tosave, kp, colors)
+        #    cv2.imwrite('final1.png', tosave)
+        #    frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
+        #    cv2.imwrite('markers1.png', frame)
+        #    frame = plot_with_colors(frame, kp, colors)
+        #    cv2.imwrite('final.png', frame)
 
 
         if opts['save']:
