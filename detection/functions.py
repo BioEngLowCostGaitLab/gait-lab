@@ -12,6 +12,7 @@ def evaluate_ssd(ssd, frame, startX, endX):
     # args: network, frame, number of passed frames, number of frame in which person was last found, opts
     # returns: top left corner and bottom right corner of rectangle in which person lies,
     # number of frame in which person was last found
+    (h, w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 0.007843,
     (300, 300), 127.5)
     found = False
