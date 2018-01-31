@@ -17,11 +17,15 @@ import os
 from time import time
 import sys
 
-
+root = os.getcwd()
 try:
-    root = sys.argv[1]
-except:
+    dirs = sys.argv[0].split('\\')[:-1]
     root = os.getcwd()
+    for i in range(len(dirs)):
+        root = join(root, dirs[i])
+except:
+    pass
+
 
 
 def get_args(root):
@@ -80,7 +84,7 @@ def evaluate_ssd(ssd, frame, opts, startX, endX):
         return startX, endX, 0
 
 def evaluate_classifier(classifier, kp, frame):
-    images = point_images(kp, frame)
+    images = get_keypoint_images(kp, frame)
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
@@ -214,8 +218,7 @@ while(True): # disable this if you are using images
     frame = cv2.flip(frame, 0) #disable this if you are using images
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 280: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
-        print(n_frame)
+    if n_frame > 250: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
         if opts["noise"]:                                                     # also analyse only opts['freq'] frames per second of video
             startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
             startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
@@ -275,9 +278,9 @@ while(True): # disable this if you are using images
         if (len(kp) > 0): # if blobs found, classify them
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
-            frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-            frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
-            #frame = plot_with_colors(frame, kp, colors)
+            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
+            #frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
+            frame = plot_with_colors(frame, kp, colors)
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 
