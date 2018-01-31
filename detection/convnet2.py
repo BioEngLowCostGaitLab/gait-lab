@@ -43,22 +43,16 @@ def _parse_function(filename, label):
     sess = tf.Session()
     return image_decoded, label
 
-
-def augment(img):
-    X_rotate = []
-    tf.reset_default_graph()
-    X = tf.placeholder(tf.float32, shape = (24, 24, 3))
-    k = tf.placeholder(tf.int32)
-    tf_img = tf.image.rot90(X, k = k)
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        for img in X_imgs:
-            for i in range(3):  # Rotation at 90, 180 and 270 degrees
-                rotated_img = sess.run(tf_img, feed_dict = {X: img, k: i + 1})
-                X_rotate.append(rotated_img)
-
-    X_rotate = np.array(X_rotate, dtype = np.float32)
-    return X_rotate
+def augment(images, batch_size):
+    transformed_images = []
+    for i in range(batch_size):
+        transformed_images.append(
+        tf.expand_dims(
+                       tf.image.random_flip_up_down(
+                       tf.image.random_flip_left_right(images[i, :, :, :]), 0), 0))
+    out = tf.convert_to_tensor(transformed_images)
+    #out = tf.image.resize_images(out, [24, 24])
+    return out
 
 
 def Net(x):
@@ -134,6 +128,7 @@ with tf.Session() as sess:
         for i in range(n_batches):
             batch_x, batch_y = iterator.get_next()
             batch_y = tf.reshape(batch_y, [batch_size, 1])
+            batch_x = tf.squeeze(augment(batch_x, 32), [1])
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={x: batch_x.eval(),
                                                           y: batch_y.eval()})
