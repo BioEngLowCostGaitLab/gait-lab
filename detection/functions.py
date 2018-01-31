@@ -130,7 +130,7 @@ def plot_with_colors(frame, kp, colors):
     return frame
 
 
-def analyse(frame, ssd, classifier, detector, n_frame, startX=0, endX=0,
+def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=5e4,
             use_ssd=True, use_classifier=True, start_frame=0):
     frame = cv2.resize(frame, (1280, 720))
@@ -175,4 +175,4 @@ def analyse(frame, ssd, classifier, detector, n_frame, startX=0, endX=0,
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
 
-        return markers, detector, startX, endX
+        return markers, detector, threshold, startX, endX
