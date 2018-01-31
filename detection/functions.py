@@ -13,8 +13,6 @@ def evaluate_ssd(ssd, frame, startX, endX):
     # returns: top left corner and bottom right corner of rectangle in which person lies,
     # number of frame in which person was last found
     (h, w) = frame.shape[:2]
-    print(h)
-    print(w)
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 0.007843,
     (300, 300), 127.5)
     found = False
@@ -73,7 +71,7 @@ def delete_overlap(kp):
 
     return filtered
 
-def filter_kp(kp, h, w):
+def filter_kp(kp, h, w, startX):
     # filtering criteria: must be smaller than maximum diameter
     max_size = w * 0.06  # maximum diameter of keypoint
     filtered = []
@@ -158,7 +156,7 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
             # the detection threshold of the SURF detector is adjusted according to that withing reasonable range
             # this is faster than setting a low threshold and removing the worst detections
             kp = detector.detect(grey_frame, None)
-            kp = filter_kp(kp, h, w)
+            kp = filter_kp(kp, h, w, startX)
             if len(kp) >= MIN_BLOBS and len(kp) <= MAX_BLOBS:
                 break
             elif threshold > MIN_THRESHOLD and len(kp) < MIN_BLOBS:
