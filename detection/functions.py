@@ -168,10 +168,10 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
                 detector.setHessianThreshold(threshold)
             else:
                 break
+        print(len(kp))
         markers = kp
 
         if (len(kp) > 0 and use_classifier):
-            markers = []
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
 
