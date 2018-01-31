@@ -25,11 +25,11 @@ def evaluate_ssd(ssd, frame, startX, endX):
                 found = True
                 conf_f = confidence
                 box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-                (startX, startY, endX, endY) = box.astype("int")
+                (startXn, startY, endXn, endY) = box.astype("int")
                 print('[INFO] p: %.2f%%' %
                 (confidence * 100))
     if found:
-        return startX, endX, conf_f
+        return startXn, endXn, conf_f
     else:
         return startX, endX, 0
 
@@ -169,6 +169,7 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
             else:
                 break
         print(len(kp))
+        print("confidence:", confidence)
         markers = kp
 
         if (len(kp) > 0 and use_classifier):
