@@ -50,7 +50,71 @@ def kalman_filter(x, level, variance): #x is data to be smoothed, level is blend
       P[k] = (1-K[k])*Pminus[k]
 
    return xhat
+#Data centering
+def data_centering(x):
+   xsum = 0
+   xcent = np.zeros(len(x))  
+   for i in range(0, len(x)):
+      xsum = x[i]+xsum 
+   xavg = xsum/len(x)
+   for i in range(0, len(x)):
+      xcent[i] = x[i] - xavg
 
+   return xcent
+
+#Define function ZUPT integration
+def integrate_zupt(x, y, z, level, variance):
+    #Create filtered x, y and z data structures
+    x_filter = data_centering(kalman_filter(x, level, variance))
+    y_filter = data_centering(kalman_filter(y, level, variance))
+    z_filter = data_centering(kalman_filter(z, level, variance))
+    
+    #Find out when ZUPT should be applied for velocity
+    t_temp_x = []
+    for i in range(0, len(a)-1):
+        if x_filter[i-1]<x_filter[i] and x_filter[i+1]<x_filter[i] or x_filter[i-1]>x_filter[i] and x_filter[i+1]>x_filter[i]:
+            t_temp_x.append(i)
+        else:
+            t_temp_x.append(0)
+    t_temp_y = []
+    for i in range(0, len(a)-1):
+        if y_filter[i-1]<y_filter[i] and y_filter[i+1]<y_filter[i] or y_filter[i-1]>y_filter[i] and y_filter[i+1]>y_filter[i]:
+            t_temp_y.append(i)
+        else:
+            t_temp_y.append(0)
+    t_temp_z = []
+    for i in range(0, len(a)-1):
+        if z_filter[i-1]<z_filter[i] and z_filter[i+1]<z_filter[i] or z_filter[i-1]>z_filter[i] and z_filter[i+1]>z_filter[i]:
+            t_temp_z.append(i)
+        else:
+            t_temp_z.append(0)
+            
+    #Integrate with discrete summation for velocity
+    v_x = np.zeros(len(a))
+    v_y = np.zeros(len(a))
+    v_z = np.zeros(len(a))
+    for i in range(1, len(a)-1): #Need to consider that x direction should not be put to zero, since it is movement forwards. Find out what is x, y and z on IMU
+        if t_temp_x[i] == i:
+            v_x[i] = 0
+            v_y[i] = v_y[i-1] + y_filter[i-1]
+            v_z[i] = v_z[i-1] + z_filter[i-1]
+            
+        elif t_temp_y[i] == i:
+            v_x[i] = v_x[i-1] + x_filter[i-1]
+            v_y[i] = 0
+            v_z[i] = v_z[i-1] + z_filter[i-1]
+
+        elif t_temp_z[i] == i:
+            v_x[i] = v_x[i-1] + x_filter[i-1]
+            v_y[i] = v_y[i-1] + y_filter[i-1]
+            v_z[i] = 0
+
+        else:
+            v_x[i] = v_x[i-1] + x_filter[i-1]
+            v_y[i] = v_y[i-1] + y_filter[i-1]
+            v_z[i] = v_z[i-1] + z_filter[i-1]
+
+    return v_x, v_y, v_z
 
 #Lists containing acceleration and gyroscope data 
 t1 = []
@@ -62,7 +126,7 @@ g2 = [] #pitch
 g3 = [] #roll
 
 #open file
-f = open(r'calibratedIMUdata.txt')
+f = open(r'Nathan.txt')
 
 file = f.readlines()
 
@@ -93,22 +157,23 @@ for i in range(0, len(a)):
     y.append(int(a[i][1]))
     z.append(int(a[i][2]))
 
-#Plot acceleration applying filtering
-plt.plot(t1, kalman_filter(x, 5, 17)) #Data is very very noisy
-plt.plot(t1, kalman_filter(y, 5, 17))
-plt.plot(t1, kalman_filter(z, 5, 17))
-plt.show()
+#Define positions
+r_x, r_y, r_z = integrate_zupt(x1, y1, z1, 5, 10)
 
-#Integrate with discrete summation
-v_x = np.zeros(len(a))
-v_y = np.zeros(len(a))
-v_z = np.zeros(len(a))
-for i in range(1, len(a)):
-    v_x[i] = v_x[i-1] + x[i-1]
-    v_y[i] = v_y[i-1] + y[i-1]
-    v_z[i] = v_z[i-1] + z[i-1]
+#Plot data
+#plt.plot(t1, x_filter) #Data is very very noisy
+#plt.plot(t1, y_filter)
+#plt.plot(t1, z_filter)
 
-plt.plot(t1, kalman_filter(v_x, 5, 17)) #Data is very very noisy
-plt.plot(t1, kalman_filter(v_y, 5, 17))
-plt.plot(t1, kalman_filter(v_z, 5, 17))
+#plt.plot(t1, kalman_filter(x1, 5, 15)) #Data is very very noisy
+#plt.plot(t1, y1)
+#plt.plot(t1, z1)
+
+#plt.plot(t1, v_x_filter) #Data is very very noisy
+#plt.plot(t1, v_y)
+#plt.plot(t1, v_z)
+
+plt.plot(t1, r_x) #Data is very very noisy
+plt.plot(t1, r_y)
+plt.plot(t1, r_z)
 plt.show()
