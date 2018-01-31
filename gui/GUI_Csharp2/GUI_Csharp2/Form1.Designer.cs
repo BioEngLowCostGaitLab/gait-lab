@@ -209,31 +209,31 @@
             this.printLeftKnee,
             this.printRightKnee});
             this.printMenu.Name = "printMenu";
-            this.printMenu.Size = new System.Drawing.Size(181, 26);
+            this.printMenu.Size = new System.Drawing.Size(114, 26);
             this.printMenu.Text = "Print";
             // 
             // printAll
             // 
             this.printAll.Name = "printAll";
-            this.printAll.Size = new System.Drawing.Size(181, 26);
+            this.printAll.Size = new System.Drawing.Size(157, 26);
             this.printAll.Text = "All";
             // 
             // printTrunk
             // 
             this.printTrunk.Name = "printTrunk";
-            this.printTrunk.Size = new System.Drawing.Size(181, 26);
+            this.printTrunk.Size = new System.Drawing.Size(157, 26);
             this.printTrunk.Text = "Trunk Sway";
             // 
             // printLeftKnee
             // 
             this.printLeftKnee.Name = "printLeftKnee";
-            this.printLeftKnee.Size = new System.Drawing.Size(181, 26);
+            this.printLeftKnee.Size = new System.Drawing.Size(157, 26);
             this.printLeftKnee.Text = "Left Knee";
             // 
             // printRightKnee
             // 
             this.printRightKnee.Name = "printRightKnee";
-            this.printRightKnee.Size = new System.Drawing.Size(181, 26);
+            this.printRightKnee.Size = new System.Drawing.Size(157, 26);
             this.printRightKnee.Text = "Right Knee";
             // 
             // videosMenu
@@ -250,28 +250,28 @@
             // video1ToolStripMenuItem
             // 
             this.video1ToolStripMenuItem.Name = "video1ToolStripMenuItem";
-            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video1ToolStripMenuItem.Text = "Video 1";
             this.video1ToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
             // 
             // video2ToolStripMenuItem
             // 
             this.video2ToolStripMenuItem.Name = "video2ToolStripMenuItem";
-            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video2ToolStripMenuItem.Text = "Video 2";
             this.video2ToolStripMenuItem.Click += new System.EventHandler(this.video2ToolStripMenuItem_Click);
             // 
             // video3ToolStripMenuItem
             // 
             this.video3ToolStripMenuItem.Name = "video3ToolStripMenuItem";
-            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video3ToolStripMenuItem.Text = "Video 3";
             this.video3ToolStripMenuItem.Click += new System.EventHandler(this.video3ToolStripMenuItem_Click);
             // 
             // video4ToolStripMenuItem
             // 
             this.video4ToolStripMenuItem.Name = "video4ToolStripMenuItem";
-            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video4ToolStripMenuItem.Text = "Video 4";
             this.video4ToolStripMenuItem.Click += new System.EventHandler(this.video4ToolStripMenuItem_Click);
             // 
@@ -295,13 +295,13 @@
             // onToolStripMenuItem
             // 
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(105, 26);
             this.onToolStripMenuItem.Text = "On";
             // 
             // offToolStripMenuItem
             // 
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(105, 26);
             this.offToolStripMenuItem.Text = "Off";
             // 
             // helpMenu
@@ -358,7 +358,7 @@
             // printHelp
             // 
             this.printHelp.Name = "printHelp";
-            this.printHelp.Size = new System.Drawing.Size(181, 26);
+            this.printHelp.Size = new System.Drawing.Size(114, 26);
             this.printHelp.Text = "Print";
             this.printHelp.Click += new System.EventHandler(this.printToolStripMenuItem1_Click);
             // 
@@ -398,28 +398,28 @@
             // playHelp
             // 
             this.playHelp.Name = "playHelp";
-            this.playHelp.Size = new System.Drawing.Size(181, 26);
+            this.playHelp.Size = new System.Drawing.Size(121, 26);
             this.playHelp.Text = "Play";
             this.playHelp.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
             // pauseHelp
             // 
             this.pauseHelp.Name = "pauseHelp";
-            this.pauseHelp.Size = new System.Drawing.Size(181, 26);
+            this.pauseHelp.Size = new System.Drawing.Size(121, 26);
             this.pauseHelp.Text = "Pause";
             this.pauseHelp.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
             // prevHelp
             // 
             this.prevHelp.Name = "prevHelp";
-            this.prevHelp.Size = new System.Drawing.Size(181, 26);
+            this.prevHelp.Size = new System.Drawing.Size(121, 26);
             this.prevHelp.Text = "<<";
             this.prevHelp.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // nrxtHelp
             // 
             this.nrxtHelp.Name = "nrxtHelp";
-            this.nrxtHelp.Size = new System.Drawing.Size(181, 26);
+            this.nrxtHelp.Size = new System.Drawing.Size(121, 26);
             this.nrxtHelp.Text = ">>";
             this.nrxtHelp.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 

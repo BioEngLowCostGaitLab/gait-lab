@@ -15,9 +15,40 @@ namespace GUI_Csharp2
 {
     public partial class GUI_Csharp : Form
     {
+        string[] videoAddress = new string[4];
+
         public GUI_Csharp()
         {
             InitializeComponent();
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Loading";
+        }
+
+        private void calibrateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Calibrate";
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
+
+        private void rToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Recording";
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
+
+        private void analyseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Analysing";
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "CMD.exe";
+            startInfo.Arguments = "/C C:\\Python27\\pythonw.exe C:\\Users\\Chun_\\EDP\\gait-lab\\detection\\detect.py";
+            process.StartInfo = startInfo;
+            process.Start();
         }
 
         private void Play_button_Click(object sender, EventArgs e)
@@ -129,30 +160,6 @@ namespace GUI_Csharp2
         private void printToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This will print the selected graph.");
-        }
-
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "Loading";
-            System.Diagnostics.Process.Start("CMD.exe");
-        }
-
-        private void calibrateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "Calibrate";
-            System.Diagnostics.Process.Start("CMD.exe");
-        }
-
-        private void rToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "Recording";
-            System.Diagnostics.Process.Start("CMD.exe");
-        }
-
-        private void analyseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "Analysing";
-            System.Diagnostics.Process.Start("CMD.exe");
         }
     }
 }

@@ -17,14 +17,16 @@ import os
 from time import time
 import sys
 
-root = os.getcwd()
+
 try:
-    dirs = sys.argv[0].split('\\')[:-1]
-    root = os.getcwd()
+    dirs = sys.argv[0].split('\\')[1:-1]
+    root = 'C:\\'
     for i in range(len(dirs)):
         root = join(root, dirs[i])
 except:
-    pass
+    root = os.getcwd()
+	
+print(root)
 
 
 
