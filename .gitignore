@@ -312,3 +312,9 @@ OpenCover/
 *.jpg
 *.png
 
+
+# other files
+*.csv
+*.gz
+*.pickle
+
