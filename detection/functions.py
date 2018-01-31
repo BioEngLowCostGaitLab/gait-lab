@@ -130,9 +130,9 @@ def plot_with_colors(frame, kp, colors):
     return frame
 
 
-def analyse(frame, ssd, classifier, detector, startX=0, endX=0,
+def analyse(frame, ssd, classifier, detector, n_frame, startX=0, endX=0,
             MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=5e4,
-            n_frame, use_ssd=True, use_classifier=True, start_frame=0):
+            use_ssd=True, use_classifier=True, start_frame=0):
     frame = cv2.resize(frame, (1280, 720))
     frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
