@@ -22,48 +22,48 @@ namespace GUI_Csharp2
 
         private void Play_button_Click(object sender, EventArgs e)
         {
-            Video_display.Ctlcontrols.play();
+            videoDisplay.Ctlcontrols.play();
         }
 
         private void pause_button_Click(object sender, EventArgs e)
         {
-            Video_display.Ctlcontrols.pause();
+            videoDisplay.Ctlcontrols.pause();
         }
 
         private void prev_button_Click(object sender, EventArgs e)
         {
-            IWMPControls2 Ctlcontrols2 = (IWMPControls2)Video_display.Ctlcontrols;
+            IWMPControls2 Ctlcontrols2 = (IWMPControls2)videoDisplay.Ctlcontrols;
             Ctlcontrols2.step(-1);
         }
 
         private void next_button_Click(object sender, EventArgs e)
         {
-            IWMPControls2 Ctlcontrols2 = (IWMPControls2)Video_display.Ctlcontrols;
+            IWMPControls2 Ctlcontrols2 = (IWMPControls2)videoDisplay.Ctlcontrols;
             Ctlcontrols2.step(1);
         }
 
         private void videoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Video_display.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video1.mp4";
-            Video_label.Text = "Video 1";
+            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video1.mp4";
+            videoLabel.Text = "Video 1";
         }
 
         private void video2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Video_display.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video2.mp4";
-            Video_label.Text = "Video 2";
+            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video2.mp4";
+            videoLabel.Text = "Video 2";
         }
 
         private void video3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Video_display.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video3.mov";
-            Video_label.Text = "Video 3";
+            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video3.mov";
+            videoLabel.Text = "Video 3";
         }
 
         private void video4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Video_display.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video4.mp4";
-            Video_label.Text = "Video 4";
+            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video4.mp4";
+            videoLabel.Text = "Video 4";
         }
 
         private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace GUI_Csharp2
 
         private void analyseToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will begin the analysis of the footage and will automatically make graphs. These can be seen using the 'Graph' menu button.");
+            MessageBox.Show("This will begin the analysis of the footage and will automatically make graphs.");
         }
 
         private void videosToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -93,7 +93,7 @@ namespace GUI_Csharp2
 
         private void increaseAccuracyToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Marker detection during analysis will be more accurate, however the analysis will be slower");
+            MessageBox.Show("Marker detection during analysis will be more accurate, however the analysis will be slower.");
         }
 
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
@@ -116,11 +116,6 @@ namespace GUI_Csharp2
             MessageBox.Show("Will go forward by one frame.");
         }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("CMD.exe");
-        }
-
         private void trunkSwayToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Trunk Sway is the movement of the hips as you walk.");
@@ -133,8 +128,31 @@ namespace GUI_Csharp2
 
         private void printToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will print the selected graph");
+            MessageBox.Show("This will print the selected graph.");
         }
 
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Loading";
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
+
+        private void calibrateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Calibrate";
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
+
+        private void rToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Recording";
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
+
+        private void analyseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Analysing";
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
     }
 }

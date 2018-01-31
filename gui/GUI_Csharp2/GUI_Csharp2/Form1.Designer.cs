@@ -33,62 +33,62 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.UI_menu = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.calibrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.analyseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trunkSwayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leftKneeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rightKneeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.videosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.recordMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyseMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.printMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.printAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.printTrunk = new System.Windows.Forms.ToolStripMenuItem();
+            this.printLeftKnee = new System.Windows.Forms.ToolStripMenuItem();
+            this.printRightKnee = new System.Windows.Forms.ToolStripMenuItem();
+            this.videosMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.video1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.video2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.video3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.video4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.increaseAccuracyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.increaseAccuracyMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.calibrateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.recordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.analyseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.videosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.increaseAccuracyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.videoControlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.recordHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyseHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.printHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.increaseAccuracyHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoControlsHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.playHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.prevHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.nrxtHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Video_controls = new System.Windows.Forms.FlowLayoutPanel();
-            this.Play_button = new System.Windows.Forms.Button();
-            this.pause_button = new System.Windows.Forms.Button();
-            this.prev_button = new System.Windows.Forms.Button();
-            this.next_button = new System.Windows.Forms.Button();
-            this.Video_display = new AxWMPLib.AxWindowsMediaPlayer();
-            this.Info_label = new System.Windows.Forms.Label();
+            this.videoControls = new System.Windows.Forms.FlowLayoutPanel();
+            this.playButton = new System.Windows.Forms.Button();
+            this.pauseButton = new System.Windows.Forms.Button();
+            this.prevButton = new System.Windows.Forms.Button();
+            this.nextButton = new System.Windows.Forms.Button();
+            this.videoDisplay = new AxWMPLib.AxWindowsMediaPlayer();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.left_knee = new System.Windows.Forms.Label();
-            this.Right_knee = new System.Windows.Forms.Label();
-            this.Trunk_sway = new System.Windows.Forms.Label();
-            this.Joints = new System.Windows.Forms.Label();
+            this.leftKnee = new System.Windows.Forms.Label();
+            this.rightKnee = new System.Windows.Forms.Label();
+            this.trunkSway = new System.Windows.Forms.Label();
+            this.joints = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.Graph_label = new System.Windows.Forms.Label();
-            this.Video_label = new System.Windows.Forms.Label();
+            this.graphLabel = new System.Windows.Forms.Label();
+            this.videoLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -98,8 +98,8 @@
             this.UI_menu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.Video_controls.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Video_display)).BeginInit();
+            this.videoControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.videoDisplay)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -117,8 +117,8 @@
             this.tableLayoutPanel1.Controls.Add(this.UI_menu, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.Graph_label, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.Video_label, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.graphLabel, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.videoLabel, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -149,14 +149,14 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem,
-            this.calibrateToolStripMenuItem,
-            this.rToolStripMenuItem,
-            this.analyseToolStripMenuItem,
-            this.graphsToolStripMenuItem,
-            this.videosToolStripMenuItem,
-            this.optionsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.loadMenu,
+            this.calibrateMenu,
+            this.recordMenu,
+            this.analyseMenu,
+            this.graphsMenu,
+            this.videosMenu,
+            this.optionsMenu,
+            this.helpMenu});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
@@ -164,270 +164,273 @@
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // loadToolStripMenuItem
+            // loadMenu
             // 
-            this.loadToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(54, 24);
-            this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            this.loadMenu.BackColor = System.Drawing.SystemColors.Control;
+            this.loadMenu.Name = "loadMenu";
+            this.loadMenu.Size = new System.Drawing.Size(54, 24);
+            this.loadMenu.Text = "Load";
+            this.loadMenu.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // calibrateToolStripMenuItem
+            // calibrateMenu
             // 
-            this.calibrateToolStripMenuItem.Name = "calibrateToolStripMenuItem";
-            this.calibrateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.calibrateToolStripMenuItem.Text = "Calibrate";
+            this.calibrateMenu.Name = "calibrateMenu";
+            this.calibrateMenu.Size = new System.Drawing.Size(81, 24);
+            this.calibrateMenu.Text = "Calibrate";
+            this.calibrateMenu.Click += new System.EventHandler(this.calibrateToolStripMenuItem_Click);
             // 
-            // rToolStripMenuItem
+            // recordMenu
             // 
-            this.rToolStripMenuItem.Name = "rToolStripMenuItem";
-            this.rToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
-            this.rToolStripMenuItem.Text = "Record";
+            this.recordMenu.Name = "recordMenu";
+            this.recordMenu.Size = new System.Drawing.Size(68, 24);
+            this.recordMenu.Text = "Record";
+            this.recordMenu.Click += new System.EventHandler(this.rToolStripMenuItem_Click);
             // 
-            // analyseToolStripMenuItem
+            // analyseMenu
             // 
-            this.analyseToolStripMenuItem.Name = "analyseToolStripMenuItem";
-            this.analyseToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
-            this.analyseToolStripMenuItem.Text = "Analyse";
+            this.analyseMenu.Name = "analyseMenu";
+            this.analyseMenu.Size = new System.Drawing.Size(72, 24);
+            this.analyseMenu.Text = "Analyse";
+            this.analyseMenu.Click += new System.EventHandler(this.analyseToolStripMenuItem_Click);
             // 
-            // graphsToolStripMenuItem
+            // graphsMenu
             // 
-            this.graphsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.printToolStripMenuItem});
-            this.graphsToolStripMenuItem.Name = "graphsToolStripMenuItem";
-            this.graphsToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
-            this.graphsToolStripMenuItem.Text = "Graphs";
+            this.graphsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printMenu});
+            this.graphsMenu.Name = "graphsMenu";
+            this.graphsMenu.Size = new System.Drawing.Size(67, 24);
+            this.graphsMenu.Text = "Graphs";
             // 
-            // printToolStripMenuItem
+            // printMenu
             // 
-            this.printToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.allToolStripMenuItem,
-            this.trunkSwayToolStripMenuItem,
-            this.leftKneeToolStripMenuItem,
-            this.rightKneeToolStripMenuItem});
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
-            this.printToolStripMenuItem.Text = "Print";
+            this.printMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printAll,
+            this.printTrunk,
+            this.printLeftKnee,
+            this.printRightKnee});
+            this.printMenu.Name = "printMenu";
+            this.printMenu.Size = new System.Drawing.Size(181, 26);
+            this.printMenu.Text = "Print";
             // 
-            // allToolStripMenuItem
+            // printAll
             // 
-            this.allToolStripMenuItem.Name = "allToolStripMenuItem";
-            this.allToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
-            this.allToolStripMenuItem.Text = "All";
+            this.printAll.Name = "printAll";
+            this.printAll.Size = new System.Drawing.Size(181, 26);
+            this.printAll.Text = "All";
             // 
-            // trunkSwayToolStripMenuItem
+            // printTrunk
             // 
-            this.trunkSwayToolStripMenuItem.Name = "trunkSwayToolStripMenuItem";
-            this.trunkSwayToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
-            this.trunkSwayToolStripMenuItem.Text = "Trunk Sway";
+            this.printTrunk.Name = "printTrunk";
+            this.printTrunk.Size = new System.Drawing.Size(181, 26);
+            this.printTrunk.Text = "Trunk Sway";
             // 
-            // leftKneeToolStripMenuItem
+            // printLeftKnee
             // 
-            this.leftKneeToolStripMenuItem.Name = "leftKneeToolStripMenuItem";
-            this.leftKneeToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
-            this.leftKneeToolStripMenuItem.Text = "Left Knee";
+            this.printLeftKnee.Name = "printLeftKnee";
+            this.printLeftKnee.Size = new System.Drawing.Size(181, 26);
+            this.printLeftKnee.Text = "Left Knee";
             // 
-            // rightKneeToolStripMenuItem
+            // printRightKnee
             // 
-            this.rightKneeToolStripMenuItem.Name = "rightKneeToolStripMenuItem";
-            this.rightKneeToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
-            this.rightKneeToolStripMenuItem.Text = "Right Knee";
+            this.printRightKnee.Name = "printRightKnee";
+            this.printRightKnee.Size = new System.Drawing.Size(181, 26);
+            this.printRightKnee.Text = "Right Knee";
             // 
-            // videosToolStripMenuItem
+            // videosMenu
             // 
-            this.videosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.videoToolStripMenuItem,
+            this.videosMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.video1ToolStripMenuItem,
             this.video2ToolStripMenuItem,
             this.video3ToolStripMenuItem,
             this.video4ToolStripMenuItem});
-            this.videosToolStripMenuItem.Name = "videosToolStripMenuItem";
-            this.videosToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
-            this.videosToolStripMenuItem.Text = "Videos";
+            this.videosMenu.Name = "videosMenu";
+            this.videosMenu.Size = new System.Drawing.Size(66, 24);
+            this.videosMenu.Text = "Videos";
             // 
-            // videoToolStripMenuItem
+            // video1ToolStripMenuItem
             // 
-            this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-            this.videoToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
-            this.videoToolStripMenuItem.Text = "Video 1";
-            this.videoToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
+            this.video1ToolStripMenuItem.Name = "video1ToolStripMenuItem";
+            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video1ToolStripMenuItem.Text = "Video 1";
+            this.video1ToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
             // 
             // video2ToolStripMenuItem
             // 
             this.video2ToolStripMenuItem.Name = "video2ToolStripMenuItem";
-            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.video2ToolStripMenuItem.Text = "Video 2";
             this.video2ToolStripMenuItem.Click += new System.EventHandler(this.video2ToolStripMenuItem_Click);
             // 
             // video3ToolStripMenuItem
             // 
             this.video3ToolStripMenuItem.Name = "video3ToolStripMenuItem";
-            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.video3ToolStripMenuItem.Text = "Video 3";
             this.video3ToolStripMenuItem.Click += new System.EventHandler(this.video3ToolStripMenuItem_Click);
             // 
             // video4ToolStripMenuItem
             // 
             this.video4ToolStripMenuItem.Name = "video4ToolStripMenuItem";
-            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.video4ToolStripMenuItem.Text = "Video 4";
             this.video4ToolStripMenuItem.Click += new System.EventHandler(this.video4ToolStripMenuItem_Click);
             // 
-            // optionsToolStripMenuItem
+            // optionsMenu
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.increaseAccuracyToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.increaseAccuracyMenu});
+            this.optionsMenu.Name = "optionsMenu";
+            this.optionsMenu.Size = new System.Drawing.Size(73, 24);
+            this.optionsMenu.Text = "Options";
             // 
-            // increaseAccuracyToolStripMenuItem
+            // increaseAccuracyMenu
             // 
-            this.increaseAccuracyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.increaseAccuracyMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
-            this.increaseAccuracyToolStripMenuItem.Name = "increaseAccuracyToolStripMenuItem";
-            this.increaseAccuracyToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
-            this.increaseAccuracyToolStripMenuItem.Text = "Increase accuracy";
+            this.increaseAccuracyMenu.Name = "increaseAccuracyMenu";
+            this.increaseAccuracyMenu.Size = new System.Drawing.Size(199, 26);
+            this.increaseAccuracyMenu.Text = "Increase accuracy";
             // 
             // onToolStripMenuItem
             // 
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(105, 26);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.onToolStripMenuItem.Text = "On";
             // 
             // offToolStripMenuItem
             // 
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(105, 26);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.offToolStripMenuItem.Text = "Off";
             // 
-            // helpToolStripMenuItem
+            // helpMenu
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem1,
-            this.calibrateToolStripMenuItem1,
-            this.recordToolStripMenuItem,
-            this.analyseToolStripMenuItem1,
-            this.graphaToolStripMenuItem,
-            this.videosToolStripMenuItem1,
-            this.optionsToolStripMenuItem1,
-            this.videoControlsToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadHelp,
+            this.calibrateHelp,
+            this.recordHelp,
+            this.analyseHelp,
+            this.graphHelp,
+            this.videoHelp,
+            this.optionHelp,
+            this.videoControlsHelp});
+            this.helpMenu.Name = "helpMenu";
+            this.helpMenu.Size = new System.Drawing.Size(53, 24);
+            this.helpMenu.Text = "Help";
             // 
-            // loadToolStripMenuItem1
+            // loadHelp
             // 
-            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(182, 26);
-            this.loadToolStripMenuItem1.Text = "Load";
-            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
+            this.loadHelp.Name = "loadHelp";
+            this.loadHelp.Size = new System.Drawing.Size(182, 26);
+            this.loadHelp.Text = "Load";
+            this.loadHelp.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
             // 
-            // calibrateToolStripMenuItem1
+            // calibrateHelp
             // 
-            this.calibrateToolStripMenuItem1.Name = "calibrateToolStripMenuItem1";
-            this.calibrateToolStripMenuItem1.Size = new System.Drawing.Size(182, 26);
-            this.calibrateToolStripMenuItem1.Text = "Calibrate";
-            this.calibrateToolStripMenuItem1.Click += new System.EventHandler(this.calibrateToolStripMenuItem1_Click);
+            this.calibrateHelp.Name = "calibrateHelp";
+            this.calibrateHelp.Size = new System.Drawing.Size(182, 26);
+            this.calibrateHelp.Text = "Calibrate";
+            this.calibrateHelp.Click += new System.EventHandler(this.calibrateToolStripMenuItem1_Click);
             // 
-            // recordToolStripMenuItem
+            // recordHelp
             // 
-            this.recordToolStripMenuItem.Name = "recordToolStripMenuItem";
-            this.recordToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
-            this.recordToolStripMenuItem.Text = "Record";
-            this.recordToolStripMenuItem.Click += new System.EventHandler(this.recordToolStripMenuItem_Click);
+            this.recordHelp.Name = "recordHelp";
+            this.recordHelp.Size = new System.Drawing.Size(182, 26);
+            this.recordHelp.Text = "Record";
+            this.recordHelp.Click += new System.EventHandler(this.recordToolStripMenuItem_Click);
             // 
-            // analyseToolStripMenuItem1
+            // analyseHelp
             // 
-            this.analyseToolStripMenuItem1.Name = "analyseToolStripMenuItem1";
-            this.analyseToolStripMenuItem1.Size = new System.Drawing.Size(182, 26);
-            this.analyseToolStripMenuItem1.Text = "Analyse";
-            this.analyseToolStripMenuItem1.Click += new System.EventHandler(this.analyseToolStripMenuItem1_Click);
+            this.analyseHelp.Name = "analyseHelp";
+            this.analyseHelp.Size = new System.Drawing.Size(182, 26);
+            this.analyseHelp.Text = "Analyse";
+            this.analyseHelp.Click += new System.EventHandler(this.analyseToolStripMenuItem1_Click);
             // 
-            // graphaToolStripMenuItem
+            // graphHelp
             // 
-            this.graphaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.printToolStripMenuItem1});
-            this.graphaToolStripMenuItem.Name = "graphaToolStripMenuItem";
-            this.graphaToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
-            this.graphaToolStripMenuItem.Text = "Graphs";
+            this.graphHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printHelp});
+            this.graphHelp.Name = "graphHelp";
+            this.graphHelp.Size = new System.Drawing.Size(182, 26);
+            this.graphHelp.Text = "Graphs";
             // 
-            // printToolStripMenuItem1
+            // printHelp
             // 
-            this.printToolStripMenuItem1.Name = "printToolStripMenuItem1";
-            this.printToolStripMenuItem1.Size = new System.Drawing.Size(114, 26);
-            this.printToolStripMenuItem1.Text = "Print";
-            this.printToolStripMenuItem1.Click += new System.EventHandler(this.printToolStripMenuItem1_Click);
+            this.printHelp.Name = "printHelp";
+            this.printHelp.Size = new System.Drawing.Size(181, 26);
+            this.printHelp.Text = "Print";
+            this.printHelp.Click += new System.EventHandler(this.printToolStripMenuItem1_Click);
             // 
-            // videosToolStripMenuItem1
+            // videoHelp
             // 
-            this.videosToolStripMenuItem1.Name = "videosToolStripMenuItem1";
-            this.videosToolStripMenuItem1.Size = new System.Drawing.Size(182, 26);
-            this.videosToolStripMenuItem1.Text = "Videos";
-            this.videosToolStripMenuItem1.Click += new System.EventHandler(this.videosToolStripMenuItem1_Click);
+            this.videoHelp.Name = "videoHelp";
+            this.videoHelp.Size = new System.Drawing.Size(182, 26);
+            this.videoHelp.Text = "Videos";
+            this.videoHelp.Click += new System.EventHandler(this.videosToolStripMenuItem1_Click);
             // 
-            // optionsToolStripMenuItem1
+            // optionHelp
             // 
-            this.optionsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.increaseAccuracyToolStripMenuItem1});
-            this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
-            this.optionsToolStripMenuItem1.Size = new System.Drawing.Size(182, 26);
-            this.optionsToolStripMenuItem1.Text = "Options";
+            this.optionHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.increaseAccuracyHelp});
+            this.optionHelp.Name = "optionHelp";
+            this.optionHelp.Size = new System.Drawing.Size(182, 26);
+            this.optionHelp.Text = "Options";
             // 
-            // increaseAccuracyToolStripMenuItem1
+            // increaseAccuracyHelp
             // 
-            this.increaseAccuracyToolStripMenuItem1.Name = "increaseAccuracyToolStripMenuItem1";
-            this.increaseAccuracyToolStripMenuItem1.Size = new System.Drawing.Size(201, 26);
-            this.increaseAccuracyToolStripMenuItem1.Text = "Increase Accuracy";
-            this.increaseAccuracyToolStripMenuItem1.Click += new System.EventHandler(this.increaseAccuracyToolStripMenuItem1_Click);
+            this.increaseAccuracyHelp.Name = "increaseAccuracyHelp";
+            this.increaseAccuracyHelp.Size = new System.Drawing.Size(201, 26);
+            this.increaseAccuracyHelp.Text = "Increase Accuracy";
+            this.increaseAccuracyHelp.Click += new System.EventHandler(this.increaseAccuracyToolStripMenuItem1_Click);
             // 
-            // videoControlsToolStripMenuItem
+            // videoControlsHelp
             // 
-            this.videoControlsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playToolStripMenuItem,
-            this.pauseToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3});
-            this.videoControlsToolStripMenuItem.Name = "videoControlsToolStripMenuItem";
-            this.videoControlsToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
-            this.videoControlsToolStripMenuItem.Text = "Video Controls";
+            this.videoControlsHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playHelp,
+            this.pauseHelp,
+            this.prevHelp,
+            this.nrxtHelp});
+            this.videoControlsHelp.Name = "videoControlsHelp";
+            this.videoControlsHelp.Size = new System.Drawing.Size(182, 26);
+            this.videoControlsHelp.Text = "Video Controls";
             // 
-            // playToolStripMenuItem
+            // playHelp
             // 
-            this.playToolStripMenuItem.Name = "playToolStripMenuItem";
-            this.playToolStripMenuItem.Size = new System.Drawing.Size(121, 26);
-            this.playToolStripMenuItem.Text = "Play";
-            this.playToolStripMenuItem.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
+            this.playHelp.Name = "playHelp";
+            this.playHelp.Size = new System.Drawing.Size(181, 26);
+            this.playHelp.Text = "Play";
+            this.playHelp.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
-            // pauseToolStripMenuItem
+            // pauseHelp
             // 
-            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
-            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(121, 26);
-            this.pauseToolStripMenuItem.Text = "Pause";
-            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            this.pauseHelp.Name = "pauseHelp";
+            this.pauseHelp.Size = new System.Drawing.Size(181, 26);
+            this.pauseHelp.Text = "Pause";
+            this.pauseHelp.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
+            // prevHelp
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(121, 26);
-            this.toolStripMenuItem2.Text = "<<";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.prevHelp.Name = "prevHelp";
+            this.prevHelp.Size = new System.Drawing.Size(181, 26);
+            this.prevHelp.Text = "<<";
+            this.prevHelp.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
-            // toolStripMenuItem3
+            // nrxtHelp
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(121, 26);
-            this.toolStripMenuItem3.Text = ">>";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            this.nrxtHelp.Name = "nrxtHelp";
+            this.nrxtHelp.Size = new System.Drawing.Size(181, 26);
+            this.nrxtHelp.Text = ">>";
+            this.nrxtHelp.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.BackColor = System.Drawing.SystemColors.Window;
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.Video_controls, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.Video_display, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.Info_label, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.videoControls, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.videoDisplay, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.infoLabel, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 58);
@@ -442,84 +445,84 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(421, 579);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
-            // Video_controls
+            // videoControls
             // 
-            this.Video_controls.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.Video_controls.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Video_controls.Controls.Add(this.Play_button);
-            this.Video_controls.Controls.Add(this.pause_button);
-            this.Video_controls.Controls.Add(this.prev_button);
-            this.Video_controls.Controls.Add(this.next_button);
-            this.Video_controls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Video_controls.Location = new System.Drawing.Point(3, 250);
-            this.Video_controls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Video_controls.Name = "Video_controls";
-            this.Video_controls.Size = new System.Drawing.Size(415, 33);
-            this.Video_controls.TabIndex = 8;
+            this.videoControls.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.videoControls.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.videoControls.Controls.Add(this.playButton);
+            this.videoControls.Controls.Add(this.pauseButton);
+            this.videoControls.Controls.Add(this.prevButton);
+            this.videoControls.Controls.Add(this.nextButton);
+            this.videoControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.videoControls.Location = new System.Drawing.Point(3, 250);
+            this.videoControls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.videoControls.Name = "videoControls";
+            this.videoControls.Size = new System.Drawing.Size(415, 33);
+            this.videoControls.TabIndex = 8;
             // 
-            // Play_button
+            // playButton
             // 
-            this.Play_button.Location = new System.Drawing.Point(3, 2);
-            this.Play_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Play_button.Name = "Play_button";
-            this.Play_button.Size = new System.Drawing.Size(75, 23);
-            this.Play_button.TabIndex = 0;
-            this.Play_button.Text = "Play";
-            this.Play_button.UseVisualStyleBackColor = true;
-            this.Play_button.Click += new System.EventHandler(this.Play_button_Click);
+            this.playButton.Location = new System.Drawing.Point(3, 2);
+            this.playButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(75, 23);
+            this.playButton.TabIndex = 0;
+            this.playButton.Text = "Play";
+            this.playButton.UseVisualStyleBackColor = true;
+            this.playButton.Click += new System.EventHandler(this.Play_button_Click);
             // 
-            // pause_button
+            // pauseButton
             // 
-            this.pause_button.Location = new System.Drawing.Point(84, 2);
-            this.pause_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pause_button.Name = "pause_button";
-            this.pause_button.Size = new System.Drawing.Size(75, 23);
-            this.pause_button.TabIndex = 1;
-            this.pause_button.Text = "Pause";
-            this.pause_button.UseVisualStyleBackColor = true;
-            this.pause_button.Click += new System.EventHandler(this.pause_button_Click);
+            this.pauseButton.Location = new System.Drawing.Point(84, 2);
+            this.pauseButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(75, 23);
+            this.pauseButton.TabIndex = 1;
+            this.pauseButton.Text = "Pause";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pause_button_Click);
             // 
-            // prev_button
+            // prevButton
             // 
-            this.prev_button.Location = new System.Drawing.Point(165, 2);
-            this.prev_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.prev_button.Name = "prev_button";
-            this.prev_button.Size = new System.Drawing.Size(75, 23);
-            this.prev_button.TabIndex = 2;
-            this.prev_button.Text = "<<";
-            this.prev_button.UseVisualStyleBackColor = true;
-            this.prev_button.Click += new System.EventHandler(this.prev_button_Click);
+            this.prevButton.Location = new System.Drawing.Point(165, 2);
+            this.prevButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.prevButton.Name = "prevButton";
+            this.prevButton.Size = new System.Drawing.Size(75, 23);
+            this.prevButton.TabIndex = 2;
+            this.prevButton.Text = "<<";
+            this.prevButton.UseVisualStyleBackColor = true;
+            this.prevButton.Click += new System.EventHandler(this.prev_button_Click);
             // 
-            // next_button
+            // nextButton
             // 
-            this.next_button.Location = new System.Drawing.Point(246, 2);
-            this.next_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.next_button.Name = "next_button";
-            this.next_button.Size = new System.Drawing.Size(75, 23);
-            this.next_button.TabIndex = 3;
-            this.next_button.Text = ">>";
-            this.next_button.UseVisualStyleBackColor = true;
-            this.next_button.Click += new System.EventHandler(this.next_button_Click);
+            this.nextButton.Location = new System.Drawing.Point(246, 2);
+            this.nextButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nextButton.Name = "nextButton";
+            this.nextButton.Size = new System.Drawing.Size(75, 23);
+            this.nextButton.TabIndex = 3;
+            this.nextButton.Text = ">>";
+            this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.Click += new System.EventHandler(this.next_button_Click);
             // 
-            // Video_display
+            // videoDisplay
             // 
-            this.Video_display.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Video_display.Enabled = true;
-            this.Video_display.Location = new System.Drawing.Point(3, 2);
-            this.Video_display.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Video_display.Name = "Video_display";
-            this.Video_display.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Video_display.OcxState")));
-            this.Video_display.Size = new System.Drawing.Size(415, 244);
-            this.Video_display.TabIndex = 7;
+            this.videoDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.videoDisplay.Enabled = true;
+            this.videoDisplay.Location = new System.Drawing.Point(3, 2);
+            this.videoDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.videoDisplay.Name = "videoDisplay";
+            this.videoDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("videoDisplay.OcxState")));
+            this.videoDisplay.Size = new System.Drawing.Size(415, 244);
+            this.videoDisplay.TabIndex = 7;
             // 
-            // Info_label
+            // infoLabel
             // 
-            this.Info_label.AutoSize = true;
-            this.Info_label.Location = new System.Drawing.Point(3, 285);
-            this.Info_label.Name = "Info_label";
-            this.Info_label.Size = new System.Drawing.Size(60, 17);
-            this.Info_label.TabIndex = 4;
-            this.Info_label.Text = "Anaylsis";
+            this.infoLabel.AutoSize = true;
+            this.infoLabel.Location = new System.Drawing.Point(3, 285);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(60, 17);
+            this.infoLabel.TabIndex = 4;
+            this.infoLabel.Text = "Anaylsis";
             // 
             // tableLayoutPanel4
             // 
@@ -531,10 +534,10 @@
             this.tableLayoutPanel4.Controls.Add(this.label3, 1, 2);
             this.tableLayoutPanel4.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.label1, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.left_knee, 0, 3);
-            this.tableLayoutPanel4.Controls.Add(this.Right_knee, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.Trunk_sway, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.Joints, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.leftKnee, 0, 3);
+            this.tableLayoutPanel4.Controls.Add(this.rightKnee, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.trunkSway, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.joints, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 312);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -591,49 +594,49 @@
             this.label1.Text = "Information";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // left_knee
+            // leftKnee
             // 
-            this.left_knee.AutoSize = true;
-            this.left_knee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.left_knee.Location = new System.Drawing.Point(5, 197);
-            this.left_knee.Name = "left_knee";
-            this.left_knee.Size = new System.Drawing.Size(114, 66);
-            this.left_knee.TabIndex = 6;
-            this.left_knee.Text = "Left Knee";
-            this.left_knee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.leftKnee.AutoSize = true;
+            this.leftKnee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.leftKnee.Location = new System.Drawing.Point(5, 197);
+            this.leftKnee.Name = "leftKnee";
+            this.leftKnee.Size = new System.Drawing.Size(114, 66);
+            this.leftKnee.TabIndex = 6;
+            this.leftKnee.Text = "Left Knee";
+            this.leftKnee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Right_knee
+            // rightKnee
             // 
-            this.Right_knee.AutoSize = true;
-            this.Right_knee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Right_knee.Location = new System.Drawing.Point(5, 132);
-            this.Right_knee.Name = "Right_knee";
-            this.Right_knee.Size = new System.Drawing.Size(114, 63);
-            this.Right_knee.TabIndex = 4;
-            this.Right_knee.Text = "Right Knee";
-            this.Right_knee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rightKnee.AutoSize = true;
+            this.rightKnee.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rightKnee.Location = new System.Drawing.Point(5, 132);
+            this.rightKnee.Name = "rightKnee";
+            this.rightKnee.Size = new System.Drawing.Size(114, 63);
+            this.rightKnee.TabIndex = 4;
+            this.rightKnee.Text = "Right Knee";
+            this.rightKnee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Trunk_sway
+            // trunkSway
             // 
-            this.Trunk_sway.AutoSize = true;
-            this.Trunk_sway.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Trunk_sway.Location = new System.Drawing.Point(5, 67);
-            this.Trunk_sway.Name = "Trunk_sway";
-            this.Trunk_sway.Size = new System.Drawing.Size(114, 63);
-            this.Trunk_sway.TabIndex = 2;
-            this.Trunk_sway.Text = "Trunk sway";
-            this.Trunk_sway.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.trunkSway.AutoSize = true;
+            this.trunkSway.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trunkSway.Location = new System.Drawing.Point(5, 67);
+            this.trunkSway.Name = "trunkSway";
+            this.trunkSway.Size = new System.Drawing.Size(114, 63);
+            this.trunkSway.TabIndex = 2;
+            this.trunkSway.Text = "Trunk sway";
+            this.trunkSway.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Joints
+            // joints
             // 
-            this.Joints.AutoSize = true;
-            this.Joints.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Joints.Location = new System.Drawing.Point(5, 2);
-            this.Joints.Name = "Joints";
-            this.Joints.Size = new System.Drawing.Size(114, 63);
-            this.Joints.TabIndex = 1;
-            this.Joints.Text = "Joint";
-            this.Joints.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.joints.AutoSize = true;
+            this.joints.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.joints.Location = new System.Drawing.Point(5, 2);
+            this.joints.Name = "joints";
+            this.joints.Size = new System.Drawing.Size(114, 63);
+            this.joints.TabIndex = 1;
+            this.joints.Text = "Joint";
+            this.joints.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // statusStrip1
             // 
@@ -652,31 +655,31 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 24);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(18, 24);
+            this.toolStripStatusLabel1.Text = "#";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 23);
             // 
-            // Graph_label
+            // graphLabel
             // 
-            this.Graph_label.AutoSize = true;
-            this.Graph_label.Location = new System.Drawing.Point(430, 38);
-            this.Graph_label.Name = "Graph_label";
-            this.Graph_label.Size = new System.Drawing.Size(55, 17);
-            this.Graph_label.TabIndex = 3;
-            this.Graph_label.Text = "Graphs";
+            this.graphLabel.AutoSize = true;
+            this.graphLabel.Location = new System.Drawing.Point(430, 38);
+            this.graphLabel.Name = "graphLabel";
+            this.graphLabel.Size = new System.Drawing.Size(55, 17);
+            this.graphLabel.TabIndex = 3;
+            this.graphLabel.Text = "Graphs";
             // 
-            // Video_label
+            // videoLabel
             // 
-            this.Video_label.AutoSize = true;
-            this.Video_label.Location = new System.Drawing.Point(3, 38);
-            this.Video_label.Name = "Video_label";
-            this.Video_label.Size = new System.Drawing.Size(56, 17);
-            this.Video_label.TabIndex = 2;
-            this.Video_label.Text = "Video #";
+            this.videoLabel.AutoSize = true;
+            this.videoLabel.Location = new System.Drawing.Point(3, 38);
+            this.videoLabel.Name = "videoLabel";
+            this.videoLabel.Size = new System.Drawing.Size(56, 17);
+            this.videoLabel.TabIndex = 2;
+            this.videoLabel.Text = "Video #";
             // 
             // tableLayoutPanel3
             // 
@@ -746,8 +749,8 @@
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.Video_controls.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Video_display)).EndInit();
+            this.videoControls.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.videoDisplay)).EndInit();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -764,68 +767,68 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel UI_menu;
-        private System.Windows.Forms.Label Graph_label;
+        private System.Windows.Forms.Label graphLabel;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.Label Video_label;
+        private System.Windows.Forms.Label videoLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label Info_label;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem calibrateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem analyseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem graphsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem videosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
+        private System.Windows.Forms.Label infoLabel;
+        private System.Windows.Forms.ToolStripMenuItem loadMenu;
+        private System.Windows.Forms.ToolStripMenuItem calibrateMenu;
+        private System.Windows.Forms.ToolStripMenuItem recordMenu;
+        private System.Windows.Forms.ToolStripMenuItem analyseMenu;
+        private System.Windows.Forms.ToolStripMenuItem graphsMenu;
+        private System.Windows.Forms.ToolStripMenuItem videosMenu;
+        private System.Windows.Forms.ToolStripMenuItem video1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem video2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem video3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem video4ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem increaseAccuracyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsMenu;
+        private System.Windows.Forms.ToolStripMenuItem increaseAccuracyMenu;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem calibrateToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem recordToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem analyseToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem graphaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem videosToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem increaseAccuracyToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem videoControlsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem helpMenu;
+        private System.Windows.Forms.ToolStripMenuItem loadHelp;
+        private System.Windows.Forms.ToolStripMenuItem calibrateHelp;
+        private System.Windows.Forms.ToolStripMenuItem recordHelp;
+        private System.Windows.Forms.ToolStripMenuItem analyseHelp;
+        private System.Windows.Forms.ToolStripMenuItem graphHelp;
+        private System.Windows.Forms.ToolStripMenuItem videoHelp;
+        private System.Windows.Forms.ToolStripMenuItem optionHelp;
+        private System.Windows.Forms.ToolStripMenuItem increaseAccuracyHelp;
+        private System.Windows.Forms.ToolStripMenuItem videoControlsHelp;
+        private System.Windows.Forms.ToolStripMenuItem playHelp;
+        private System.Windows.Forms.ToolStripMenuItem pauseHelp;
+        private System.Windows.Forms.ToolStripMenuItem prevHelp;
+        private System.Windows.Forms.ToolStripMenuItem nrxtHelp;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label left_knee;
-        private System.Windows.Forms.Label Right_knee;
-        private System.Windows.Forms.Label Trunk_sway;
-        private System.Windows.Forms.Label Joints;
+        private System.Windows.Forms.Label leftKnee;
+        private System.Windows.Forms.Label rightKnee;
+        private System.Windows.Forms.Label trunkSway;
+        private System.Windows.Forms.Label joints;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.FlowLayoutPanel Video_controls;
-        private System.Windows.Forms.Button Play_button;
-        private System.Windows.Forms.Button pause_button;
-        private System.Windows.Forms.Button prev_button;
-        private System.Windows.Forms.Button next_button;
-        private AxWMPLib.AxWindowsMediaPlayer Video_display;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel videoControls;
+        private System.Windows.Forms.Button playButton;
+        private System.Windows.Forms.Button pauseButton;
+        private System.Windows.Forms.Button prevButton;
+        private System.Windows.Forms.Button nextButton;
+        private AxWMPLib.AxWindowsMediaPlayer videoDisplay;
+        private System.Windows.Forms.ToolStripMenuItem printMenu;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem trunkSwayToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem leftKneeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rightKneeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printHelp;
+        private System.Windows.Forms.ToolStripMenuItem printAll;
+        private System.Windows.Forms.ToolStripMenuItem printTrunk;
+        private System.Windows.Forms.ToolStripMenuItem printLeftKnee;
+        private System.Windows.Forms.ToolStripMenuItem printRightKnee;
     }
 }
 
