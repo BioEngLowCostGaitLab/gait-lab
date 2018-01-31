@@ -8,7 +8,7 @@ from time import time
 import sys
 
 
-def evaluate_ssd(ssd, frame, opts, startX, endX):
+def evaluate_ssd(ssd, frame, startX, endX):
     # args: network, frame, number of passed frames, number of frame in which person was last found, opts
     # returns: top left corner and bottom right corner of rectangle in which person lies,
     # number of frame in which person was last found
@@ -19,7 +19,7 @@ def evaluate_ssd(ssd, frame, opts, startX, endX):
     detections = ssd.forward()
     for i in np.arange(0, detections.shape[2]):
         confidence = detections[0, 0, i, 2]
-        if confidence > opts['confidence']:
+        if confidence > 0.2:
             idx = int(detections[0, 0, i, 1])
             if idx == 15: # person detected
                 found = True
@@ -139,7 +139,7 @@ def analyse(frame, ssd, classifier, detector, n_frame, startX=0, endX=0,
     (h, w) = frame.shape[:2]
     if n_frame >= start_frame:
         if use_ssd:
-            startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
+            startX, endX, confidence = evaluate_ssd(ssd, frame, startX, endX)
             startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
             if (endX > w - 12):
                 endX = w - 12
