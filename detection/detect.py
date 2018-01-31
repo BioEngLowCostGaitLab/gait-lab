@@ -15,18 +15,26 @@ import argparse
 from os.path import join
 import os
 from time import time
+import sys
 
-def get_args():
+
+try:
+    root = sys.argv[1]
+except:
+    root = os.getcwd()
+
+
+def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(os.getcwd(), 'resources', '20180118_150719.mp4'),
+    default = join(root, 'resources', '20180118_150719.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
-    default=join(os.getcwd(), 'resources', 'MobileNetSSD_deploy.prototxt'),
+    default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
 	help="path to Caffe 'deploy' prototxt file")
     ap.add_argument("-m", "--model", type=str,
-    default=join(os.getcwd(), 'resources', 'MobileNetSSD_deploy.caffemodel'),
+    default=join(root, 'resources', 'MobileNetSSD_deploy.caffemodel'),
 	help="path to Caffe pre-trained model")
     ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections")
@@ -38,7 +46,7 @@ def get_args():
 	help="option to save detected keypoints")
     ap.add_argument("-cl", "--classify", type=bool, default=False,
 	help="option to classify marker candidates")
-    ap.add_argument("-d", "--dir", type=str, default=join(os.getcwd(), 'saved_images'),
+    ap.add_argument("-d", "--dir", type=str, default=join(root, 'saved_images'),
 	help="directory to save detected keypoints")
     ap.add_argument("-n", "--noise", type=bool, default=False,
 	help="option to detect person and narrow down search area")
@@ -72,7 +80,7 @@ def evaluate_ssd(ssd, frame, opts, startX, endX):
         return startX, endX, 0
 
 def evaluate_classifier(classifier, kp, frame):
-    images = get_keypoint_images(kp, frame)
+    images = point_images(kp, frame)
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
@@ -175,7 +183,7 @@ MIN_THRESHOLD = 5e2
 MAX_THRESHOLD = 5e4
 threshold = 2000
 
-opts = get_args() # argument list
+opts = get_args(root) # argument list
 if opts['freq'] > 60:
     opts['freq'] = 60
 
@@ -186,7 +194,7 @@ n_frame = 0
 cap = cv2.VideoCapture(opts['video'])
 
 ssd = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
-classifier = cv2.dnn.readNetFromTensorflow(join(os.getcwd(), 'frozen_model.pb')) # blob classifier
+classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model.pb')) # blob classifier
 
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
@@ -197,7 +205,7 @@ if opts['save'] == True:
     except:
         pass
 
-#pdir = join(os.getcwd(), 'Cameras') #uncomment this if you are using images instead of video
+#pdir = join(root, 'Cameras') #uncomment this if you are using images instead of video
 #for img in os.listdir(pdir): #uncomment this if you are using images instead of video
 #    frame = cv2.imread(join(pdir, img)) #uncomment this if you are using images instead of video
 while(True): # disable this if you are using images
@@ -266,10 +274,10 @@ while(True): # disable this if you are using images
 
         if (len(kp) > 0): # if blobs found, classify them
             pred, colors = evaluate_classifier(classifier, kp,  frame)
-            #markers, ghosts = separate(pred, kp)
-            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-            #frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
-            frame = plot_with_colors(frame, kp, colors)
+            markers, ghosts = separate(pred, kp)
+            frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
+            frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
+            #frame = plot_with_colors(frame, kp, colors)
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 
