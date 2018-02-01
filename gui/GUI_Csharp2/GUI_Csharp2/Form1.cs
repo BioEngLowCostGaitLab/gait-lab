@@ -15,7 +15,8 @@ namespace GUI_Csharp2
 {
     public partial class GUI_Csharp : Form
     {
-        string[] videoAddress = new string[4];
+        List<string> videoNames = new List<string>(); // List of videos
+        List<string> graphNames = new List<string>(); // List of graphs
 
         public GUI_Csharp()
         {
@@ -24,7 +25,43 @@ namespace GUI_Csharp2
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel1.Text = "Loading";
+            //Loading Videos
+            toolStripStatusLabel1.Text = "Loading Videos";
+            videoNames.Clear();
+            openFileDialog1.Multiselect = true;
+
+            MessageBox.Show("Please select the videos in order, to select the videos hold ctrl and click");
+            DialogResult dr = openFileDialog1.ShowDialog();
+            if (dr == System.Windows.Forms.DialogResult.OK)
+            {
+                foreach (String file in openFileDialog1.FileNames)
+                {
+                    string name = file;
+                    videoNames.Add(name);
+
+                }
+            }
+            //Loading graphs
+            toolStripStatusLabel1.Text = "Loading Graphs";
+            graphNames.Clear();
+            openFileDialog1.Multiselect = true;
+
+            MessageBox.Show("Please select the graphs in order, to select the videos hold ctrl and click");
+            DialogResult dr2 = openFileDialog1.ShowDialog();
+            if (dr2 == System.Windows.Forms.DialogResult.OK)
+            {
+                foreach (String file in openFileDialog1.FileNames)
+                {
+                    string name = file;
+                    graphNames.Add(name);
+
+                }
+            }
+
+            pictureBox1.ImageLocation = graphNames[0];
+            pictureBox2.ImageLocation = graphNames[1];
+            pictureBox3.ImageLocation = graphNames[2];
+
         }
 
         private void calibrateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -75,25 +112,25 @@ namespace GUI_Csharp2
 
         private void videoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video1.mp4";
+            videoDisplay.URL = videoNames[0];
             videoLabel.Text = "Video 1";
         }
 
         private void video2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video2.mp4";
+            videoDisplay.URL = videoNames[1];
             videoLabel.Text = "Video 2";
         }
 
         private void video3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video3.mov";
+            videoDisplay.URL = videoNames[2];
             videoLabel.Text = "Video 3";
         }
 
         private void video4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            videoDisplay.URL = "C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\TestVideo\\video4.mp4";
+            videoDisplay.URL = videoNames[3];
             videoLabel.Text = "Video 4";
         }
 
@@ -161,5 +198,6 @@ namespace GUI_Csharp2
         {
             MessageBox.Show("This will print the selected graph.");
         }
+
     }
 }
