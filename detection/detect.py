@@ -17,15 +17,16 @@ import os
 from time import time
 import sys
 
-
+root = os.getcwd()
 try:
     dirs = sys.argv[0].split('\\')[1:-1]
-    root = 'C:\\'
-    for i in range(len(dirs)):
-        root = join(root, dirs[i])
+    if len(dirs) > 0:
+        root = 'C:\\'
+        for i in range(len(dirs)):
+            root = join(root, dirs[i])
 except:
-    root = os.getcwd()
-	
+    pass
+
 print(root)
 
 
@@ -58,7 +59,7 @@ def get_args(root):
 	help="option to detect person and narrow down search area")
 
 
-    return vars(ap.parse_args())
+    return ap.parse_args()
 
 def evaluate_ssd(ssd, frame, opts, startX, endX):
     # args: network, frame, number of passed frames, number of frame in which person was last found, opts
@@ -71,7 +72,7 @@ def evaluate_ssd(ssd, frame, opts, startX, endX):
     detections = ssd.forward()
     for i in np.arange(0, detections.shape[2]):
         confidence = detections[0, 0, i, 2]
-        if confidence > opts['confidence']:
+        if confidence > opts.confidence:
             idx = int(detections[0, 0, i, 1])
             if idx == 15: # person detected
                 found = True
@@ -145,7 +146,7 @@ def save_keypoints(kp, frame, n_frame, opts):
     for i, keypoint in enumerate(kp):
         final_image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
                             int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
-        cv2.imwrite(join(opts['dir'], '%s_%d_%d.png' % (opts['video'].split('\\')[-1], n_frame, i)), final_image)
+        cv2.imwrite(join(opts.dir, '%s_%d_%d.png' % (opts.video.split('\\')[-1], n_frame, i)), final_image)
 
 def get_keypoint_images(kp, frame):
     out = []
@@ -190,24 +191,24 @@ MAX_THRESHOLD = 5e4
 threshold = 2000
 
 opts = get_args(root) # argument list
-if opts['freq'] > 60:
-    opts['freq'] = 60
+if opts.freq > 60:
+    opts.freq = 60
 
 startX, endX = 0, 0
 T = 0
 n_frame = 0
 
-cap = cv2.VideoCapture(opts['video'])
+cap = cv2.VideoCapture(opts.video)
 
-ssd = cv2.dnn.readNetFromCaffe(opts['prototxt'], opts['model']) # SSD person detector
+ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
 classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model.pb')) # blob classifier
 
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
 
-if opts['save'] == True:
+if opts.save:
     try:
-        os.mkdir(opts['dir'])
+        os.mkdir(opts.dir)
     except:
         pass
 
@@ -220,19 +221,15 @@ while(True): # disable this if you are using images
     frame = cv2.flip(frame, 0) #disable this if you are using images
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 250: #and n_frame % (60 / opts['freq']) == 0: # because for now first 800 frames are not interesting
-        if opts["noise"]:                                                     # also analyse only opts['freq'] frames per second of video
-            startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
-            startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
-            if (endX > w - 12):
-                endX = w - 12
-            if (startX < 12):
-                startX = 12
-        else:
-            startX = 12
+    if n_frame > 250:
+        startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
+        startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.2 * (endX - startX))
+        if (endX > w - 12):
             endX = w - 12
+        if (startX < 12):
+            startX = 12
+
         grey_frame = grey_frame[int(0.35 * h):, startX:endX]
-            #grey_frame = cv2.filter2D(grey_frame, -1, kernel)
         while True:
             # adaptive filtering:
             # we want to find between 12-24 blobs in this particular video (4-8 times the actual number of markers visible)
@@ -271,9 +268,9 @@ while(True): # disable this if you are using images
         #    cv2.imwrite('final.png', frame)
 
 
-        if opts['save']:
+        if opts.save:
             save_keypoints(kp, frame, n_frame, opts)
-        if opts['rec'] and opts['noise']:
+        if opts.rec and opts.noise:
             cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
 			(0, 255, 0), 10)
 

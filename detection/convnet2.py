@@ -10,7 +10,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--imgdir', default=join(os.getcwd(), 'resources'), type=str) # path to save figures
     parser.add_argument('--batchSize', default=32, type=int)
-    parser.add_argument('--maxEpochs', default=40, type=int) # epochs to train for
+    parser.add_argument('--maxEpochs', default=10, type=int) # epochs to train for
     parser.add_argument('--lr', default=1e-4, type=float) # learning rate
 
     return parser.parse_args()
@@ -61,6 +61,7 @@ testset = testset.repeat(n_epochs)
 testset = testset.batch(test_length)
 test_iterator = testset.make_one_shot_iterator()
 
+next_train_element = iterator.get_next()
 
 
 # tf Graph input
@@ -87,7 +88,7 @@ with tf.Session() as sess:
         # Loop over all batches
         avg_cost = 0.0
         for i in range(n_batches):
-            batch_x, batch_y = iterator.get_next()
+            batch_x, batch_y = next_train_element
             batch_y = tf.reshape(batch_y, [batch_size, 1])
             batch_x = tf.squeeze(augment(batch_x, 32), [1])
             # Run optimization op (backprop) and cost op (to get loss value)
@@ -103,8 +104,7 @@ with tf.Session() as sess:
             # Compute average loss
             avg_cost += c / batch_size
         # Display logs per epoch step
-        if epoch % display_step == 0:
-            print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
+        print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
     # Test model
         #predict_marker = tf.greater(tf.squeeze(tf.squeeze(pred, [-1]), [-1]), 0.5)
