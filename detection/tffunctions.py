@@ -25,8 +25,7 @@ def Net(x):
     activation=tf.nn.relu)
     x = tf.layers.conv2d(x, 2 * fSize, 3, strides=(2,2),
     activation=tf.nn.relu)
-    x = tf.reshape(x, [tf.shape(x)[0], 1600])
-    print(x.get_shape())
+    x = tf.reshape(x, [32, 1600])
     x = tf.layers.dense(x, 30, activation=tf.nn.relu)
     x = tf.layers.dense(x, 1)
     x = tf.nn.sigmoid(x)

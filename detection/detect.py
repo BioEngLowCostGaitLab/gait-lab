@@ -91,6 +91,7 @@ def evaluate_classifier(classifier, kp, frame):
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
+    output = output[:len(kp)] # we have padded the input so its size is 32
     colors = [(0, 0, 0)] * len(output)
     for i in range(len(output)):
         if output[i] > 0.5:
@@ -153,6 +154,8 @@ def get_keypoint_images(kp, frame):
     for i, keypoint in enumerate(kp):
         image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
                             int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
+        out.append(image)
+    while (len(out) < 32):
         out.append(image)
     return out
 
