@@ -16,7 +16,7 @@ namespace GUI_Csharp2
     public partial class GUI_Csharp : Form
     {
         List<string> videoNames = new List<string>(); // List of videos
-        List<string> graphNames = new List<string>(); // List of graphs
+        List<string> graphNames = new List<string>(); // List of graphs   
 
         public GUI_Csharp()
         {
@@ -25,9 +25,19 @@ namespace GUI_Csharp2
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //counters
+            int g = 0;
+            int v = 0;
             //Loading Videos
             toolStripStatusLabel1.Text = "Loading Videos";
+
             videoNames.Clear();
+            if(videoNames.Count == 0)
+            {
+                Intialise(videoNames, 4);
+            }
+            Fill(videoNames);
+
             openFileDialog1.Multiselect = true;
 
             MessageBox.Show("Please select the videos in order, to select the videos hold ctrl and click");
@@ -37,13 +47,21 @@ namespace GUI_Csharp2
                 foreach (String file in openFileDialog1.FileNames)
                 {
                     string name = file;
-                    videoNames.Add(name);
+                    videoNames[v] = name;
+                    v++;
 
                 }
             }
             //Loading graphs
             toolStripStatusLabel1.Text = "Loading Graphs";
+
             graphNames.Clear();
+            if(graphNames.Count == 0)
+            {
+                Intialise(graphNames, 3);
+            }
+            Fill(graphNames);
+
             openFileDialog1.Multiselect = true;
 
             MessageBox.Show("Please select the graphs in order, to select the videos hold ctrl and click");
@@ -53,8 +71,8 @@ namespace GUI_Csharp2
                 foreach (String file in openFileDialog1.FileNames)
                 {
                     string name = file;
-                    graphNames.Add(name);
-
+                    graphNames[g] = name;
+                    g++;
                 }
             }
 
@@ -62,18 +80,24 @@ namespace GUI_Csharp2
             pictureBox2.ImageLocation = graphNames[1];
             pictureBox3.ImageLocation = graphNames[2];
 
+            toolStripStatusLabel1.Text = "";
+
         }
 
         private void calibrateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Calibrate";
             System.Diagnostics.Process.Start("CMD.exe");
+
+            toolStripStatusLabel1.Text = "";
         }
 
         private void rToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Recording";
             System.Diagnostics.Process.Start("CMD.exe");
+
+            toolStripStatusLabel1.Text = "";
         }
 
         private void analyseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -86,6 +110,8 @@ namespace GUI_Csharp2
             startInfo.Arguments = "/C C:\\Python27\\pythonw.exe C:\\Users\\Chun_\\EDP\\gait-lab\\detection\\detect.py";
             process.StartInfo = startInfo;
             process.Start();
+
+            toolStripStatusLabel1.Text = "";
         }
 
         private void Play_button_Click(object sender, EventArgs e)
