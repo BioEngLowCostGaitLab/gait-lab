@@ -27,8 +27,6 @@ def evaluate_ssd(ssd, frame, startX, endX):
                 conf_f = confidence
                 box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (startXn, startY, endXn, endY) = box.astype("int")
-                print('[INFO] p: %.2f%%' %
-                (confidence * 100))
     if found:
         return startXn, endXn, conf_f
     else:
@@ -133,7 +131,7 @@ def plot_with_colors(frame, kp, colors):
 
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=5e4,
-            use_ssd=True, use_classifier=True, start_frame=0):
+            use_ssd=True, use_classifier=True, start_frame=0, verbose=False):
     frame = cv2.resize(frame, (1280, 720))
     #frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
@@ -141,6 +139,7 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
     if n_frame >= start_frame:
         if use_ssd:
             startX, endX, confidence = evaluate_ssd(ssd, frame, startX, endX)
+            if verbose: print('[INFO] p: %.2f%%' % (confidence * 100))
             startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
             if (endX > w - 12):
                 endX = w - 12
@@ -161,16 +160,14 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
                 break
             elif threshold > MIN_THRESHOLD and len(kp) < MIN_BLOBS:
                 threshold /= 1.05
-                print('[INFO] threshold set to %d' % threshold)
+                if verbose: print('[INFO] threshold set to %d' % threshold)
                 detector.setHessianThreshold(threshold)
             elif len(kp) > MAX_BLOBS and threshold < MAX_THRESHOLD:
                 threshold *= 1.05
-                print('[INFO] threshold set to %d' % threshold)
+                if verbose: print('[INFO] threshold set to %d' % threshold)
                 detector.setHessianThreshold(threshold)
             else:
                 break
-        print(len(kp))
-        print("confidence:", confidence)
         markers = kp
 
         if (len(kp) > 0 and use_classifier):
