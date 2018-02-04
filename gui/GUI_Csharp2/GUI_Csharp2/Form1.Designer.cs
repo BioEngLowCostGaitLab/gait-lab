@@ -180,13 +180,10 @@ namespace GUI_Csharp2
             this.helpMenu});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-<<<<<<< HEAD
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
             this.menuStrip1.Size = new System.Drawing.Size(468, 28);
-=======
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
             this.menuStrip1.Size = new System.Drawing.Size(448, 24);
->>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -301,38 +298,6 @@ namespace GUI_Csharp2
             this.video4ToolStripMenuItem.Text = "Video 4";
             this.video4ToolStripMenuItem.Click += new System.EventHandler(this.video4ToolStripMenuItem_Click);
             // 
-<<<<<<< HEAD
-=======
-            // optionsMenu
-            // 
-            this.optionsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.increaseAccuracyMenu});
-            this.optionsMenu.Name = "optionsMenu";
-            this.optionsMenu.Size = new System.Drawing.Size(61, 20);
-            this.optionsMenu.Text = "Options";
-            // 
-            // increaseAccuracyMenu
-            // 
-            this.increaseAccuracyMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.onToolStripMenuItem,
-            this.offToolStripMenuItem});
-            this.increaseAccuracyMenu.Name = "increaseAccuracyMenu";
-            this.increaseAccuracyMenu.Size = new System.Drawing.Size(167, 22);
-            this.increaseAccuracyMenu.Text = "Increase accuracy";
-            // 
-            // onToolStripMenuItem
-            // 
-            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
-            this.onToolStripMenuItem.Text = "On";
-            // 
-            // offToolStripMenuItem
-            // 
-            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
-            this.offToolStripMenuItem.Text = "Off";
-            // 
->>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             // helpMenu
             // 
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -397,24 +362,6 @@ namespace GUI_Csharp2
             this.videoHelp.Text = "Videos";
             this.videoHelp.Click += new System.EventHandler(this.videosToolStripMenuItem1_Click);
             // 
-<<<<<<< HEAD
-=======
-            // optionHelp
-            // 
-            this.optionHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.increaseAccuracyHelp});
-            this.optionHelp.Name = "optionHelp";
-            this.optionHelp.Size = new System.Drawing.Size(152, 22);
-            this.optionHelp.Text = "Options";
-            // 
-            // increaseAccuracyHelp
-            // 
-            this.increaseAccuracyHelp.Name = "increaseAccuracyHelp";
-            this.increaseAccuracyHelp.Size = new System.Drawing.Size(169, 22);
-            this.increaseAccuracyHelp.Text = "Increase Accuracy";
-            this.increaseAccuracyHelp.Click += new System.EventHandler(this.increaseAccuracyToolStripMenuItem1_Click);
-            // 
->>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             // videoControlsHelp
             // 
             this.videoControlsHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -669,13 +616,10 @@ namespace GUI_Csharp2
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-<<<<<<< HEAD
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(13, 24);
             this.toolStripStatusLabel1.Text = " ";
-=======
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(14, 20);
             this.toolStripStatusLabel1.Text = "#";
->>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             // 
             // toolStripProgressBar1
             // 
