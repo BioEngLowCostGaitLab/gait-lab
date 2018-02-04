@@ -35,7 +35,7 @@ def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(root, 'resources', '20180118_150719.mp4'),
+    default = join(root, 'resources', '20180118_150839.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -202,6 +202,7 @@ T = 0
 n_frame = 0
 
 cap = cv2.VideoCapture(opts.video)
+print(opts.video)
 
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
 classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model.pb')) # blob classifier
