@@ -1,18 +1,17 @@
 import tensorflow as tf
 import argparse
-from os.path import join
 import os
+from os.path import join
 from tensorflow.python.tools.freeze_graph import freeze_graph
+from tffunctions import _parse_function, augment, Net
 
 
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--imgdir', default=join(os.getcwd(), 'resources'), type=str) # path to save figures
     parser.add_argument('--batchSize', default=32, type=int)
-    parser.add_argument('--maxEpochs', default=40, type=int) # epochs to train for
-    parser.add_argument('--trainedEpochs', default=0, type=int) # previously trained epochs on same parameters
+    parser.add_argument('--maxEpochs', default=4, type=int) # epochs to train for
     parser.add_argument('--lr', default=1e-4, type=float) # learning rate
-    parser.add_argument('--fSize', default=64, type=int)  # multiple of filters to use
 
     return parser.parse_args()
 
@@ -37,48 +36,11 @@ def create_dataset(opts, datafile, train=True):
     labels = tf.constant(labels)
     return imgs, labels, dataset_length
 
-def _parse_function(filename, label):
-    image_string = tf.read_file(filename)
-    image_decoded = tf.image.decode_image(image_string)
-    sess = tf.Session()
-    return image_decoded, label
-
-def augment(images, batch_size):
-    transformed_images = []
-    for i in range(batch_size):
-        transformed_images.append(
-        tf.expand_dims(
-                       tf.image.random_flip_up_down(
-                       tf.image.random_flip_left_right(images[i, :, :, :]), 0), 0))
-    out = tf.convert_to_tensor(transformed_images)
-    #out = tf.image.resize_images(out, [24, 24])
-    return out
-
-
-def Net(x):
-    fSize = 32
-    # Hidden layer with RELU activation
-    x = tf.layers.conv2d(x, fSize, 3, strides=(2,2),
-    activation=tf.nn.relu)
-    x = tf.layers.conv2d(x, 2 * fSize, 3, strides=(2,2),
-    activation=tf.nn.relu)
-    x = tf.layers.conv2d(x, 4 * fSize, 3, strides=(1,1),
-    activation=tf.nn.relu)
-    x = tf.layers.conv2d(x, 1, 3, strides=(1,1),
-    activation=None)
-    x = tf.nn.sigmoid(x)
-    return x
-
 opts = get_args()
 
 # Training Parameters
 batch_size = opts.batchSize
 n_epochs = opts.maxEpochs * 2 # fix this bug
-
-# Network Parameters
-num_input = 3072
-num_classes = 1
-dropout = 0.1 # Dropout, probability to drop a unit
 
 opts = get_args()
 
@@ -98,8 +60,8 @@ testset = testset.map(_parse_function)
 testset = testset.repeat(n_epochs)
 testset = testset.batch(test_length)
 test_iterator = testset.make_one_shot_iterator()
-display_step = 1
 
+next_train_element = iterator.get_next()
 
 
 # tf Graph input
@@ -111,7 +73,7 @@ y = tf.placeholder("float", [None, 1])
 pred = Net(x)
 
 # Define loss and optimizer
-cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=tf.squeeze(tf.squeeze(pred, [-1]), [-1]), labels=y))
+cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=pred, labels=y))
 optimizer = tf.train.AdamOptimizer(learning_rate=opts.lr).minimize(cost)
 
 # Initializing the variables
@@ -126,7 +88,7 @@ with tf.Session() as sess:
         # Loop over all batches
         avg_cost = 0.0
         for i in range(n_batches):
-            batch_x, batch_y = iterator.get_next()
+            batch_x, batch_y = next_train_element
             batch_y = tf.reshape(batch_y, [batch_size, 1])
             batch_x = tf.squeeze(augment(batch_x, 32), [1])
             # Run optimization op (backprop) and cost op (to get loss value)
@@ -142,8 +104,7 @@ with tf.Session() as sess:
             # Compute average loss
             avg_cost += c / batch_size
         # Display logs per epoch step
-        if epoch % display_step == 0:
-            print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
+        print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
     # Test model
         #predict_marker = tf.greater(tf.squeeze(tf.squeeze(pred, [-1]), [-1]), 0.5)

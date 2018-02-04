@@ -101,11 +101,9 @@ namespace GUI_Csharp2
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.leftKnee = new System.Windows.Forms.Label();
             this.rightKnee = new System.Windows.Forms.Label();
-            this.trunkSway = new System.Windows.Forms.Label();
             this.joints = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -146,15 +144,15 @@ namespace GUI_Csharp2
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.113553F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 96.88644F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1285, 670);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(964, 544);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // UI_menu
@@ -163,10 +161,10 @@ namespace GUI_Csharp2
             this.tableLayoutPanel1.SetColumnSpan(this.UI_menu, 3);
             this.UI_menu.Controls.Add(this.menuStrip1);
             this.UI_menu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.UI_menu.Location = new System.Drawing.Point(3, 2);
-            this.UI_menu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.UI_menu.Location = new System.Drawing.Point(2, 2);
+            this.UI_menu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.UI_menu.Name = "UI_menu";
-            this.UI_menu.Size = new System.Drawing.Size(1279, 34);
+            this.UI_menu.Size = new System.Drawing.Size(960, 27);
             this.UI_menu.TabIndex = 1;
             // 
             // menuStrip1
@@ -182,8 +180,13 @@ namespace GUI_Csharp2
             this.helpMenu});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+<<<<<<< HEAD
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
             this.menuStrip1.Size = new System.Drawing.Size(468, 28);
+=======
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(448, 24);
+>>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -191,28 +194,28 @@ namespace GUI_Csharp2
             // 
             this.loadMenu.BackColor = System.Drawing.SystemColors.Control;
             this.loadMenu.Name = "loadMenu";
-            this.loadMenu.Size = new System.Drawing.Size(54, 24);
+            this.loadMenu.Size = new System.Drawing.Size(45, 20);
             this.loadMenu.Text = "Load";
             this.loadMenu.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // calibrateMenu
             // 
             this.calibrateMenu.Name = "calibrateMenu";
-            this.calibrateMenu.Size = new System.Drawing.Size(81, 24);
+            this.calibrateMenu.Size = new System.Drawing.Size(66, 20);
             this.calibrateMenu.Text = "Calibrate";
             this.calibrateMenu.Click += new System.EventHandler(this.calibrateToolStripMenuItem_Click);
             // 
             // recordMenu
             // 
             this.recordMenu.Name = "recordMenu";
-            this.recordMenu.Size = new System.Drawing.Size(68, 24);
+            this.recordMenu.Size = new System.Drawing.Size(56, 20);
             this.recordMenu.Text = "Record";
             this.recordMenu.Click += new System.EventHandler(this.rToolStripMenuItem_Click);
             // 
             // analyseMenu
             // 
             this.analyseMenu.Name = "analyseMenu";
-            this.analyseMenu.Size = new System.Drawing.Size(72, 24);
+            this.analyseMenu.Size = new System.Drawing.Size(60, 20);
             this.analyseMenu.Text = "Analyse";
             this.analyseMenu.Click += new System.EventHandler(this.analyseToolStripMenuItem_Click);
             // 
@@ -221,7 +224,7 @@ namespace GUI_Csharp2
             this.graphsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.printMenu});
             this.graphsMenu.Name = "graphsMenu";
-            this.graphsMenu.Size = new System.Drawing.Size(67, 24);
+            this.graphsMenu.Size = new System.Drawing.Size(56, 20);
             this.graphsMenu.Text = "Graphs";
             // 
             // printMenu
@@ -232,31 +235,31 @@ namespace GUI_Csharp2
             this.printLeftKnee,
             this.printRightKnee});
             this.printMenu.Name = "printMenu";
-            this.printMenu.Size = new System.Drawing.Size(114, 26);
+            this.printMenu.Size = new System.Drawing.Size(99, 22);
             this.printMenu.Text = "Print";
             // 
             // printAll
             // 
             this.printAll.Name = "printAll";
-            this.printAll.Size = new System.Drawing.Size(157, 26);
+            this.printAll.Size = new System.Drawing.Size(135, 22);
             this.printAll.Text = "All";
             // 
             // printTrunk
             // 
             this.printTrunk.Name = "printTrunk";
-            this.printTrunk.Size = new System.Drawing.Size(157, 26);
+            this.printTrunk.Size = new System.Drawing.Size(135, 22);
             this.printTrunk.Text = "Trunk Sway";
             // 
             // printLeftKnee
             // 
             this.printLeftKnee.Name = "printLeftKnee";
-            this.printLeftKnee.Size = new System.Drawing.Size(157, 26);
+            this.printLeftKnee.Size = new System.Drawing.Size(135, 22);
             this.printLeftKnee.Text = "Left Knee";
             // 
             // printRightKnee
             // 
             this.printRightKnee.Name = "printRightKnee";
-            this.printRightKnee.Size = new System.Drawing.Size(157, 26);
+            this.printRightKnee.Size = new System.Drawing.Size(135, 22);
             this.printRightKnee.Text = "Right Knee";
             // 
             // videosMenu
@@ -267,37 +270,69 @@ namespace GUI_Csharp2
             this.video3ToolStripMenuItem,
             this.video4ToolStripMenuItem});
             this.videosMenu.Name = "videosMenu";
-            this.videosMenu.Size = new System.Drawing.Size(66, 24);
+            this.videosMenu.Size = new System.Drawing.Size(54, 20);
             this.videosMenu.Text = "Videos";
             // 
             // video1ToolStripMenuItem
             // 
             this.video1ToolStripMenuItem.Name = "video1ToolStripMenuItem";
-            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.video1ToolStripMenuItem.Text = "Video 1";
             this.video1ToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
             // 
             // video2ToolStripMenuItem
             // 
             this.video2ToolStripMenuItem.Name = "video2ToolStripMenuItem";
-            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.video2ToolStripMenuItem.Text = "Video 2";
             this.video2ToolStripMenuItem.Click += new System.EventHandler(this.video2ToolStripMenuItem_Click);
             // 
             // video3ToolStripMenuItem
             // 
             this.video3ToolStripMenuItem.Name = "video3ToolStripMenuItem";
-            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.video3ToolStripMenuItem.Text = "Video 3";
             this.video3ToolStripMenuItem.Click += new System.EventHandler(this.video3ToolStripMenuItem_Click);
             // 
             // video4ToolStripMenuItem
             // 
             this.video4ToolStripMenuItem.Name = "video4ToolStripMenuItem";
-            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
+            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.video4ToolStripMenuItem.Text = "Video 4";
             this.video4ToolStripMenuItem.Click += new System.EventHandler(this.video4ToolStripMenuItem_Click);
             // 
+<<<<<<< HEAD
+=======
+            // optionsMenu
+            // 
+            this.optionsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.increaseAccuracyMenu});
+            this.optionsMenu.Name = "optionsMenu";
+            this.optionsMenu.Size = new System.Drawing.Size(61, 20);
+            this.optionsMenu.Text = "Options";
+            // 
+            // increaseAccuracyMenu
+            // 
+            this.increaseAccuracyMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onToolStripMenuItem,
+            this.offToolStripMenuItem});
+            this.increaseAccuracyMenu.Name = "increaseAccuracyMenu";
+            this.increaseAccuracyMenu.Size = new System.Drawing.Size(167, 22);
+            this.increaseAccuracyMenu.Text = "Increase accuracy";
+            // 
+            // onToolStripMenuItem
+            // 
+            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.onToolStripMenuItem.Text = "On";
+            // 
+            // offToolStripMenuItem
+            // 
+            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.offToolStripMenuItem.Text = "Off";
+            // 
+>>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             // helpMenu
             // 
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -309,34 +344,34 @@ namespace GUI_Csharp2
             this.videoHelp,
             this.videoControlsHelp});
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(53, 24);
+            this.helpMenu.Size = new System.Drawing.Size(44, 20);
             this.helpMenu.Text = "Help";
             // 
             // loadHelp
             // 
             this.loadHelp.Name = "loadHelp";
-            this.loadHelp.Size = new System.Drawing.Size(182, 26);
+            this.loadHelp.Size = new System.Drawing.Size(152, 22);
             this.loadHelp.Text = "Load";
             this.loadHelp.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
             // 
             // calibrateHelp
             // 
             this.calibrateHelp.Name = "calibrateHelp";
-            this.calibrateHelp.Size = new System.Drawing.Size(182, 26);
+            this.calibrateHelp.Size = new System.Drawing.Size(152, 22);
             this.calibrateHelp.Text = "Calibrate";
             this.calibrateHelp.Click += new System.EventHandler(this.calibrateToolStripMenuItem1_Click);
             // 
             // recordHelp
             // 
             this.recordHelp.Name = "recordHelp";
-            this.recordHelp.Size = new System.Drawing.Size(182, 26);
+            this.recordHelp.Size = new System.Drawing.Size(152, 22);
             this.recordHelp.Text = "Record";
             this.recordHelp.Click += new System.EventHandler(this.recordToolStripMenuItem_Click);
             // 
             // analyseHelp
             // 
             this.analyseHelp.Name = "analyseHelp";
-            this.analyseHelp.Size = new System.Drawing.Size(182, 26);
+            this.analyseHelp.Size = new System.Drawing.Size(152, 22);
             this.analyseHelp.Text = "Analyse";
             this.analyseHelp.Click += new System.EventHandler(this.analyseToolStripMenuItem1_Click);
             // 
@@ -345,23 +380,41 @@ namespace GUI_Csharp2
             this.graphHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.printHelp});
             this.graphHelp.Name = "graphHelp";
-            this.graphHelp.Size = new System.Drawing.Size(182, 26);
+            this.graphHelp.Size = new System.Drawing.Size(152, 22);
             this.graphHelp.Text = "Graphs";
             // 
             // printHelp
             // 
             this.printHelp.Name = "printHelp";
-            this.printHelp.Size = new System.Drawing.Size(114, 26);
+            this.printHelp.Size = new System.Drawing.Size(99, 22);
             this.printHelp.Text = "Print";
             this.printHelp.Click += new System.EventHandler(this.printToolStripMenuItem1_Click);
             // 
             // videoHelp
             // 
             this.videoHelp.Name = "videoHelp";
-            this.videoHelp.Size = new System.Drawing.Size(182, 26);
+            this.videoHelp.Size = new System.Drawing.Size(152, 22);
             this.videoHelp.Text = "Videos";
             this.videoHelp.Click += new System.EventHandler(this.videosToolStripMenuItem1_Click);
             // 
+<<<<<<< HEAD
+=======
+            // optionHelp
+            // 
+            this.optionHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.increaseAccuracyHelp});
+            this.optionHelp.Name = "optionHelp";
+            this.optionHelp.Size = new System.Drawing.Size(152, 22);
+            this.optionHelp.Text = "Options";
+            // 
+            // increaseAccuracyHelp
+            // 
+            this.increaseAccuracyHelp.Name = "increaseAccuracyHelp";
+            this.increaseAccuracyHelp.Size = new System.Drawing.Size(169, 22);
+            this.increaseAccuracyHelp.Text = "Increase Accuracy";
+            this.increaseAccuracyHelp.Click += new System.EventHandler(this.increaseAccuracyToolStripMenuItem1_Click);
+            // 
+>>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             // videoControlsHelp
             // 
             this.videoControlsHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -370,34 +423,34 @@ namespace GUI_Csharp2
             this.prevHelp,
             this.nrxtHelp});
             this.videoControlsHelp.Name = "videoControlsHelp";
-            this.videoControlsHelp.Size = new System.Drawing.Size(182, 26);
+            this.videoControlsHelp.Size = new System.Drawing.Size(152, 22);
             this.videoControlsHelp.Text = "Video Controls";
             // 
             // playHelp
             // 
             this.playHelp.Name = "playHelp";
-            this.playHelp.Size = new System.Drawing.Size(121, 26);
+            this.playHelp.Size = new System.Drawing.Size(105, 22);
             this.playHelp.Text = "Play";
             this.playHelp.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
             // pauseHelp
             // 
             this.pauseHelp.Name = "pauseHelp";
-            this.pauseHelp.Size = new System.Drawing.Size(121, 26);
+            this.pauseHelp.Size = new System.Drawing.Size(105, 22);
             this.pauseHelp.Text = "Pause";
             this.pauseHelp.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
             // prevHelp
             // 
             this.prevHelp.Name = "prevHelp";
-            this.prevHelp.Size = new System.Drawing.Size(121, 26);
+            this.prevHelp.Size = new System.Drawing.Size(105, 22);
             this.prevHelp.Text = "<<";
             this.prevHelp.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // nrxtHelp
             // 
             this.nrxtHelp.Name = "nrxtHelp";
-            this.nrxtHelp.Size = new System.Drawing.Size(121, 26);
+            this.nrxtHelp.Size = new System.Drawing.Size(105, 22);
             this.nrxtHelp.Text = ">>";
             this.nrxtHelp.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
@@ -411,16 +464,16 @@ namespace GUI_Csharp2
             this.tableLayoutPanel2.Controls.Add(this.infoLabel, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 58);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 48);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.11083F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.88917F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(421, 579);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(317, 469);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // videoControls
@@ -432,18 +485,18 @@ namespace GUI_Csharp2
             this.videoControls.Controls.Add(this.prevButton);
             this.videoControls.Controls.Add(this.nextButton);
             this.videoControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.videoControls.Location = new System.Drawing.Point(3, 250);
-            this.videoControls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.videoControls.Location = new System.Drawing.Point(2, 203);
+            this.videoControls.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.videoControls.Name = "videoControls";
-            this.videoControls.Size = new System.Drawing.Size(415, 33);
+            this.videoControls.Size = new System.Drawing.Size(313, 26);
             this.videoControls.TabIndex = 8;
             // 
             // playButton
             // 
-            this.playButton.Location = new System.Drawing.Point(3, 2);
-            this.playButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.playButton.Location = new System.Drawing.Point(2, 2);
+            this.playButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(75, 23);
+            this.playButton.Size = new System.Drawing.Size(56, 19);
             this.playButton.TabIndex = 0;
             this.playButton.Text = "Play";
             this.playButton.UseVisualStyleBackColor = true;
@@ -451,10 +504,10 @@ namespace GUI_Csharp2
             // 
             // pauseButton
             // 
-            this.pauseButton.Location = new System.Drawing.Point(84, 2);
-            this.pauseButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pauseButton.Location = new System.Drawing.Point(62, 2);
+            this.pauseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(75, 23);
+            this.pauseButton.Size = new System.Drawing.Size(56, 19);
             this.pauseButton.TabIndex = 1;
             this.pauseButton.Text = "Pause";
             this.pauseButton.UseVisualStyleBackColor = true;
@@ -462,10 +515,10 @@ namespace GUI_Csharp2
             // 
             // prevButton
             // 
-            this.prevButton.Location = new System.Drawing.Point(165, 2);
-            this.prevButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.prevButton.Location = new System.Drawing.Point(122, 2);
+            this.prevButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.prevButton.Name = "prevButton";
-            this.prevButton.Size = new System.Drawing.Size(75, 23);
+            this.prevButton.Size = new System.Drawing.Size(56, 19);
             this.prevButton.TabIndex = 2;
             this.prevButton.Text = "<<";
             this.prevButton.UseVisualStyleBackColor = true;
@@ -473,10 +526,10 @@ namespace GUI_Csharp2
             // 
             // nextButton
             // 
-            this.nextButton.Location = new System.Drawing.Point(246, 2);
-            this.nextButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nextButton.Location = new System.Drawing.Point(182, 2);
+            this.nextButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(75, 23);
+            this.nextButton.Size = new System.Drawing.Size(56, 19);
             this.nextButton.TabIndex = 3;
             this.nextButton.Text = ">>";
             this.nextButton.UseVisualStyleBackColor = true;
@@ -486,19 +539,20 @@ namespace GUI_Csharp2
             // 
             this.videoDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
             this.videoDisplay.Enabled = true;
-            this.videoDisplay.Location = new System.Drawing.Point(3, 2);
-            this.videoDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.videoDisplay.Location = new System.Drawing.Point(2, 2);
+            this.videoDisplay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.videoDisplay.Name = "videoDisplay";
             this.videoDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("videoDisplay.OcxState")));
-            this.videoDisplay.Size = new System.Drawing.Size(415, 244);
+            this.videoDisplay.Size = new System.Drawing.Size(313, 197);
             this.videoDisplay.TabIndex = 7;
             // 
             // infoLabel
             // 
             this.infoLabel.AutoSize = true;
-            this.infoLabel.Location = new System.Drawing.Point(3, 285);
+            this.infoLabel.Location = new System.Drawing.Point(2, 231);
+            this.infoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(60, 17);
+            this.infoLabel.Size = new System.Drawing.Size(45, 13);
             this.infoLabel.TabIndex = 4;
             this.infoLabel.Text = "Anaylsis";
             // 
@@ -508,33 +562,32 @@ namespace GUI_Csharp2
             this.tableLayoutPanel4.ColumnCount = 2;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.4686F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.5314F));
-            this.tableLayoutPanel4.Controls.Add(this.label4, 1, 3);
-            this.tableLayoutPanel4.Controls.Add(this.label3, 1, 2);
-            this.tableLayoutPanel4.Controls.Add(this.label2, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.label4, 1, 2);
+            this.tableLayoutPanel4.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.label1, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.leftKnee, 0, 3);
-            this.tableLayoutPanel4.Controls.Add(this.rightKnee, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.trunkSway, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.leftKnee, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.rightKnee, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.joints, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 312);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(2, 253);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 4;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(415, 265);
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(313, 214);
             this.tableLayoutPanel4.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(127, 197);
+            this.label4.Location = new System.Drawing.Point(96, 142);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(283, 66);
+            this.label4.Size = new System.Drawing.Size(213, 70);
             this.label4.TabIndex = 12;
             this.label4.Text = "Information";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -543,31 +596,22 @@ namespace GUI_Csharp2
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(127, 132);
+            this.label3.Location = new System.Drawing.Point(96, 72);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(283, 63);
+            this.label3.Size = new System.Drawing.Size(213, 68);
             this.label3.TabIndex = 11;
             this.label3.Text = "Information";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(127, 67);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(283, 63);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Information";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(127, 2);
+            this.label1.Location = new System.Drawing.Point(96, 2);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(283, 63);
+            this.label1.Size = new System.Drawing.Size(213, 68);
             this.label1.TabIndex = 9;
             this.label1.Text = "Information";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -576,9 +620,10 @@ namespace GUI_Csharp2
             // 
             this.leftKnee.AutoSize = true;
             this.leftKnee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.leftKnee.Location = new System.Drawing.Point(5, 197);
+            this.leftKnee.Location = new System.Drawing.Point(4, 142);
+            this.leftKnee.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.leftKnee.Name = "leftKnee";
-            this.leftKnee.Size = new System.Drawing.Size(114, 66);
+            this.leftKnee.Size = new System.Drawing.Size(86, 70);
             this.leftKnee.TabIndex = 6;
             this.leftKnee.Text = "Left Knee";
             this.leftKnee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -587,31 +632,22 @@ namespace GUI_Csharp2
             // 
             this.rightKnee.AutoSize = true;
             this.rightKnee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rightKnee.Location = new System.Drawing.Point(5, 132);
+            this.rightKnee.Location = new System.Drawing.Point(4, 72);
+            this.rightKnee.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.rightKnee.Name = "rightKnee";
-            this.rightKnee.Size = new System.Drawing.Size(114, 63);
+            this.rightKnee.Size = new System.Drawing.Size(86, 68);
             this.rightKnee.TabIndex = 4;
             this.rightKnee.Text = "Right Knee";
             this.rightKnee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // trunkSway
-            // 
-            this.trunkSway.AutoSize = true;
-            this.trunkSway.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trunkSway.Location = new System.Drawing.Point(5, 67);
-            this.trunkSway.Name = "trunkSway";
-            this.trunkSway.Size = new System.Drawing.Size(114, 63);
-            this.trunkSway.TabIndex = 2;
-            this.trunkSway.Text = "Trunk sway";
-            this.trunkSway.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // joints
             // 
             this.joints.AutoSize = true;
             this.joints.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.joints.Location = new System.Drawing.Point(5, 2);
+            this.joints.Location = new System.Drawing.Point(4, 2);
+            this.joints.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.joints.Name = "joints";
-            this.joints.Size = new System.Drawing.Size(114, 63);
+            this.joints.Size = new System.Drawing.Size(86, 68);
             this.joints.TabIndex = 1;
             this.joints.Text = "Joint";
             this.joints.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -623,39 +659,46 @@ namespace GUI_Csharp2
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 641);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 519);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1285, 29);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(964, 25);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+<<<<<<< HEAD
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(13, 24);
             this.toolStripStatusLabel1.Text = " ";
+=======
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(14, 20);
+            this.toolStripStatusLabel1.Text = "#";
+>>>>>>> b512049af28ff3c3569afad4c149cdbae1373f31
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(75, 19);
             // 
             // graphLabel
             // 
             this.graphLabel.AutoSize = true;
-            this.graphLabel.Location = new System.Drawing.Point(430, 38);
+            this.graphLabel.Location = new System.Drawing.Point(323, 31);
+            this.graphLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.graphLabel.Name = "graphLabel";
-            this.graphLabel.Size = new System.Drawing.Size(55, 17);
+            this.graphLabel.Size = new System.Drawing.Size(41, 13);
             this.graphLabel.TabIndex = 3;
             this.graphLabel.Text = "Graphs";
             // 
             // videoLabel
             // 
             this.videoLabel.AutoSize = true;
-            this.videoLabel.Location = new System.Drawing.Point(3, 38);
+            this.videoLabel.Location = new System.Drawing.Point(2, 31);
+            this.videoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.videoLabel.Name = "videoLabel";
-            this.videoLabel.Size = new System.Drawing.Size(56, 17);
+            this.videoLabel.Size = new System.Drawing.Size(44, 13);
             this.videoLabel.TabIndex = 2;
             this.videoLabel.Text = "Video #";
             // 
@@ -668,23 +711,21 @@ namespace GUI_Csharp2
             this.tableLayoutPanel3.Controls.Add(this.pictureBox2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(431, 60);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(324, 49);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(836, 575);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(627, 467);
             this.tableLayoutPanel3.TabIndex = 7;
             // 
             // pictureBox3
             // 
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Location = new System.Drawing.Point(5, 387);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox3.Location = new System.Drawing.Point(4, 314);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(826, 183);
+            this.pictureBox3.Size = new System.Drawing.Size(619, 149);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 2;
             this.pictureBox3.TabStop = false;
@@ -692,10 +733,9 @@ namespace GUI_Csharp2
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 196);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox2.Location = new System.Drawing.Point(4, 159);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(826, 182);
+            this.pictureBox2.Size = new System.Drawing.Size(619, 148);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
@@ -703,10 +743,9 @@ namespace GUI_Csharp2
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(826, 182);
+            this.pictureBox1.Size = new System.Drawing.Size(619, 148);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -717,13 +756,13 @@ namespace GUI_Csharp2
             // 
             // GUI_Csharp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1285, 670);
+            this.ClientSize = new System.Drawing.Size(964, 544);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "GUI_Csharp";
             this.Text = "GUI C#";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -785,12 +824,10 @@ namespace GUI_Csharp2
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label leftKnee;
         private System.Windows.Forms.Label rightKnee;
-        private System.Windows.Forms.Label trunkSway;
         private System.Windows.Forms.Label joints;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.FlowLayoutPanel videoControls;
         private System.Windows.Forms.Button playButton;
