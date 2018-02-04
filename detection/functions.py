@@ -139,8 +139,7 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
     if n_frame >= start_frame:
         if use_ssd:
             startX, endX, confidence = evaluate_ssd(ssd, frame, startX, endX)
-            if verbose: print('[INFO] verbose true p: %.2f%%' % (confidence * 100))
-            else:  print('[INFO] p: %.2f%%' % (confidence * 100))
+            if verbose: print('[INFO] p: %.2f%%' % (confidence * 100))
             startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
             if (endX > w - 12):
                 endX = w - 12
@@ -161,13 +160,11 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
                 break
             elif threshold > MIN_THRESHOLD and len(kp) < MIN_BLOBS:
                 threshold /= 1.05
-                if verbose: print('[INFO] verbose threshold set to %d' % threshold)
-                else: print('[INFO] threshold set to %d' % threshold)
+                if verbose: print('[INFO] threshold set to %d' % threshold)
                 detector.setHessianThreshold(threshold)
             elif len(kp) > MAX_BLOBS and threshold < MAX_THRESHOLD:
                 threshold *= 1.05
-                if verbose: print('[INFO] verbose threshold set to %d' % threshold)
-                else: print('[INFO] threshold set to %d' % threshold)
+                if verbose: print('[INFO] threshold set to %d' % threshold)
                 detector.setHessianThreshold(threshold)
             else:
                 break
