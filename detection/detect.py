@@ -1,7 +1,5 @@
 """
-    NOTE: you need python 2.7, opencv-contrib-python and numpy.
-    install python from https://www.python.org/downloads/release/python-2714/
-    select to add python to your path variable and to install pip
+    NOTE: you need python 3.6, opencv-contrib-python and numpy.
 
     Install numpy and opencv-contrib-python:
         "pip install numpy"
@@ -35,7 +33,7 @@ def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(root, 'resources', '20180118_150839.mp4'),
+    default = join(root, 'resources', '20180205_135429.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -126,7 +124,7 @@ def delete_overlap(kp):
 
 def filter_kp(kp, h, w):
     # filtering criteria: must be smaller than maximum diameter
-    max_size = w * 0.06  # maximum diameter of keypoint
+    max_size = w * 0.04  # maximum diameter of keypoint
     filtered = []
 
     for i in range(len(kp)):
@@ -221,11 +219,12 @@ if opts.save:
 #    frame = cv2.imread(join(pdir, img)) #uncomment this if you are using images instead of video
 while(True): # disable this if you are using images
     ret, frame = cap.read() #disable this if you are using images
-    frame = cv2.resize(frame, (1280, 720))
-    frame = cv2.flip(frame, 0) #disable this if you are using images
+    frame = cv2.resize(frame, (640, 360))
+    frame = cv2.resize(frame, (1920, 1080))
+    #frame = cv2.flip(frame, 0) #disable this if you are using images
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 250:
+    if n_frame > 30:
         startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
         startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.2 * (endX - startX))
         if (endX > w - 12):
@@ -281,13 +280,13 @@ while(True): # disable this if you are using images
         if (len(kp) > 0): # if blobs found, classify them
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
-            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-            #frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
-            frame = plot_with_colors(frame, kp, colors)
+            frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
+            frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
+            #frame = plot_with_colors(frame, kp, colors)
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 
-    cv2.imshow("output", cv2.resize(frame, (640, 360)))
+    cv2.imshow("output", cv2.resize(frame, (1920, 1080)))
 
     n_frame += 1
     if cv2.waitKey(1) & 0xFF == ord('q'):
