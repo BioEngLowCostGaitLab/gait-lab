@@ -202,6 +202,10 @@ n_frame = 0
 cap = cv2.VideoCapture(opts.video)
 print(opts.video)
 
+
+####### Important
+
+
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
 classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model.pb')) # blob classifier
 

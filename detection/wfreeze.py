@@ -8,7 +8,7 @@ import tensorflow as tf
     *output_node_names - name of final node in graph. This is most likely
     "Sigmoid" or "Softmax"
     Run the script in the directory where the saved mode files (checkpoint,
-    .ckpt.data-00000-of-00001, ckpt.index, ckpt.meta) are located
+    .ckpt.data-00000-of-00001, ckpt.index, ckpt.meta) are located.
 """
 dir(tf.contrib)
 dir = os.path.dirname(os.path.realpath(__file__))
