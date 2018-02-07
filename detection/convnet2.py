@@ -10,7 +10,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--imgdir', default=join(os.getcwd(), 'resources'), type=str) # path to save figures
     parser.add_argument('--batchSize', default=32, type=int)
-    parser.add_argument('--maxEpochs', default=4, type=int) # epochs to train for
+    parser.add_argument('--maxEpochs', default=20, type=int) # epochs to train for
     parser.add_argument('--lr', default=1e-4, type=float) # learning rate
 
     return parser.parse_args()

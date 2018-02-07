@@ -150,10 +150,9 @@ def save_keypoints(kp, frame, n_frame, opts):
 def get_keypoint_images(kp, frame):
     out = []
     for i, keypoint in enumerate(kp):
-        image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
-                            int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
-        out.append(image)
-    while (len(out) < 32):
+        image = frame[int(keypoint.pt[1]) - 18:int(keypoint.pt[1]) + 18,
+                            int(keypoint.pt[0]) - 18:int(keypoint.pt[0]) + 18]
+        image = cv2.resize(image, (24, 24))
         out.append(image)
     return out
 
@@ -168,11 +167,11 @@ def separate(preds, kp):
     return markers, ghosts
 
 def get_marker_color(image):
-    colors = 0.7 * np.array([[255, 255, 255], [0, 255, 255], [0, 0, 255]])
+    colors = 0.7 * np.array([[255, 255, 255], [0, 255, 255]])
     pixel = image[12,12]
-    errors = np.array([0, 0, 0])
-    for i in range(3):
-        for j in range(3):
+    errors = np.array([0, 0])
+    for i in range(2):
+        for j in range(2):
             errors[i] += (pixel[j] - colors[i, j]) ** 2
     index = np.argmin(errors)
     return tuple(colors[index, :])
@@ -207,7 +206,7 @@ print(opts.video)
 
 
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
-classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model.pb')) # blob classifier
+classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model_reshape_test.pb')) # blob classifier
 
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
@@ -223,7 +222,7 @@ if opts.save:
 #    frame = cv2.imread(join(pdir, img)) #uncomment this if you are using images instead of video
 while(True): # disable this if you are using images
     ret, frame = cap.read() #disable this if you are using images
-    frame = cv2.resize(frame, (640, 360))
+    frame = cv2.resize(frame, (1280, 720))
     frame = cv2.resize(frame, (1920, 1080))
     #frame = cv2.flip(frame, 0) #disable this if you are using images
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
@@ -284,9 +283,9 @@ while(True): # disable this if you are using images
         if (len(kp) > 0): # if blobs found, classify them
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
-            frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-            frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
-            #frame = plot_with_colors(frame, kp, colors)
+            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
+            #frame = cv2.drawKeypoints(frame,ghosts,None,(0, 0 ,255),4)
+            frame = plot_with_colors(frame, kp, colors)
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 

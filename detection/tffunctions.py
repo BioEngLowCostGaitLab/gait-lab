@@ -21,12 +21,12 @@ def augment(images, batch_size):
 def Net(x):
     fSize = 32
     # Hidden layer with RELU activation
-    x = tf.layers.conv2d(x, fSize, 3, strides=(2,2),
+    x = tf.layers.conv2d(x, fSize, 5, strides=(2,2),
     activation=tf.nn.relu)
-    x = tf.layers.conv2d(x, 2 * fSize, 3, strides=(2,2),
+    x = tf.layers.conv2d(x, 2 * fSize, 5, strides=(2,2),
     activation=tf.nn.relu)
-    x = tf.reshape(x, [32, 1600])
-    x = tf.layers.dense(x, 30, activation=tf.nn.relu)
+    x = tf.reshape(x, [-1, 576])
+    #x = tf.layers.dense(x, 30, activation=tf.nn.relu)
     x = tf.layers.dense(x, 1)
     x = tf.nn.sigmoid(x)
     return x
