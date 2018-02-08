@@ -33,7 +33,7 @@ def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default = join(root, 'resources', '20180205_135429.mp4'),
+    default = join(root, 'resources', '20180205_135556.mp4'),
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -276,9 +276,6 @@ while(True): # disable this if you are using images
 
         if opts.save:
             save_keypoints(kp, frame, n_frame, opts)
-        if opts.rec and opts.noise:
-            cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
-			(0, 255, 0), 10)
 
         if (len(kp) > 0): # if blobs found, classify them
             pred, colors = evaluate_classifier(classifier, kp,  frame)
@@ -289,6 +286,8 @@ while(True): # disable this if you are using images
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 
+        cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
+        (0, 255, 0), 10)
     cv2.imshow("output", cv2.resize(frame, (1920, 1080)))
 
     n_frame += 1
