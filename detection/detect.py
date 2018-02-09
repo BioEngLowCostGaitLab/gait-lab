@@ -17,9 +17,9 @@ import sys
 
 root = os.getcwd()
 try:
-    dirs = sys.argv[0].split('\\')[1:-1]
+    dirs = sys.argv[0].split('\\')[0:-1]
     if len(dirs) > 0:
-        root = 'C:\\'
+        root = ''
         for i in range(len(dirs)):
             root = join(root, dirs[i])
 except:
