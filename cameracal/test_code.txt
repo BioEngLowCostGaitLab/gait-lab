@@ -1,0 +1,68 @@
+/*vector<vector<vector<vector<int>>>> imgs;*/
+	vector<int> camid;
+	vector<vidcamera> vidvec;
+	Mat c1;
+	Mat c2;
+	Mat d1;
+	Mat d2;
+	
+	/*int camerano;
+	camerano = cameraconnect();
+	int image_no = 25;
+	int boardwidth = 8;
+	int boardheight = 6;
+	int totalpts = boardheight*boardwidth;
+	IMAGESIZE!!!!!!!;
+	int i, j, k, l;
+
+	
+	for (i = 0; i < camerano; i++)
+	{
+		camid.push_back(i);
+	}
+	imgs = mainget(camid);
+
+	for (i = 0; i < camerano; i++)
+	{
+		vidcamera tempcam(i);
+		vidvec.push_back(tempcam);
+	}*/
+	//start of test code
+	int camerano = 5;
+	int boardheight = 6;
+	int boardwidth = 8;
+	int i, j, k, l;
+	int image_no = 5;
+	int totalpts = boardheight*boardwidth;
+	Size imagesize(720, 480);
+	vector<vector<vector<vector<Point2f>>>> imgs(camerano, vector<vector<vector<Point2f>>>(camerano, vector<vector<Point2f>>(image_no, vector<Point2f>(totalpts))));
+
+	for (i = 0; i < camerano; i++)
+	{
+		vidcamera tempcam(i, camerano);
+		vidvec.push_back(tempcam);
+	}
+
+	for (i = 0; i < camerano; i++)
+	{
+		for (j = 0; j < camerano; j++)
+		{
+			for (k = 0; k < image_no; k++)
+			{
+				for (l = 0; l < totalpts; l++)
+				{
+						Point2f temppoint(i+k,j-l);
+						imgs[i][j][k][l] = temppoint;
+				}
+			}
+		}
+	}
+	//end of test code
+
+	getpoints(vidvec, imgs, camerano, image_no, totalpts);
+
+	for(i = 0; i<camerano; i++)
+		calibratemain(vidvec[i], camerano, image_no, boardheight, boardwidth, 1, imagesize,0);
+
+	cout << vidvec[0].cam_mat << endl;
+	return 0;
