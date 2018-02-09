@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\brandon\source\repos\cameracal\cameracal\main.cpp(57): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\brandon\source\repos\cameracal\cameracal\main.cpp(92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  cameracal.vcxproj -> C:\Users\Brandon\source\repos\cameracal\x64\Debug\cameracal.exe
