@@ -1,17 +1,11 @@
 ﻿//Automatically Added
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 // Things I added
 using WMPLib;
-using AxWMPLib;
+using System.Drawing.Printing;
 
 namespace GUI_Csharp2
 {
@@ -152,7 +146,7 @@ namespace GUI_Csharp2
             process.StartInfo = startInfo;
             process.Start();
 
-            toolStripStatusLabel1.Text = "";
+            toolStripStatusLabel1.Text = "Finished Analysis";
         }
 
         //Play button
@@ -219,7 +213,7 @@ namespace GUI_Csharp2
 
         private void calibrateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will calibrate the cameras in pairs, you will need to do each pair individually.");
+            MessageBox.Show("This will calibrate the cameras.");
         }
 
         private void recordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -235,11 +229,6 @@ namespace GUI_Csharp2
         private void videosToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("You can choose which video to show on in the player.");
-        }
-
-        private void increaseAccuracyToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Marker detection during analysis will be more accurate, however the analysis will be slower.");
         }
 
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
@@ -277,5 +266,14 @@ namespace GUI_Csharp2
             MessageBox.Show("This will print the selected graph.");
         }
 
+        private void printMenu_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Printing";
+
+            PrintDialog printDialog1 = new PrintDialog();
+            printDialog1.ShowDialog();
+
+            PrintDocument printDoc = new PrintDocument();
+        }
     }
 }
