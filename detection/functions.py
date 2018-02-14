@@ -7,6 +7,7 @@ import os
 from time import time
 import sys
 import json
+from scipy.interpolate import interp1d
 
 
 def evaluate_ssd(ssd, frame, startX, endX):
@@ -38,10 +39,10 @@ def evaluate_classifier(classifier, kp, frame):
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
-    colors = [(0, 0, 0)] * len(output)
+    colors = list()
     for i in range(len(output)):
         if output[i] > 0.5:
-            colors[i] = get_marker_color(images[i])
+            colors.append(get_marker_color(images[i]))
     return output, colors
 
 def overlap(p1, p2):
@@ -114,27 +115,29 @@ def separate(preds, kp):
     return markers, ghosts
 
 def get_marker_color(image):
-    colors = 0.7 * np.array([[255, 255, 255], [0, 255, 255], [0, 0, 255]])
+    colors = 1.0 * np.array([[255, 255, 255], [0, 255, 255]])
     pixel = image[12,12]
-    errors = np.array([0, 0, 0])
-    for i in range(3):
-        for j in range(3):
+    errors = np.array([0, 0])
+    for i in range(2):
+        for j in range(2):
             errors[i] += (pixel[j] - colors[i, j]) ** 2
     index = np.argmin(errors)
     return tuple(colors[index, :])
 
 def plot_with_colors(frame, kp, colors):
     for i in range(len(colors)):
-        if sum(colors[i]) > 0:
-            frame = cv2.drawKeypoints(frame, [kp[i]], None, colors[i], 4)
+        #if sum(colors[i]) > 0:
+        frame = cv2.drawKeypoints(frame, [kp[i]], None, colors[i], 4)
     return frame
 
 
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=5e4,
-            use_ssd=True, use_classifier=True, start_frame=0, verbose=False):
-    frame = cv2.resize(frame, (1280, 720))
-    #frame = cv2.flip(frame, 0)
+            use_ssd=True, use_classifier=True, start_frame=0, verbose=False, flip=False):
+    if not frame.shape[:2] == (1080, 1920):
+        frame = cv2.resize(frame, (1920, 1080))
+    if flip:
+        frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
     if n_frame >= start_frame:
@@ -175,29 +178,30 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
 
-        return markers, detector, threshold, startX, endX
+        return markers, colors, detector, threshold, startX, endX
+
 
 
 class marker_sequence:
     def __init__(self, colour, total_frame_count, id):
 
         self.colour = colour
-        self.sequence = [(0, 0)] * total_frame_count
+        self.coordinates = np.zeros([2, total_frame_count])
         self.id = id
 
     def set_coordinates(self, coords, frame):
-        self.sequence[frame] = coords
+        self.coordinates[:,frame] = coords
 
 def generate_video_json_dict(sequences,
                                 camera):
-    total_frame_count = len(sequences[1].sequence)
+    total_frame_count = np.shape(sequences[1].coordinates)[1]
     imglist = list()
     for frame in range(total_frame_count):
         ptslist = list()
         for seq in sequences:
-            if not seq.sequence[frame] == (0, 0):
+            if not all(seq.coordinates[:,frame]) == 0:
                 d = {
-                    'colour': seq.colour, 'coords': list(seq.sequence[frame]),
+                    'colour': seq.colour, 'coords': list(seq.coordinates[:,frame]),
                     'id': seq.id
                 }
                 print(d)
@@ -218,3 +222,14 @@ def generate_full_json_string(all_sequences, camera_count):
 
     out = {'markerpts': markerpts}
     return out
+
+
+def interpolate(sequence):
+    regions = list()
+    frame_count = len(sequence)
+    k = 0
+
+    while sequence[k] == (0,0):
+        k += 1
+    while not sequence[k] == (0,0):
+        k += 1

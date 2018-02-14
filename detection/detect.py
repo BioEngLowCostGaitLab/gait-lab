@@ -89,7 +89,7 @@ def evaluate_classifier(classifier, kp, frame):
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
-    output = output[:len(kp)] # we have padded the input so its size is 32
+    output = output[:len(kp) # we have padded the input so its size is 32
     colors = [(0, 0, 0)] * len(output)
     for i in range(len(output)):
         if output[i] > 0.5:
@@ -255,23 +255,6 @@ while(True): # disable this if you are using images
                 detector.setHessianThreshold(threshold)
             else:
                 break
-
-
-                # this bit was used to save some images for the
-                # presentation. Ive kept it in case we need it again.
-        #if n_frame == 290:
-        #    tosave = frame
-            #cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
-			#(0, 255, 0), 10)
-        #    pred, colors = evaluate_classifier(classifier, kp,  frame)
-        #    markers, ghosts = separate(pred, kp)
-            #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-        #    tosave = plot_with_colors(tosave, kp, colors)
-        #    cv2.imwrite('final1.png', tosave)
-        #    frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
-        #    cv2.imwrite('markers1.png', frame)
-        #    frame = plot_with_colors(frame, kp, colors)
-        #    cv2.imwrite('final.png', frame)
 
 
         if opts.save:
