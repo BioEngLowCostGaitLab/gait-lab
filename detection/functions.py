@@ -226,10 +226,13 @@ def generate_full_json_string(all_sequences, camera_count):
 
 def interpolate(sequence):
     regions = list()
-    frame_count = len(sequence)
+    frame_count = sequence.shape[1]
     k = 0
 
-    while sequence[k] == (0,0):
+    x, y = sequence[0,:], sequence[1, :]
+
+    while x[k] == 0:
         k += 1
-    while not sequence[k] == (0,0):
-        k += 1
+    while (k < frame_count):
+        while not x[k] == 0
+            k += 1
