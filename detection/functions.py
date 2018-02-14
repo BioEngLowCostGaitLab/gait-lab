@@ -234,5 +234,5 @@ def interpolate(sequence):
     while x[k] == 0:
         k += 1
     while (k < frame_count):
-        while not x[k] == 0
+        while not x[k] == 0:
             k += 1
