@@ -7,7 +7,7 @@ import os
 from time import time
 import sys
 import json
-from scipy.interpolate import interp1d
+import pandas as pd
 
 
 def evaluate_ssd(ssd, frame, startX, endX):
@@ -134,7 +134,7 @@ def plot_with_colors(frame, kp, colors):
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=5e4,
             use_ssd=True, use_classifier=True, start_frame=0, verbose=False, flip=False):
-    if not frame.shape[:2] == (1080, 1920):
+    if frame.shape[:2] is not (1080, 1920):
         frame = cv2.resize(frame, (1920, 1080))
     if flip:
         frame = cv2.flip(frame, 0)
@@ -192,6 +192,25 @@ class marker_sequence:
     def set_coordinates(self, coords, frame):
         self.coordinates[:,frame] = coords
 
+    def _interpolate(self):
+        iter = np.arange(self.sequence.size[1] - 1, 0, -1)
+
+        for i in iter:
+            if (self.sequence[0,i]) is not np.nan:
+                last_valid_x = i
+                break
+        for i in iter:
+            if (self.sequence[1],i]) is not np.nan:
+                last_valid_y = i
+                break
+
+        x = pd.Series(self.sequence[0,:last_valid_x])
+        y = pd.Series(self.sequence[1, :last_valid_y])
+        self.sequence[0,:last_valid_x] = x.interpolate()
+        self.sequence[1, :last_valid_y] = y.interpolate()
+
+
+
 def generate_video_json_dict(sequences,
                                 camera):
     total_frame_count = np.shape(sequences[1].coordinates)[1]
@@ -199,7 +218,7 @@ def generate_video_json_dict(sequences,
     for frame in range(total_frame_count):
         ptslist = list()
         for seq in sequences:
-            if not all(seq.coordinates[:,frame]) == 0:
+            if all(seq.coordinates[:,frame]) is not np.nan:
                 d = {
                     'colour': seq.colour, 'coords': list(seq.coordinates[:,frame]),
                     'id': seq.id
@@ -222,17 +241,3 @@ def generate_full_json_string(all_sequences, camera_count):
 
     out = {'markerpts': markerpts}
     return out
-
-
-def interpolate(sequence):
-    regions = list()
-    frame_count = sequence.shape[1]
-    k = 0
-
-    x, y = sequence[0,:], sequence[1, :]
-
-    while x[k] == 0:
-        k += 1
-    while (k < frame_count):
-        while not x[k] == 0:
-            k += 1
