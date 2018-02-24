@@ -1,22 +1,15 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
+import sys
+functions_path = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection'
+sys.path.insert(0, functions_path)
+from functions import analyse
 import tensorflow as tf
 import cv2 as cv
 import numpy as np
 import os
 from os.path import join
 import matplotlib.pyplot as plt
-from functions import analyse
 from datetime import datetime as dt
-from cnn_load_data import load_labels as old_load_labels
-
-
-# In[2]:
-
+from load_training_data import load_labels as old_load_labels
 
 class rnnClassify:
     def __init__(self, n_classes=2, hm_epochs=25, keep_rate=0.8):
@@ -165,7 +158,7 @@ class rnnClassify:
                         break
                 elif (c != 0):
                     hm_zeros = 0  
-            location = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Python/EDP/rnn_model/'
+            location = './saved_model/'
             save_path = self.saver.save(sess, location + "current_model.ckpt")
             print("Model saved in path: %s" % save_path)
     
@@ -201,7 +194,7 @@ class rnnClassify:
         # Check how good model is
         with tf.Session() as sess:
             tf.get_variable_scope().reuse_variables()
-            location = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Python/EDP/rnn_model/'
+            location = './saved_model/'
             self.saver.restore(sess, location + "current_model.ckpt")
             print("Model restored")
             print("---------------------------------------")
@@ -219,7 +212,7 @@ class rnnClassify:
     def rnn_predict(self, predict_data_x):
         with tf.Session() as sess:
             tf.get_variable_scope().reuse_variables()
-            location = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Python/EDP/rnn_model/'
+            location = './saved_model/'
             self.saver.restore(sess, location + "current_model.ckpt")
             print("Model restored")
             print("---------------------------------------")
@@ -236,8 +229,6 @@ class rnnClassify:
                 return output
 
 
-# In[3]:
-
 
 if __name__ == '__main__':
     predictor = rnnClassify(hm_epochs=50)
@@ -246,10 +237,6 @@ if __name__ == '__main__':
     predictor.rnn_train(zero_catch=2)
     print('-------')
     predictor.rnn_test()
-
-
-# In[4]:
-
-
-#predictor.rnn_predict(predictor.test_data_x)
-
+    print('-------')
+    input('Enter to end...')
+    

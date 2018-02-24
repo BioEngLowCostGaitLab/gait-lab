@@ -200,7 +200,7 @@ class marker_sequence:
                 last_valid_x = i
                 break
         for i in iter:
-            if (self.sequence[1],i]) is not np.nan:
+            if (self.sequence[1,i]) is not np.nan:
                 last_valid_y = i
                 break
 

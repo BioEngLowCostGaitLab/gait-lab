@@ -1,19 +1,15 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
+import sys
+functions_path = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection'
+sys.path.insert(0, functions_path)
+from functions import analyse
 import cv2 as cv
 import numpy as np
-from functions import analyse
 import os
 from os.path import join
 from datetime import datetime as dt
 
-## Features include: frame number, coordinate (x,y), image (extracted from coord and frame number)
-
-## Global variables
+# Features include: frame number, coordinate (x,y), image (extracted from coord and frame number)
+# Global variables
 image_pos = 0
 seq_pos = 0
 move_frame = False
@@ -22,7 +18,7 @@ pts = []
 
 def frame_stamp():
     current = dt.now()
-    out_str = (str(current.year) + str(current.month) + str(current.day) + "_" + 
+    out_str = (str(current.year) + str(current.month) + str(current.day) + "_" +
                str(current.hour) + str(current.minute) + str(current.second) + "_" +
                str(current.microsecond) + "_" + "frame")
     return out_str
@@ -60,7 +56,7 @@ def next_frame(event,x,y,flags,param):
         move_frame = True
         isBall = 0
         
-def classify(file = 'resources/test_video.mp4', width = 960, height = 540, flip = True):
+def classify(file = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection/resources/test_video.mp4', width = 960, height = 540, flip = True):
     set_seq_pos()
     cap = cv.VideoCapture(file)
     ret, frame = cap.read()
@@ -100,7 +96,7 @@ def classify(file = 'resources/test_video.mp4', width = 960, height = 540, flip 
     cv.destroyAllWindows()
     
     
-def play_video(file = 'resources/test_video.mp4', width = 960, height = 540, flip = True):
+def play_video(file = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection/resources/test_video.mp4', width = 960, height = 540, flip = True):
     cap = cv.VideoCapture(file)
     ret, frame = cap.read()
     clone = cv.resize(frame, (width,height))
@@ -116,10 +112,7 @@ def play_video(file = 'resources/test_video.mp4', width = 960, height = 540, fli
     cv.destroyAllWindows()
 
 
-# In[2]:
-
 
 if __name__ == '__main__':
     print("Running classifier...")
     classify()
-
