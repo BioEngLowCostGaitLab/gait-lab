@@ -186,7 +186,8 @@ class marker_sequence:
     def __init__(self, colour, total_frame_count, id):
 
         self.colour = colour
-        self.coordinates = np.zeros([2, total_frame_count])
+        self.coordinates = np.ndarray([2, total_frame_count])
+        self.coordinates[:,:] = np.nan
         self.id = id
 
     def set_coordinates(self, coords, frame):

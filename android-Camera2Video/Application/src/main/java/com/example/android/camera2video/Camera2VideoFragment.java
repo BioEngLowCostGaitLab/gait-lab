@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.usage.ConfigurationStats;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
@@ -46,6 +48,7 @@ import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
+import android.util.Range;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Surface;
@@ -115,6 +118,7 @@ public class Camera2VideoFragment extends Fragment
      * preview.
      */
     private CameraCaptureSession mPreviewSession;
+    private CameraConstrainedHighSpeedCaptureSession mPreviewSessionHighSpeed;
 
     /**
      * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
@@ -231,9 +235,9 @@ public class Camera2VideoFragment extends Fragment
      * @return The video size
      */
 
-    private static Size chooseVideoSize(Size[] choices) {
+    private static Size chooseVideoSize(Size[] choices, Size[] highSpeed) {
         for (Size size : choices) {
-            if (size.getWidth() == 1920 || size.getWidth() == 1080) {
+            if (size.getWidth() == 1280 && size.getHeight() == 720) {
                 return size;
             }
         }
@@ -449,7 +453,7 @@ public class Camera2VideoFragment extends Fragment
             if (map == null) {
                 throw new RuntimeException("Cannot get available preview/video sizes");
             }
-            mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
+            mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class), map.getHighSpeedVideoSizes());
             mPreviewSize = choosePreviewSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                     width, height, mPreviewSize);
@@ -537,7 +541,7 @@ public class Camera2VideoFragment extends Fragment
     /**
      * Update the camera preview. {@link #startPreview()} needs to be called in advance.
      */
-    private void updatePreview() {
+    /*private void updatePreview() {
         if (null == mCameraDevice) {
             return;
         }
@@ -549,7 +553,28 @@ public class Camera2VideoFragment extends Fragment
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    } */
+
+    private void updatePreview() {
+        if (null == mCameraDevice) {
+            return;
+        }
+        try {
+            HandlerThread thread = new HandlerThread("CameraHighSpeedPreview");
+            thread.start();
+
+            if (mIsRecordingVideo) {
+                setUpCaptureRequestBuilder(mPreviewBuilder);
+                List<CaptureRequest> mPreviewBuilderBurst = mPreviewSessionHighSpeed.createHighSpeedRequestList(mPreviewBuilder.build());
+                mPreviewSessionHighSpeed.setRepeatingBurst(mPreviewBuilderBurst, null, mBackgroundHandler);
+            } else {
+                mPreviewSession.setRepeatingRequest(mPreviewBuilder.build(), null, mBackgroundHandler);
+            }
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void setUpCaptureRequestBuilder(CaptureRequest.Builder builder) {
         builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
@@ -599,8 +624,8 @@ public class Camera2VideoFragment extends Fragment
         }
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
-        mMediaRecorder.setCaptureRate(60);
-        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setCaptureRate(120);
+        mMediaRecorder.setVideoFrameRate(120);
         mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
@@ -627,11 +652,12 @@ public class Camera2VideoFragment extends Fragment
             return;
         }
         try {
+            mIsRecordingVideo = true;
             closePreviewSession();
             setUpMediaRecorder();
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
             assert texture != null;
-            texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+            texture.setDefaultBufferSize(mVideoSize.getWidth(), mVideoSize.getHeight());
             mPreviewBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             List<Surface> surfaces = new ArrayList<>();
 
@@ -645,20 +671,22 @@ public class Camera2VideoFragment extends Fragment
             surfaces.add(recorderSurface);
             mPreviewBuilder.addTarget(recorderSurface);
 
+            Log.d("FPS", CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE.toString());
+
             // Start a capture session
             // Once the session starts, we can update the UI and start recording
-            mCameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
+            mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
 
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                     mPreviewSession = cameraCaptureSession;
+                    mPreviewSessionHighSpeed = (CameraConstrainedHighSpeedCaptureSession) mPreviewSession;
                     updatePreview();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             // UI
                             mButtonVideo.setText(R.string.stop);
-                            mIsRecordingVideo = true;
 
                             // Start recording
                             mMediaRecorder.start();
