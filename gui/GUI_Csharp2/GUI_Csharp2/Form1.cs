@@ -142,7 +142,7 @@ namespace GUI_Csharp2
             startInfo.FileName = "CMD.exe";
 
             //Sets the text into the CMD, '/C' intialisees the command and then closes the CMD
-            startInfo.Arguments = "/C C:\\Python27\\pythonw.exe C:\\Users\\Chun_\\EDP\\gait-lab\\detection\\detect.py";
+            startInfo.Arguments = "/C C:\\Python27\\pythonw.exe C:\\Users\\Chun_\\EDP\\gait-lab\\detection\\modular_detect.py";
             process.StartInfo = startInfo;
             process.Start();
 
