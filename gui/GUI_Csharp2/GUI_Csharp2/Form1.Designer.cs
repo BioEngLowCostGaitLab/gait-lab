@@ -107,7 +107,6 @@ namespace GUI_Csharp2
             this.graphLabel = new System.Windows.Forms.Label();
             this.videoLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -121,7 +120,6 @@ namespace GUI_Csharp2
             this.tableLayoutPanel4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -221,7 +219,7 @@ namespace GUI_Csharp2
             // printMenu
             // 
             this.printMenu.Name = "printMenu";
-            this.printMenu.Size = new System.Drawing.Size(181, 26);
+            this.printMenu.Size = new System.Drawing.Size(114, 26);
             this.printMenu.Text = "Print";
             this.printMenu.Click += new System.EventHandler(this.printMenu_Click);
             // 
@@ -239,28 +237,28 @@ namespace GUI_Csharp2
             // video1ToolStripMenuItem
             // 
             this.video1ToolStripMenuItem.Name = "video1ToolStripMenuItem";
-            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video1ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video1ToolStripMenuItem.Text = "Video 1";
             this.video1ToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
             // 
             // video2ToolStripMenuItem
             // 
             this.video2ToolStripMenuItem.Name = "video2ToolStripMenuItem";
-            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video2ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video2ToolStripMenuItem.Text = "Video 2";
             this.video2ToolStripMenuItem.Click += new System.EventHandler(this.video2ToolStripMenuItem_Click);
             // 
             // video3ToolStripMenuItem
             // 
             this.video3ToolStripMenuItem.Name = "video3ToolStripMenuItem";
-            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video3ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video3ToolStripMenuItem.Text = "Video 3";
             this.video3ToolStripMenuItem.Click += new System.EventHandler(this.video3ToolStripMenuItem_Click);
             // 
             // video4ToolStripMenuItem
             // 
             this.video4ToolStripMenuItem.Name = "video4ToolStripMenuItem";
-            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.video4ToolStripMenuItem.Size = new System.Drawing.Size(135, 26);
             this.video4ToolStripMenuItem.Text = "Video 4";
             this.video4ToolStripMenuItem.Click += new System.EventHandler(this.video4ToolStripMenuItem_Click);
             // 
@@ -522,7 +520,7 @@ namespace GUI_Csharp2
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(283, 85);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Information";
+            this.label1.Text = "Angle";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // leftKnee
@@ -606,38 +604,25 @@ namespace GUI_Csharp2
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.pictureBox3, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(431, 60);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 3;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(836, 575);
             this.tableLayoutPanel3.TabIndex = 7;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Location = new System.Drawing.Point(5, 387);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(826, 183);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 2;
-            this.pictureBox3.TabStop = false;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 196);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Location = new System.Drawing.Point(5, 292);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(826, 182);
+            this.pictureBox2.Size = new System.Drawing.Size(826, 278);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
@@ -646,9 +631,9 @@ namespace GUI_Csharp2
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(5, 5);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(826, 182);
+            this.pictureBox1.Size = new System.Drawing.Size(826, 278);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -683,7 +668,6 @@ namespace GUI_Csharp2
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -740,7 +724,6 @@ namespace GUI_Csharp2
         private AxWMPLib.AxWindowsMediaPlayer videoDisplay;
         private System.Windows.Forms.ToolStripMenuItem printMenu;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem printHelp;
