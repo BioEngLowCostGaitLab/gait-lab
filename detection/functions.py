@@ -36,6 +36,7 @@ def evaluate_ssd(ssd, frame, startX, endX):
 
 def evaluate_classifier(classifier, kp, frame):
     images = get_keypoint_images(kp, frame)
+    print(len(images))
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
@@ -71,10 +72,12 @@ def delete_overlap(kp):
 
     return filtered
 
-def filter_kp(kp, h, w, startX):
+def filter_kp(kp, h, w, startX, crop):
     # filtering criteria: must be smaller than maximum diameter
     max_size = w * 0.06  # maximum diameter of keypoint
     filtered = []
+    if crop: correction = 0.35
+    else: correction = 0
 
     for i in range(len(kp)):
         if kp[i].size < max_size:
@@ -83,7 +86,7 @@ def filter_kp(kp, h, w, startX):
 
     for i in range(len(filtered)):
         # move the keypoint to match their location in the image
-        filtered[i].pt = (filtered[i].pt[0] + startX, filtered[i].pt[1] + int(0.35 * h))
+        filtered[i].pt = (filtered[i].pt[0] + startX, filtered[i].pt[1] + int(correction * h))
 
     filtered = delete_overlap(filtered)
     return filtered
@@ -99,8 +102,9 @@ def save_keypoints(kp, frame, n_frame, opts):
 def get_keypoint_images(kp, frame):
     out = []
     for i, keypoint in enumerate(kp):
-        image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
-                            int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
+        image = frame[int(keypoint.pt[1]) - 18:int(keypoint.pt[1]) + 18,
+                            int(keypoint.pt[0]) - 18:int(keypoint.pt[0]) + 18]
+        image = cv2.resize(image, (24, 24))
         out.append(image)
     return out
 
@@ -133,9 +137,8 @@ def plot_with_colors(frame, kp, colors):
 
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=5e4,
-            use_ssd=True, use_classifier=True, start_frame=0, verbose=False, flip=False):
-    if frame.shape[:2] is not (1080, 1920):
-        frame = cv2.resize(frame, (1920, 1080))
+            use_ssd=True, use_classifier=True, start_frame=0, verbose=False,
+            flip=False, crop=True):
     if flip:
         frame = cv2.flip(frame, 0)
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
@@ -152,14 +155,17 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
         else:
             startX = 12
             endX = w - 12
-        grey_frame = grey_frame[int(0.35 * h):, startX:endX]
+        if crop:
+            grey_frame = grey_frame[int(0.35 * h):, startX:endX]
+        else:
+            grey_frame = grey_frame[:, startX:endX]
         while True:
             # adaptive filtering:
             # we want to find between 12-24 blobs in this particular video (4-8 times the actual number of markers visible)
             # the detection threshold of the SURF detector is adjusted according to that withing reasonable range
             # this is faster than setting a low threshold and removing the worst detections
             kp = detector.detect(grey_frame, None)
-            kp = filter_kp(kp, h, w, startX)
+            kp = filter_kp(kp, h, w, startX, crop)
             if len(kp) >= MIN_BLOBS and len(kp) <= MAX_BLOBS:
                 break
             elif threshold > MIN_THRESHOLD and len(kp) < MIN_BLOBS:
@@ -172,13 +178,13 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
                 detector.setHessianThreshold(threshold)
             else:
                 break
-        markers = kp
 
-        if (len(kp) > 0 and use_classifier):
+        if len(kp) > 0 and use_classifier:
             pred, colors = evaluate_classifier(classifier, kp,  frame)
             markers, ghosts = separate(pred, kp)
-
-        return markers, colors, detector, threshold, startX, endX
+            return markers, colors, detector, threshold, startX, endX
+        else:
+            return kp, 0, detector, threshold, startX, endX
 
 
 
@@ -190,25 +196,25 @@ class marker_sequence:
         self.coordinates[:,:] = np.nan
         self.id = id
 
-    def set_coordinates(self, coords, frame):
-        self.coordinates[:,frame] = coords
+    def set_coordinates(self, kp, frame):
+        self.coordinates[:,frame] = (kp.pt[0], kp.pt[1])
 
     def _interpolate(self):
-        iter = np.arange(self.sequence.size[1] - 1, 0, -1)
+        iter = np.arange(self.coordinates.shape[1] - 1, 0, -1)
 
         for i in iter:
-            if (self.sequence[0,i]) is not np.nan:
+            if (self.coordinates[0,i]) is not np.nan:
                 last_valid_x = i
                 break
         for i in iter:
-            if (self.sequence[1,i]) is not np.nan:
+            if (self.coordinates[1,i]) is not np.nan:
                 last_valid_y = i
                 break
 
-        x = pd.Series(self.sequence[0,:last_valid_x])
-        y = pd.Series(self.sequence[1, :last_valid_y])
-        self.sequence[0,:last_valid_x] = x.interpolate()
-        self.sequence[1, :last_valid_y] = y.interpolate()
+        x = pd.Series(self.coordinates[0,:last_valid_x])
+        y = pd.Series(self.coordinates[1, :last_valid_y])
+        self.coordinates[0,:last_valid_x] = x.interpolate()
+        self.coordinates[1, :last_valid_y] = y.interpolate()
 
 
 
@@ -224,7 +230,6 @@ def generate_video_json_dict(sequences,
                     'colour': seq.colour, 'coords': list(seq.coordinates[:,frame]),
                     'id': seq.id
                 }
-                print(d)
                 ptslist.append(d)
 
         image_dict = {'frame': frame, 'ptslist': ptslist}
@@ -242,3 +247,56 @@ def generate_full_json_string(all_sequences, camera_count):
 
     out = {'markerpts': markerpts}
     return out
+
+def sort_markers(markers):
+    for i in range(len(markers) - 1):
+        for j in range(i, len(markers)):
+            if markers[i].pt[1] > markers[j].pt[1]:
+                temp = markers[i]
+                markers[i] = markers[j]
+                markers[j] = temp
+
+    return markers
+
+def euclidean_distance(tuple1, tuple2):
+    return np.sqrt((tuple1[0] - tuple2[0]) ** 2 + (tuple1[1] - tuple2[1]) ** 2)
+
+def compute_minimal_travel(sequence_list, n_frame, current_markers):
+    past_coords = list()
+
+    for seq in sequence_list:
+        iter = np.arange(seq.coordinates.shape[1] - 1, 0, -1)
+        for i in iter:
+            if (seq.coordinates[0,i]) is not np.nan:
+                last_valid = i
+                break
+        past_coords.append(tuple(seq.coordinates[:,last_valid]))
+
+    distance_matrix = np.ndarray([len(current_markers), len(past_coords)])
+    for i in range(len(current_markers)):
+        for j in range(len(past_coords)):
+            distance_matrix[i, j] = euclidean_distance(
+                                                        tuple(current_markers[i].pt),
+                                                        past_coords[j])
+
+    out = list()
+    for i in range(len(current_markers)):
+        out.append(current_markers[np.argmin(distance_matrix[i:])])
+
+    return out
+
+def set_sequence_coords(sequence_list, n_frame, current_markers):
+    # function to create a dataset for brandon
+    if len(current_markers) is 3:
+        markers = sort_markers(current_markers)
+        for i in range(len(markers)):
+            sequence_list[i].set_coordinates(markers[i], n_frame)
+    #elif n_frame > 0:
+    #    markers = compute_minimal_travel(sequence_list, n_frame, current_markers)
+    elif n_frame is 0:
+        markers = sort_markers(current_markers)
+        for i in range(2):
+            sequence_list[i+1].set_coordinates(markers[i], n_frame)
+
+
+    return sequence_list

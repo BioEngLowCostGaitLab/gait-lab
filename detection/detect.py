@@ -89,7 +89,7 @@ def evaluate_classifier(classifier, kp, frame):
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
-    output = output[:len(kp) # we have padded the input so its size is 32
+     # we have padded the input so its size is 32
     colors = [(0, 0, 0)] * len(output)
     for i in range(len(output)):
         if output[i] > 0.5:
@@ -122,9 +122,9 @@ def delete_overlap(kp):
 
     return filtered
 
-def filter_kp(kp, h, w):
+def filter_kp(kp, h, w, startX, correction):
     # filtering criteria: must be smaller than maximum diameter
-    max_size = w * 0.04  # maximum diameter of keypoint
+    max_size = w * 0.06  # maximum diameter of keypoint
     filtered = []
 
     for i in range(len(kp)):
@@ -134,7 +134,7 @@ def filter_kp(kp, h, w):
 
     for i in range(len(filtered)):
         # move the keypoint to match their location in the image
-        filtered[i].pt = (filtered[i].pt[0] + startX, filtered[i].pt[1] + int(0.35 * h))
+        filtered[i].pt = (filtered[i].pt[0] + startX, filtered[i].pt[1] + int(correction * h))
 
     filtered = delete_overlap(filtered)
     return filtered
@@ -167,7 +167,7 @@ def separate(preds, kp):
     return markers, ghosts
 
 def get_marker_color(image):
-    colors = 0.7 * np.array([[255, 255, 255], [0, 255, 255]])
+    colors = 0.8 * np.array([[255, 255, 255], [0, 255, 255]])
     pixel = image[12,12]
     errors = np.array([0, 0])
     for i in range(2):
@@ -211,6 +211,11 @@ classifier = cv2.dnn.readNetFromTensorflow(join(root, 'frozen_model_reshape_test
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
 
+crop = False
+
+if crop: correction = 0.35
+else: correction = 0.0
+
 if opts.save:
     try:
         os.mkdir(opts.dir)
@@ -220,14 +225,28 @@ if opts.save:
 #pdir = join(root, 'Cameras') #uncomment this if you are using images instead of video
 #for img in os.listdir(pdir): #uncomment this if you are using images instead of video
 #    frame = cv2.imread(join(pdir, img)) #uncomment this if you are using images instead of video
-while(True): # disable this if you are using images
-    ret, frame = cap.read() #disable this if you are using images
-    frame = cv2.resize(frame, (1280, 720))
+#while(True): # disable this if you are using images
+#    ret, frame = cap.read() #disable this if you are using images
+image_dir = join(root, 'resources', 'Sample_2b')
+image_set = list()
+for i in range(len(os.listdir(image_dir))):
+    for img1 in os.listdir(image_dir):
+        frame_count = int(img1.split('_')[-1].split('.')[0])
+        if frame_count is len(image_set) and 'video_1' in img1:
+            image_set.append(img1)
+
+while(True):
+    #ret, frame = cap.read()
+    try:
+        frame = cv2.imread(join(image_dir, image_set[n_frame]))
+        print(image_set[n_frame])
+    except:
+        break
     frame = cv2.resize(frame, (1920, 1080))
     #frame = cv2.flip(frame, 0) #disable this if you are using images
     grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.uint8)
     (h, w) = frame.shape[:2]
-    if n_frame > 30:
+    if True:
         startX, endX, confidence = evaluate_ssd(ssd, frame, opts, startX, endX)
         startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.2 * (endX - startX))
         if (endX > w - 12):
@@ -235,14 +254,15 @@ while(True): # disable this if you are using images
         if (startX < 12):
             startX = 12
 
-        grey_frame = grey_frame[int(0.35 * h):, startX:endX]
+        #grey_frame = grey_frame[int(0.35 * h):, startX:endX]
+        grey_frame = grey_frame[int(correction * h):, startX:endX]
         while True:
             # adaptive filtering:
             # we want to find between 12-24 blobs in this particular video (4-8 times the actual number of markers visible)
             # the detection threshold of the SURF detector is adjusted according to that withing reasonable range
             # this is faster than setting a low threshold and removing the worst detections
             kp = detector.detect(grey_frame, None)
-            kp = filter_kp(kp, h, w)
+            kp = filter_kp(kp, h, w, startX, correction)
             if len(kp) >= MIN_BLOBS and len(kp) <= MAX_BLOBS:
                 break
             elif threshold > MIN_THRESHOLD and len(kp) < MIN_BLOBS:
@@ -269,9 +289,10 @@ while(True): # disable this if you are using images
         else:
             frame = cv2.drawKeypoints(frame,kp,None,(0, 255 ,0),4)
 
+
         cv2.rectangle(frame, (startX, int(0.35 * h)), (endX, h),
         (0, 255, 0), 10)
-    cv2.imshow("output", cv2.resize(frame, (1920, 1080)))
+    cv2.imshow("output", frame)
 
     n_frame += 1
     if cv2.waitKey(1) & 0xFF == ord('q'):
