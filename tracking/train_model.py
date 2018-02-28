@@ -12,15 +12,15 @@ from datetime import datetime as dt
 from load_training_data import load_labels as old_load_labels
 
 class rnnClassify:
-    def __init__(self, n_classes=2, hm_epochs=25, keep_rate=0.8):
+    def __init__(self, n_classes=1, hm_epochs=25, keep_rate=0.8):
         tf.reset_default_graph()
         self.n_classes = n_classes
         self.hm_epochs = hm_epochs
         self.keep_rate = keep_rate
-        self.keep_prob = tf.placeholder(tf.float32)
+        
         # Weight variables and input placeholders
-        self.x = tf.placeholder(tf.float32, [24, 24, 3])
-        self.y = tf.placeholder(tf.float32, [2])
+        self.x = tf.placeholder(tf.float32, [None,24, 24, 3])
+        self.y = tf.placeholder(tf.float32, [None,n_classes])
         self.weights = {'W_conv1':tf.Variable(tf.random_normal([5,5,3,32]),name='W_conv1'),
                         'W_conv2':tf.Variable(tf.random_normal([5,5,32,64]),name='W_conv2'),
                         'W_fc':tf.Variable(tf.random_normal([6*6*64, 1024]),name='W_fc'),
@@ -29,10 +29,12 @@ class rnnClassify:
                        'b_conv2':tf.Variable(tf.random_normal([64]),name='b_conv2'),
                        'b_fc':tf.Variable(tf.random_normal([1024]),name='b_fc'),
                        'b_out':tf.Variable(tf.random_normal([self.n_classes]),name='b_out')}
+        
         # Cost optimizer
-        self.model = self.rnn_model()
+        self.model = self.rnn_model(self.x)
         self.cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=self.model, labels=self.y) )
         self.train_op = tf.train.AdamOptimizer().minimize(self.cost)
+        
         # Auxiliary ops
         self.saver = tf.train.Saver()
         
@@ -60,55 +62,55 @@ class rnnClassify:
         y = arr[:,1]
         return x,y
     
-    def load_labels(self):
-        fdir = "seq_labels"
-        dataset = []
-        count = 0
-        none_count = 0
-        last_frame = 0
-        last_seq = 0
-        for file in os.listdir(fdir):
-            if file.endswith(".jpg"):
-                img = cv.imread(os.path.join(fdir,file), cv.IMREAD_UNCHANGED)
-                if not img is None:
-                    img = pad(img)
-                    file_params = file.split("_")                
-                    ## Check if labeled as ball
-                    tmp_dataset = []
-                    if file_params[0] == 0:    
-                        tmp_dataset.append(img) #0
-                        tmp_dataset.append(np.array([0,1])) #1
-                    else:
-                        tmp_dataset.append(img) #0
-                        tmp_dataset.append(np.array([1,0])) #1
-                    ## Get seqence ID
-                    current_seq = int(file_params[1])
-                    tmp_dataset.append(current_seq) #2
-                    if current_seq != last_seq:
-                        last_frame = 0
-                        last_seq = current_seq
-                    ## Get frame number (Will decide if frame number or difference is more useful later on)
-                    print(file_params[2])
-                    current_frame = int(file_params[2])
-                    tmp_dataset.append(current_frame) #3
-                    ## Get frame difference
-                    if last_frame == 0:
-                        tmp_dataset.append(0)
-                    else:
-                        tmp_dataset.append(current_frame - last_frame)
-                    last_frame = current_frame
-                    ## Get coordinates
-                    tmp_dataset.append( [int( file_params[3]),int(file_params[4])] )
-                    ## Get time difference from last frame
-                    dataset.append([tmp_dataset])
-                else:
-                    none_count += 1
-                count += 1
-            if count == 5:
-                print("Breaking, count == 5")
-                break
-        print("None count: ", none_count, " | Images loaded: ", count)
-        return np.array(dataset)
+######    def load_labels(self):
+######        fdir = "seq_labels"
+######        dataset = []
+######        count = 0
+######        none_count = 0
+######        last_frame = 0
+######        last_seq = 0
+######        for file in os.listdir(fdir):
+######            if file.endswith(".jpg"):
+######                img = cv.imread(os.path.join(fdir,file), cv.IMREAD_UNCHANGED)
+######                if not img is None:
+######                    img = pad(img)
+######                    file_params = file.split("_")                
+######                    ## Check if labeled as ball
+######                    tmp_dataset = []
+######                    if file_params[0] == 0:    
+######                        tmp_dataset.append(img) #0
+######                        tmp_dataset.append(np.array([0,1])) #1
+######                    else:
+######                        tmp_dataset.append(img) #0
+######                        tmp_dataset.append(np.array([1,0])) #1
+######                    ## Get seqence ID
+######                    current_seq = int(file_params[1])
+######                    tmp_dataset.append(current_seq) #2
+######                    if current_seq != last_seq:
+######                        last_frame = 0
+######                        last_seq = current_seq
+######                    ## Get frame number (Will decide if frame number or difference is more useful later on)
+######                    print(file_params[2])
+######                    current_frame = int(file_params[2])
+######                    tmp_dataset.append(current_frame) #3
+######                    ## Get frame difference
+######                    if last_frame == 0:
+######                        tmp_dataset.append(0)
+######                    else:
+######                        tmp_dataset.append(current_frame - last_frame)
+######                    last_frame = current_frame
+######                    ## Get coordinates
+######                    tmp_dataset.append( [int( file_params[3]),int(file_params[4])] )
+######                    ## Get time difference from last frame
+######                    dataset.append([tmp_dataset])
+######                else:
+######                    none_count += 1
+######                count += 1
+######            if count == 5:
+######                print("Breaking, count == 5")
+######                break
+######        print("None count: ", none_count, " | Images loaded: ", count)
+######        return np.array(dataset)
        
     def conv2d(self, tf_in, W, b):
         conv = tf.nn.conv2d(tf_in, W, strides=[1,1,1,1], padding='SAME')
@@ -124,12 +126,21 @@ class rnnClassify:
         #data = self.load_labels()
         np.random.shuffle(data)
         self.split_arr(data, 0.25)
+        #print(type(self.train_data_x))
+        #self.train_data_x = self.train_data_x.tolist()
+        #print(type(self.train_data_x))
+        #self.train_data_y = self.train_data_y.tolist()
+        #print(type(self.train_data_y))
+####        self.train_data_x = tf.convert_to_tensor(self.train_data_x)
+####        self.train_data_y = tf.convert_to_tensor(self.train_data_y)
+####        self.test_data_x = tf.convert_to_tensor(self.test_data_x)
+####        self.test_data_y = tf.convert_to_tensor(self.test_data_y)
         print("Traing_data count: ", len(self.train_data_x))
         print("Test_data count: ", len(self.test_data_x))
         
-    def rnn_model(self):
+    def rnn_model(self, x_in):
         # 5 x 5, 3 input, produces 32 features
-        x_tf = tf.reshape(self.x, shape=[-1,24,24,3])
+        x_tf = tf.reshape(x_in, shape=[-1,24,24,3])
         conv1 = self.maxpool2d(self.conv2d(x_tf, self.weights['W_conv1'], self.biases['b_conv1']))
         conv2 = self.maxpool2d(self.conv2d(conv1, self.weights['W_conv2'], self.biases['b_conv2']))
         fc = tf.reshape(conv2,[-1,6*6*64])
@@ -147,7 +158,8 @@ class rnnClassify:
             for epoch in range(self.hm_epochs):
                 c = 0
                 for i in range(len(self.train_data_x)):
-                    _, c_tmp = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x[i], self.y: self.train_data_y[i]})
+                    _, c_tmp = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x,
+                                                                                 self.y: self.train_data_y})
                     c += c_tmp
                 self.loss_plot.append(c)
                 print('Epoch: ', epoch, ' completed out of: ', self.hm_epochs, ' loss: ', c)
@@ -233,6 +245,8 @@ class rnnClassify:
 if __name__ == '__main__':
     predictor = rnnClassify(hm_epochs=50)
     predictor.rnn_load_data()
+    print(predictor.test_data_y.shape)
+    print(predictor.train_data_y.shape)
     print('-------')
     predictor.rnn_train(zero_catch=2)
     print('-------')
