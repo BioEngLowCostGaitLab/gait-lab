@@ -68,13 +68,13 @@ namespace GUI_Csharp2
             graphNames.Clear();
             if(graphNames.Count == 0)
             {
-                Intialise(graphNames, 3);
+                Intialise(graphNames, 2);
             }
             Fill(graphNames);
 
             //Clearing the list and filling with blanks
             graphNames.Clear();
-            for(int i =0; i<3; i++)
+            for(int i =0; i<2; i++)
             {
                 graphNames.Add("");
             }
@@ -101,7 +101,6 @@ namespace GUI_Csharp2
             //Setting the graph boxes to show the graphs
             pictureBox1.ImageLocation = graphNames[0];
             pictureBox2.ImageLocation = graphNames[1];
-            pictureBox3.ImageLocation = graphNames[2];
 
             toolStripStatusLabel1.Text = "";
 
