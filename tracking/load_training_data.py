@@ -44,7 +44,7 @@ def random_np(x_np, y_np):
     return x_np, y_np
     
 def split_np(x_data, y_data, percent):
-    position = int(len(arr) * (1-percent))
+    position = int(len(x_data) * (1-percent))
     x_train = x_data[:position]
     x_test = x_data[position:]
     y_train = y_data[:position]

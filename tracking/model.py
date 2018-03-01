@@ -28,7 +28,7 @@ class rnnClassify:
         # Cost optimizer
         self.model = self.rnn_model(self.x)
         self.cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=self.model, labels=self.y) )
-        self.train_op = tf.train.AdamOptimizer().minimize(self.cost)
+        self.optimizer = tf.train.AdamOptimizer(learning_rate=1e-4).minimize(self.cost)
         # Auxiliary ops
         self.saver = tf.train.Saver()
 
@@ -46,8 +46,8 @@ class rnnClassify:
     #=================================================================================#
     
     def rnn_load_data(self):
-        x_dataset, y_dataset = old_load_labels()
-        x_train, y_train, x_test, y_test = split_np(x_dataset, y_dataset, 0.25)
+        x_dataset, y_dataset = load_labels()
+        self.x_train, self.y_train, self.x_test, self.y_test = split_np(x_dataset, y_dataset, 0.25)
         
     def rnn_model(self, x_in):
         x_tf = tf.reshape(x_in, shape=[-1,24,24,3])
@@ -66,20 +66,17 @@ class rnnClassify:
             self.loss_plot = []
             hm_zeros = 0
             for epoch in range(self.hm_epochs):
-                c = 0
-                for i in range(len(self.train_data_x)):
-                    _, c_tmp = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x,
-                                                                                 self.y: self.train_data_y})
-                    c += c_tmp
-                self.loss_plot.append(c)
-                print('Epoch: ', epoch, ' completed out of: ', self.hm_epochs, ' loss: ', c)
+                _, c_tmp = sess.run([self.optimizer,self.cost] , feed_dict = {self.x: self.x_train,
+                                                                              self.y: self.y_train})
+                self.loss_plot.append(c_tmp)
+                print('Epoch: ', epoch, ' completed out of: ', self.hm_epochs, ' loss: ', c_tmp)
             location = './saved_model/'
             save_path = self.saver.save(sess, location + "dev_model.ckpt")
             print("Model saved in path: %s" % save_path)
     
 
 if __name__ == '__main__':
-    predictor = rnnClassify(hm_epochs=50)
+    predictor = rnnClassify(hm_epochs=5)
     predictor.rnn_load_data()
     print('-------')
     predictor.rnn_train()

@@ -1,2 +1,2 @@
-model_checkpoint_path: "current_model.ckpt"
-all_model_checkpoint_paths: "current_model.ckpt"
+model_checkpoint_path: "dev_model.ckpt"
+all_model_checkpoint_paths: "dev_model.ckpt"
