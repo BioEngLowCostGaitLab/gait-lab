@@ -4,7 +4,8 @@ sys.path.insert(0, functions_path)
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from load_training_data import load_labels, split_np
+from load_dataset import load_labels, split_np, np_to_tfconstant
+from tensorflow.contrib.data import Dataset, Iterator
 
 class rnnClassify:
     def __init__(self, n_classes=1, hm_epochs=25, keep_rate=0.8):
@@ -46,8 +47,22 @@ class rnnClassify:
     #=================================================================================#
     
     def rnn_load_data(self):
-        x_dataset, y_dataset = load_labels()
-        self.x_train, self.y_train, self.x_test, self.y_test = split_np(x_dataset, y_dataset, 0.25)
+        x_np, y_np = load_labels()
+        train_imgs, train_labels, val_imgs, val_labels = split_np(x_np, y_np, 0.25)
+
+        train_imgs = np_to_tfconstant(train_imgs)
+        train_labels = np_to_tfconstant(train_labels)
+        val_imgs = np_to_tfconstant(val_imgs)
+        val_labels = np_to_tfconstant(val_labels)
+
+        tr_data = tf.data.Dataset.from_tensor_slices( (train_imgs,train_labels) )
+        val_data = tf.data.Dataset.from_tensor_slices( (val_imgs,val_labels) )
+
+        self.iterator = Iterator.from_structure(tr_data.output_types, tr_data.output_shapes)
+        self.next_element = self.iterator.get_next()
+
+        self.training_init_op = self.iterator.make_initializer(tr_data)
+        self.validation_init_op = self.iterator.make_initializer(val_data)
         
     def rnn_model(self, x_in):
         x_tf = tf.reshape(x_in, shape=[-1,24,24,3])
@@ -65,14 +80,24 @@ class rnnClassify:
             sess.run(tf.global_variables_initializer())
             self.loss_plot = []
             hm_zeros = 0
-            for epoch in range(self.hm_epochs):
-                _, c_tmp = sess.run([self.optimizer,self.cost] , feed_dict = {self.x: self.x_train,
-                                                                              self.y: self.y_train})
-                self.loss_plot.append(c_tmp)
-                print('Epoch: ', epoch, ' completed out of: ', self.hm_epochs, ' loss: ', c_tmp)
-            location = './saved_model/'
-            save_path = self.saver.save(sess, location + "dev_model.ckpt")
-            print("Model saved in path: %s" % save_path)
+
+            sess.run(self.training_init_op)
+            while True:
+                try:
+                    elem = sess.run(self.next_element)
+                    print(elem)
+                except tf.errors.OutOfRangeError:
+                    print("End of training dataset")
+                    break
+        
+####            for epoch in range(self.hm_epochs):
+####                _, c_tmp = sess.run([self.optimizer,self.cost] , feed_dict = {self.x: self.x_train,
+####                                                                              self.y: self.y_train})
+####                self.loss_plot.append(c_tmp)
+####                print('Epoch: ', epoch, ' completed out of: ', self.hm_epochs, ' loss: ', c_tmp)
+####            location = './saved_model/'
+####            save_path = self.saver.save(sess, location + "dev_model.ckpt")
+####            print("Model saved in path: %s" % save_path)
     
 
 if __name__ == '__main__':
@@ -81,4 +106,6 @@ if __name__ == '__main__':
     print('-------')
     predictor.rnn_train()
 
-    
+
+
+
