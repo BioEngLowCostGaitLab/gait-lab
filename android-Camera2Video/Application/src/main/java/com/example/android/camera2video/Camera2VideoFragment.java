@@ -235,7 +235,7 @@ public class Camera2VideoFragment extends Fragment
      * @return The video size
      */
 
-    private static Size chooseVideoSize(Size[] choices, Size[] highSpeed) {
+    private static Size chooseVideoSize(Size[] choices) {
         for (Size size : choices) {
             if (size.getWidth() == 1280 && size.getHeight() == 720) {
                 return size;
@@ -453,7 +453,7 @@ public class Camera2VideoFragment extends Fragment
             if (map == null) {
                 throw new RuntimeException("Cannot get available preview/video sizes");
             }
-            mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class), map.getHighSpeedVideoSizes());
+            mVideoSize = chooseVideoSize(map.getHighSpeedVideoSizes());
             mPreviewSize = choosePreviewSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                     width, height, mPreviewSize);
@@ -659,6 +659,9 @@ public class Camera2VideoFragment extends Fragment
             assert texture != null;
             texture.setDefaultBufferSize(mVideoSize.getWidth(), mVideoSize.getHeight());
             mPreviewBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            mPreviewBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_USE_SCENE_MODE);
+            mPreviewBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, CaptureRequest.CONTROL_SCENE_MODE_HIGH_SPEED_VIDEO);
+            mPreviewBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<Integer>(120, 120));
             List<Surface> surfaces = new ArrayList<>();
 
             // Set up Surface for the camera preview
@@ -690,6 +693,7 @@ public class Camera2VideoFragment extends Fragment
 
                             // Start recording
                             mMediaRecorder.start();
+                            Log.d(TAG, "started recording");
                         }
                     });
                 }
@@ -720,6 +724,7 @@ public class Camera2VideoFragment extends Fragment
         mIsRecordingVideo = false;
         mButtonVideo.setText(R.string.record);
         // Stop recording
+
         mMediaRecorder.stop();
         mMediaRecorder.reset();
 
@@ -730,7 +735,7 @@ public class Camera2VideoFragment extends Fragment
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
         }
         mNextVideoAbsolutePath = null;
-        startPreview();
+        updatePreview();
     }
 
     /**
