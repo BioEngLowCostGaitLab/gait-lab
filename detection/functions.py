@@ -129,6 +129,7 @@ def get_marker_color(image):
     return tuple(colors[index, :])
 
 def plot_with_colors(frame, kp, colors):
+    if colors is 0: return frame
     for i in range(len(colors)):
         #if sum(colors[i]) > 0:
         frame = cv2.drawKeypoints(frame, [kp[i]], None, colors[i], 4)
@@ -300,3 +301,8 @@ def set_sequence_coords(sequence_list, n_frame, current_markers):
 
 
     return sequence_list
+
+
+def compute_optimal_rotation(opts.video, ssd):
+    n_frame = 0
+    cap = cv2.VideoCapture(opts.video)
