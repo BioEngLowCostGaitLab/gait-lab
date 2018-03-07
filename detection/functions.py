@@ -36,7 +36,6 @@ def evaluate_ssd(ssd, frame, startX, endX):
 
 def evaluate_classifier(classifier, kp, frame):
     images = get_keypoint_images(kp, frame)
-    print(len(images))
     input = cv2.dnn.blobFromImages(images)
     classifier.setInput(input)
     output = classifier.forward()
@@ -303,6 +302,28 @@ def set_sequence_coords(sequence_list, n_frame, current_markers):
     return sequence_list
 
 
-def compute_optimal_rotation(opts.video, ssd):
-    n_frame = 0
+def compute_rotation_angle(opts, ssd):
+    # computes video rotation correction
+    n_frame, startX, endX = 0, 0, 0
+    total_confidence = np.zeros([2])
     cap = cv2.VideoCapture(opts.video)
+    length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    ret, frame = cap.read()
+
+
+    (h, w) = frame.shape[:2]
+
+    if h > w: angles = (1, 3)
+    else: angles = (0, 2)
+
+    for i in range(2):
+        cap.set(1, length // 2)
+        for j in range(10):
+            ret, frame = cap.read()
+            n_frame += 1
+            frame = np.rot90(frame, angles[i])
+            startX, endX, confidence = evaluate_ssd(ssd, frame, startX, endX)
+            total_confidence[i] += confidence
+
+
+    return angles[np.argmax(total_confidence)]

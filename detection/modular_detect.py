@@ -87,6 +87,8 @@ startX, endX, n_frame = 0, 0, 0
 
 #vid0_sequences = [hip_seq_0, knee_seq_0, ankle_seq_0]
 #vid1_sequences = [hip_seq_1, knee_seq_1, ankle_seq_1]
+angle = func.compute_rotation_angle(opts, ssd)
+
 while(True):
     ret, frame = cap.read()
     # video 0
@@ -94,6 +96,8 @@ while(True):
     #    frame = cv2.imread(join(image_dir, image_set0[n_frame]))
     #except:
     #    break
+
+    frame = np.rot90(frame, angle)
     frame = cv2.resize(frame, (1920, 1080))
     markers, colors, detector, threshold, startX, endX = func.analyse(frame, ssd,
                                                          classifier,
