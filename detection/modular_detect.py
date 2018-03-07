@@ -23,7 +23,7 @@ def get_args(root):
     default=join(root, 'resources', 'frozen_model_reshape_test.pb'))
     ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections")
-    ap.add_argument("-r", "--rec", type=bool, default=False,
+    ap.add_argument("-r", "--rec", type=bool, default=True,
 	help="option to draw rectangle")
     ap.add_argument("-s", "--save", type=bool, default=False,
 	help="option to save detected keypoints")
@@ -106,7 +106,7 @@ while(True):
                                                          threshold,
                                                          startX, endX,
                                                          verbose=True,
-                                                         crop=False,
+                                                         crop=opts.noise,
                                                          use_ssd=opts.noise,
                                                          use_classifier=opts.classify)
     frame = func.plot_with_colors(frame, markers, colors)
@@ -114,7 +114,8 @@ while(True):
     #if len(markers) > 3: markers = markers[:3]
     #vid0_sequences = func.set_sequence_coords(vid0_sequences,
     #                                          n_frame, markers)
-
+    if opts.rec and opts.noise: cv2.rectangle(frame, (startX, int(0.35 * 1080)), (endX, 1080),
+    (0, 255, 0), 10)
     cv2.imshow("output", frame)
 
     n_frame += 1
