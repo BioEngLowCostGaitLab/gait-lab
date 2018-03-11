@@ -49,18 +49,6 @@ class rnnClassify:
         r = np.zeros((24,24,3))
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
-
-########    def split_arr(self, arr, percent):
-########        position = int(len(arr) * (1-percent))
-########        train_data = arr[:position]
-########        test_data = arr[position:]
-########        self.train_data_x, self.train_data_y = self.extract_x_y(train_data)
-########        self.test_data_x, self.test_data_y = self.extract_x_y(test_data)
-    
-########    def extract_x_y(self, arr):
-########        x = arr[:,0]
-########        y = arr[:,1]
-########        return x,y
        
     def conv2d(self, tf_in, W, b):
         conv = tf.nn.conv2d(tf_in, W, strides=[1,1,1,1], padding='SAME')
@@ -74,8 +62,6 @@ class rnnClassify:
     def rnn_load_data(self):
         x_np, y_np = load_labels()
         self.train_data_x, self.train_data_y, self.test_data_x, self.test_data_y = split_np(x_np, y_np, 0.25)
-        print(self.train_data_x[0].shape)
-        print(type(self.train_data_x[0]))
         print("Traing_data count: ", len(self.train_data_x))
         print("Test_data count: ", len(self.test_data_x))
         
@@ -98,11 +84,10 @@ class rnnClassify:
             hm_zeros = 0
             for epoch in range(self.hm_epochs):
                 c = 0
-####                for i in range(len(self.train_data_x)):
                 _, c_tmp = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x, self.y: self.train_data_y})
                 c += c_tmp
                 self.loss_plot.append(c)
-                print('Epoch: ', epoch, ' completed out of: ', self.hm_epochs, ' loss: ', c)
+                print('Epoch: ', epoch + 1, ' completed out of: ', self.hm_epochs, ' loss: ', c)
                 if (zero_catch > 0) and (c == 0):
                     hm_zeros += 1
                     if hm_zeros == zero_catch:
@@ -114,34 +99,6 @@ class rnnClassify:
             save_path = self.saver.save(sess, location + "current_model.ckpt")
             print("Model saved in path: %s" % save_path)
     
-    def calculate_accuracy(self, cumm_acc, curr_result, true_result, tp,tn,fp,fn):
-        if true_result == 1 and curr_result == 0:
-            fn += 1
-        elif true_result == 0 and curr_result == 0:
-            fp += 1
-        elif true_result == 1 and curr_result == 1:
-            tp += 1
-        elif true_result == 0 and curr_result == 1:
-            tn += 1
-        cumm_acc += curr_result
-        return cumm_acc, tp,tn,fp,fn
-    
-    def print_accuracy(self, length, cumm_acc, tp,tn,fp,fn):
-        print("=======================================")
-        print("Accuracy: ", cumm_acc/length*100)
-        print("Tests: ", length)
-        print("Positive Sample: ", tp + fn)
-        print("Negative Sample: ", fp + tn)
-        print("Incorrect: ", fp + fn)
-        print("---------------------------------------")
-        print("False Positives: ", fp)
-        print("False Negatives: ", fn)
-        print("True  Positives: ", tp)
-        print("True  Negatives: ", tn)
-        print("=======================================")
-        plt.plot(self.loss_plot)
-        plt.show()
-    
     def rnn_test(self):
         # Check how good model is
         with tf.Session() as sess:
@@ -150,16 +107,15 @@ class rnnClassify:
             self.saver.restore(sess, location + "current_model.ckpt")
             cumm_acc = tp=tn=fp=fn = 0
             length = len(self.test_data_x)
-            
             output = sess.run(self.rnn_model(), feed_dict={self.x: self.test_data_x})
             curr_result = 0
             true_result = self.test_data_y.argmax(axis=0)
-            if (output.argmax(axis=1)[0] == self.test_data_y.argmax(axis=0) ): curr_result = 1
-            cumm_acc,tp,tn,fp,fn = self.calculate_accuracy(cumm_acc, curr_result, true_result, tp,tn,fp,fn)
-            #print(i, output, self.test_data_y[i])
-            self.print_accuracy(length, cumm_acc, tp,tn,fp,fn)
-            
-                
+            output_result = output.argmax(axis=1)
+            true_result = self.test_data_y.argmax(axis=1)
+            accuracy = output_result + true_result
+            ac = ((accuracy == 0) | (accuracy == 2))
+            print(np.sum(ac)/len(ac))
+        
     def rnn_predict(self, predict_data_x):
         with tf.Session() as sess:
             tf.get_variable_scope().reuse_variables()
@@ -179,9 +135,13 @@ class rnnClassify:
 
 
 if __name__ == '__main__':
-    predictor = rnnClassify(hm_epochs=3)
+    print('-- Loading Data --')
+    predictor = rnnClassify(hm_epochs=100)
     predictor.rnn_load_data()
-    print('-------')
+    print('-- Training --')
     predictor.rnn_train(zero_catch=2)
-    print('-------')
+    print('-- Testing --')
     predictor.rnn_test()
+
+
+
