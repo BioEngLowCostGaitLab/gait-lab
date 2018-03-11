@@ -2,7 +2,7 @@ import tensorflow as tf
 import cv2 as cv
 import numpy as np
 
-class trained_nn:
+class Trained_NN:
     def __init__(self, n_classes=2, keep_rate=0.8):
         tf.reset_default_graph()
         self.n_classes = n_classes
@@ -53,6 +53,6 @@ class trained_nn:
 #=======================================================================================================#
 
 if __name__ == '__main__':
-    predictor = trained_nn()
+    predictor = Trained_NN()
     
     

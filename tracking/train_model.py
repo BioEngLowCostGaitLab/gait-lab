@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from load_data import load_labels, split_np
 
-class train_nn:
+class Train_NN:
     def __init__(self, n_classes=2, hm_epochs=50, keep_rate=0.8, split_ratio=0.25):
         tf.reset_default_graph()
         self.n_classes = n_classes
@@ -104,7 +104,7 @@ class train_nn:
 
 if __name__ == '__main__':
     print('-- Loading Data --')
-    predictor = train_nn(hm_epochs=200)
+    predictor = Train_NN(hm_epochs=200)
     predictor.nn_load_data(verbose=True)
     print('-- Training --')
     predictor.nn_train(zero_catch=2,verbose=True)
