@@ -10,11 +10,17 @@ from os.path import join
 import pickle
 
 class Ball():
-    def __init__(self, first_point):
-        print("New Ball created")
+    def __init__(self, first_point, first_frame):
+        print("New Ball created: ", first_point, first_frame)
         self.first_point = first_point
+        self.first_frame = first_frame
         self.pts = []
-        self.pts.append(first_point)
+        self.pts.append((first_frame, first_point))
+        self.iter = first_frame
+        self.iter_pos = 0
+
+    def add_point(self, frame, point):
+        self.pts.append((frame, point))
 
 class Analyse_Path():
     def __init__(self):
@@ -115,8 +121,8 @@ class Analyse_Path():
         return
     
     def track(self, start_track, view_past, verbose=False):
-        #if verbose:
-        print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
+        if verbose:
+            print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
@@ -126,24 +132,23 @@ class Analyse_Path():
                     pos = self.check_in_balls(last_pnt)
                     if (pos > -1):
                         if (verbose):
-                            print("Current Point: ", current_pnt, " Evaluating: ", last_pnt)
-                        self.balls[pos].pts.append(current_pnt)
+                            print("Position: ", pos, " Current Point: ", current_pnt, " Evaluating: ", last_pnt, "Frame: ", self.video_coords[-1][0]," Ball: ", self.balls[pos])
+                        self.balls[pos].add_point(self.video_coords[-1][0], current_pnt)
                     else:
                         print("New ball")
-                        self.add_ball(current_pnt)
+                        self.add_ball(self.video_coords[-1][0],current_pnt)
                 else:
-                    self.add_ball(current_pnt)
+                    self.add_ball(self.video_coords[-1][0],current_pnt)
                     print("New ball | Possible false point")
         
 
-    def add_ball(self,first_pnt):
-        ball = Ball(first_pnt)
+    def add_ball(self, first_frame, first_pnt):
+        ball = Ball(first_pnt, first_frame)
         self.balls.append(ball)
 
     def check_in_balls(self,last_pnt):
         for i in range(len(self.balls)):
-            if self.balls[i].pts[-1] == last_pnt:
-                #print("Match")
+            if self.balls[i].pts[-1][1] == last_pnt:
                 return i
         else:
             return -1
@@ -155,11 +160,15 @@ class Analyse_Path():
     
     def draw_lines(self, ball, clone):
         for i in range(1, len(ball.pts)):
-            cv.line(clone, ball.pts[i-1], ball.pts[i], (255,255,0),3)
+            cv.line(clone, ball.pts[i-1][1], ball.pts[i][1], (255,255,0),3)
         return clone
 
     def save_paths(self):
         return
+
+    def pickle_balls(self, name="balls"):
+        with open(name + '.pkl','wb') as f:
+            pickle.dump(self.balls,f)
     
 if __name__=='__main__':
     location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection/"
@@ -173,3 +182,4 @@ if __name__=='__main__':
     
     analyse_path = Analyse_Path()
     analyse_path.classify(nn,location)
+    analyse_path.pickle_balls()
