@@ -19,11 +19,10 @@ def get_args():
 opts = get_args()
 
 def tapping_event(devices, dims, index):
-    return 'adb -s %s shell input tap %i %i' % (devices[index],
-                                                0.5 * dims[index][0],
-                                                int(0.875 * dims[index][1]))
+    return 'adb -s %s shell input tap 0 0' % (devices[index])
 
 # List all connected devices
+os.system('adb kill-server')
 os.system('adb devices > temp.txt')
 
 devices = list()
@@ -57,14 +56,19 @@ for device in devices:
                 break
 
 # Record video on all devices
+print('[INFO] Starting video recording')
 video_times = list()
 
-for i in range(len(devices)):
-    os.system(tapping_event(devices, dims, i))
+for device in devices:
+    os.system('adb -s %s shell input tap 0 0' % (device))
     video_times.append(time())
+
 sleep(opts.time)
-for i in range(len(devices)):
-    os.system(tapping_event(devices, dims, i))
+for device in devices:
+    os.system('adb -s %s shell input tap 0 0' % (device))
+    print(float(time()) - float(video_times[0]))
+
+print('[INFO] Saving videos')
 
 
 # Retrieve videos
