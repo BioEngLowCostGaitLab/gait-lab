@@ -193,7 +193,7 @@ class marker_sequence:
 
         self.colour = colour
         self.coordinates = np.ndarray([2, total_frame_count])
-        self.coordinates[:,:] = np.nan
+        self.coordinates[:,:] = -1
         self.id = id
 
     def set_coordinates(self, kp, frame):
@@ -203,11 +203,11 @@ class marker_sequence:
         iter = np.arange(self.coordinates.shape[1] - 1, 0, -1)
 
         for i in iter:
-            if (self.coordinates[0,i]) is not np.nan:
+            if (self.coordinates[0,i]) is not -1:
                 last_valid_x = i
                 break
         for i in iter:
-            if (self.coordinates[1,i]) is not np.nan:
+            if (self.coordinates[1,i]) is not -1:
                 last_valid_y = i
                 break
 
@@ -225,7 +225,7 @@ def generate_video_json_dict(sequences,
     for frame in range(total_frame_count):
         ptslist = list()
         for seq in sequences:
-            if all(seq.coordinates[:,frame]) is not np.nan:
+            if all(seq.coordinates[:,frame]) is not -1:
                 d = {
                     'colour': seq.colour, 'coords': list(seq.coordinates[:,frame]),
                     'id': seq.id
@@ -267,7 +267,7 @@ def compute_minimal_travel(sequence_list, n_frame, current_markers):
     for seq in sequence_list:
         iter = np.arange(seq.coordinates.shape[1] - 1, 0, -1)
         for i in iter:
-            if (seq.coordinates[0,i]) is not np.nan:
+            if (seq.coordinates[0,i]) is not -1:
                 last_valid = i
                 break
         past_coords.append(tuple(seq.coordinates[:,last_valid]))
