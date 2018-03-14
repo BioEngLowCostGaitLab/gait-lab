@@ -4,12 +4,12 @@
 # 3 = output file name
 # ex: python tempsensor.py /dev/ttyACM0 9600 readings.csv
 
-
+"""
 import serial, sys, datetime
 
 
 with open("readings.csv", "w") as f:
-  with serial.Serial("COM5", 9600) as ser:
+  with serial.Serial("COM6", 9600) as ser:
     if ser.isOpen():
       ser.readline()
     while ser.isOpen():
@@ -27,7 +27,7 @@ connected = False
 ## establish connection to the serial port that your arduino 
 ## is connected to.
 
-locations=['/dev/ttyUSB0','/dev/ttyUSB1','/dev/ttyUSB2','COM4']
+locations=['COM9','COM8','COM6','COM7','COM5','COM4','COM3','COM2']
 
 for device in locations:
     try:
@@ -36,7 +36,7 @@ for device in locations:
         break
     except:
         print ("Failed to connect on", device)
-ser = serial.Serial("COM5",9600)
+
 
 		
 ## loop until the arduino tells us it is ready
@@ -46,7 +46,8 @@ while not connected:
 
 ## open text file to store the current 
 ##gps co-ordinates received from the rover    
-text_file = open("position4.txt", 'w')
+text_file = open("position7.txt", 'w')
+
 ## read serial data from arduino and 
 ## write it to the text file 'position.txt'
 while 1:
@@ -62,4 +63,3 @@ while 1:
 ## close the serial connection and text file
 text_file.close()
 ser.close()
-"""
