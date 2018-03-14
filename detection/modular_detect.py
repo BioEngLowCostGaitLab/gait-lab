@@ -46,7 +46,7 @@ try:
             root = join(root, dirs[i])
 except:
     pass
-
+print(root)
 opts = get_args(root)
 
 cap = cv2.VideoCapture(opts.video)
@@ -54,7 +54,7 @@ cap = cv2.VideoCapture(opts.video)
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
 classifier = cv2.dnn.readNetFromTensorflow(opts.classifier) # blob classifier
 
-threshold = 2000
+threshold = 1e4
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
 
@@ -116,7 +116,7 @@ while(True):
     #                                          n_frame, markers)
     if opts.rec and opts.noise: cv2.rectangle(frame, (startX, int(0.35 * 1080)), (endX, 1080),
     (0, 255, 0), 10)
-    cv2.imshow("output", frame)
+    cv2.imshow("output", cv2.resize(frame, (640, 360)))
 
     n_frame += 1
     if cv2.waitKey(1) & 0xFF == ord('q'):
