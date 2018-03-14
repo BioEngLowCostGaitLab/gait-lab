@@ -9,7 +9,7 @@ class Trace_Path():
     def __init__(self):
         self.balls = []
 
-    def play_video(self, location, video='/resources/test_video.mp4', width = 960, height = 540, flip = True, verbose=False, display=True):
+    def play_video(self, location, video='/resources/test_video.mp4', width = 960, height = 540, flip = True, verbose=False, display=True, save=False, video_path=os.getcwd()+"/output_video.avi"):
         file = location + video
         cap = cv.VideoCapture(file)
         ret, frame = cap.read()
@@ -17,6 +17,9 @@ class Trace_Path():
         clone = cv.resize(clone, (width,height))
         if(flip): clone = cv.flip(clone, 0)
         cv.namedWindow("Video")
+        if (save):
+            out_video = cv.VideoWriter('output.avi', -1, 20.0, (width,height))
+        
         frame_num = 0
         while ret:
             if cv.waitKey(1) & 0xFF == ord('q'):
@@ -24,9 +27,9 @@ class Trace_Path():
             ## Drawing performed here
 
             #clone = self.draw_paths(clone, frame_num)
-            print("--------")
-
-            
+        
+            if (save):
+                out_video.write(clone)
             cv.imshow("Video", clone)
             frame_num += 1
             ret, clone = cap.read()
@@ -34,7 +37,10 @@ class Trace_Path():
                 break
             clone = cv.resize(clone, (width,height))
             if(flip): clone = cv.flip(clone, 0)
+            
         cap.release()
+        if (save):
+            out_video.release()
         cv.destroyAllWindows()
 
     def draw_paths(self, clone, frame_num, path_length=10):
@@ -81,15 +87,14 @@ class Trace_Path():
             ball.iter = ball.pts[ball.iter_pos][0]
             return 1
 
+def export_video(video_path=os.getcwd()+"/output_video.avi"):
+    path = Trace_Path()
+    path.unpickle_balls()
+    path.play_video(location,save=True, video_path=video_path)
     
 if (__name__=='__main__'):
     location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection/"
-    path = Trace_Path()
-    path.unpickle_balls()
-    print(path.balls[0].pts)
-    print("------------------")
-    
-    
-    
-    path.play_video(location)
-    
+    #path = Trace_Path()
+    #path.unpickle_balls()
+    #path.play_video(location)
+    export_video()

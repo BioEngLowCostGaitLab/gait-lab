@@ -311,7 +311,7 @@ OpenCover/
 *.mp4
 *.jpg
 *.png
-
+*.avi
 
 # other files
 *.csv
