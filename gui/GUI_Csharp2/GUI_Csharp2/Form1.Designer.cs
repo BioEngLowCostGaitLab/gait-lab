@@ -146,7 +146,7 @@ namespace GUI_Csharp2
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 96.88644F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1285, 670);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1099, 630);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // UI_menu
@@ -158,7 +158,7 @@ namespace GUI_Csharp2
             this.UI_menu.Location = new System.Drawing.Point(3, 2);
             this.UI_menu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.UI_menu.Name = "UI_menu";
-            this.UI_menu.Size = new System.Drawing.Size(1279, 34);
+            this.UI_menu.Size = new System.Drawing.Size(1093, 34);
             this.UI_menu.TabIndex = 1;
             // 
             // menuStrip1
@@ -175,7 +175,7 @@ namespace GUI_Csharp2
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(583, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(468, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -375,7 +375,7 @@ namespace GUI_Csharp2
             this.tableLayoutPanel2.Controls.Add(this.infoLabel, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 58);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 57);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
@@ -384,7 +384,7 @@ namespace GUI_Csharp2
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.88917F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(421, 579);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(359, 540);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // videoControls
@@ -396,10 +396,10 @@ namespace GUI_Csharp2
             this.videoControls.Controls.Add(this.prevButton);
             this.videoControls.Controls.Add(this.nextButton);
             this.videoControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.videoControls.Location = new System.Drawing.Point(3, 250);
+            this.videoControls.Location = new System.Drawing.Point(3, 231);
             this.videoControls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.videoControls.Name = "videoControls";
-            this.videoControls.Size = new System.Drawing.Size(415, 33);
+            this.videoControls.Size = new System.Drawing.Size(353, 33);
             this.videoControls.TabIndex = 8;
             // 
             // playButton
@@ -454,13 +454,13 @@ namespace GUI_Csharp2
             this.videoDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.videoDisplay.Name = "videoDisplay";
             this.videoDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("videoDisplay.OcxState")));
-            this.videoDisplay.Size = new System.Drawing.Size(415, 244);
+            this.videoDisplay.Size = new System.Drawing.Size(353, 225);
             this.videoDisplay.TabIndex = 7;
             // 
             // infoLabel
             // 
             this.infoLabel.AutoSize = true;
-            this.infoLabel.Location = new System.Drawing.Point(3, 285);
+            this.infoLabel.Location = new System.Drawing.Point(3, 266);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(60, 17);
             this.infoLabel.TabIndex = 4;
@@ -479,7 +479,7 @@ namespace GUI_Csharp2
             this.tableLayoutPanel4.Controls.Add(this.rightKnee, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.joints, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 312);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 293);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
@@ -487,16 +487,16 @@ namespace GUI_Csharp2
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(415, 265);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(353, 245);
             this.tableLayoutPanel4.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(127, 176);
+            this.label4.Location = new System.Drawing.Point(109, 164);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(283, 87);
+            this.label4.Size = new System.Drawing.Size(239, 79);
             this.label4.TabIndex = 12;
             this.label4.Text = "Information";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -505,9 +505,9 @@ namespace GUI_Csharp2
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(127, 89);
+            this.label3.Location = new System.Drawing.Point(109, 83);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(283, 85);
+            this.label3.Size = new System.Drawing.Size(239, 79);
             this.label3.TabIndex = 11;
             this.label3.Text = "Information";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -516,9 +516,9 @@ namespace GUI_Csharp2
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(127, 2);
+            this.label1.Location = new System.Drawing.Point(109, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(283, 85);
+            this.label1.Size = new System.Drawing.Size(239, 79);
             this.label1.TabIndex = 9;
             this.label1.Text = "Angle";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -527,9 +527,9 @@ namespace GUI_Csharp2
             // 
             this.leftKnee.AutoSize = true;
             this.leftKnee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.leftKnee.Location = new System.Drawing.Point(5, 176);
+            this.leftKnee.Location = new System.Drawing.Point(5, 164);
             this.leftKnee.Name = "leftKnee";
-            this.leftKnee.Size = new System.Drawing.Size(114, 87);
+            this.leftKnee.Size = new System.Drawing.Size(96, 79);
             this.leftKnee.TabIndex = 6;
             this.leftKnee.Text = "Left Knee";
             this.leftKnee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -538,9 +538,9 @@ namespace GUI_Csharp2
             // 
             this.rightKnee.AutoSize = true;
             this.rightKnee.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rightKnee.Location = new System.Drawing.Point(5, 89);
+            this.rightKnee.Location = new System.Drawing.Point(5, 83);
             this.rightKnee.Name = "rightKnee";
-            this.rightKnee.Size = new System.Drawing.Size(114, 85);
+            this.rightKnee.Size = new System.Drawing.Size(96, 79);
             this.rightKnee.TabIndex = 4;
             this.rightKnee.Text = "Right Knee";
             this.rightKnee.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -551,7 +551,7 @@ namespace GUI_Csharp2
             this.joints.Dock = System.Windows.Forms.DockStyle.Fill;
             this.joints.Location = new System.Drawing.Point(5, 2);
             this.joints.Name = "joints";
-            this.joints.Size = new System.Drawing.Size(114, 85);
+            this.joints.Size = new System.Drawing.Size(96, 79);
             this.joints.TabIndex = 1;
             this.joints.Text = "Joint";
             this.joints.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -563,10 +563,10 @@ namespace GUI_Csharp2
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 641);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 601);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1285, 29);
+            this.statusStrip1.Size = new System.Drawing.Size(1099, 29);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -584,7 +584,7 @@ namespace GUI_Csharp2
             // graphLabel
             // 
             this.graphLabel.AutoSize = true;
-            this.graphLabel.Location = new System.Drawing.Point(430, 38);
+            this.graphLabel.Location = new System.Drawing.Point(368, 38);
             this.graphLabel.Name = "graphLabel";
             this.graphLabel.Size = new System.Drawing.Size(55, 17);
             this.graphLabel.TabIndex = 3;
@@ -607,22 +607,22 @@ namespace GUI_Csharp2
             this.tableLayoutPanel3.Controls.Add(this.pictureBox2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(431, 60);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(369, 59);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(836, 575);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(713, 536);
             this.tableLayoutPanel3.TabIndex = 7;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 292);
+            this.pictureBox2.Location = new System.Drawing.Point(5, 272);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(826, 278);
+            this.pictureBox2.Size = new System.Drawing.Size(703, 259);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
@@ -633,7 +633,7 @@ namespace GUI_Csharp2
             this.pictureBox1.Location = new System.Drawing.Point(5, 5);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(826, 278);
+            this.pictureBox1.Size = new System.Drawing.Size(703, 258);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -647,7 +647,7 @@ namespace GUI_Csharp2
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1285, 670);
+            this.ClientSize = new System.Drawing.Size(1099, 630);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

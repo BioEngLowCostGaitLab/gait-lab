@@ -112,7 +112,22 @@ namespace GUI_Csharp2
             toolStripStatusLabel1.Text = "Calibrate";
             System.Diagnostics.Process.Start("CMD.exe");
 
-            toolStripStatusLabel1.Text = "";
+            //Opening up a CMD
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+
+            //Hides the CMD
+            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+
+            //Assigning the properties
+            startInfo.FileName = "CMD.exe";
+
+            //Sets the text into the CMD, '/C' intialisees the command and then closes the CMD
+            startInfo.Arguments = "/K C:\\Gait-Lab\\resources\\cameracal\\x64\\Release\\cameracal.exe";
+            process.StartInfo = startInfo;
+            process.Start();
+
+            toolStripStatusLabel1.Text = "Calibration Finished";
         }
 
         //Record Video Button
@@ -130,20 +145,34 @@ namespace GUI_Csharp2
             //Begin Analyse
             toolStripStatusLabel1.Text = "Analysing";
 
+            //Marker Detection
             //Opening up a CMD
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
 
             //Hides the CMD
-            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
             //Assigning the properties
             startInfo.FileName = "CMD.exe";
 
             //Sets the text into the CMD, '/C' intialisees the command and then closes the CMD
-            startInfo.Arguments = "/C C:\\Python27\\pythonw.exe C:\\Users\\Chun_\\EDP\\gait-lab\\detection\\modular_detect.py";
+            //This is for the python, call python then the call the module then the directory of the video
+            startInfo.Arguments = "/C C:\\Python27\\pythonw.exe C:\\Users\\Chun_\\EDP\\gait-lab\\detection\\modular_detect.py --video C:\\Users\\Chun_\\EDP\\gait-lab\\gui\\GUI_Csharp2\\testSession1\\Video5.mp4";
             process.StartInfo = startInfo;
             process.Start();
+
+            //Joint angle calculation
+            //Opening up a CMD
+            System.Diagnostics.Process joints = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo cal = new System.Diagnostics.ProcessStartInfo();
+
+            //Assigning the properties
+            cal.FileName = "CMD.exe";
+
+            cal.Arguments = "/C C:\\Gait-Lab\\resources\\3d_pos\\x64\\Release\\3d_pos.exe";
+            joints.StartInfo = cal;
+            joints.Start();
 
             toolStripStatusLabel1.Text = "Finished Analysis";
         }
