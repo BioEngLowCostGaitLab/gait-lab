@@ -62,7 +62,7 @@ video_times = list()
 for device in devices:
     os.system('adb -s %s shell input tap 0 0' % (device))
     video_times.append(time())
-
+print('[INFO] All videos recording')
 sleep(opts.time)
 for device in devices:
     os.system('adb -s %s shell input tap 0 0' % (device))
@@ -85,3 +85,5 @@ for i in range(len(devices)):
     shutil.copy(join(opts.directory, 'files', correct_video),
                 join(opts.directory, '%i.mp4' % (int(1000 * float(video_times[i])))))
     shutil.rmtree(join(opts.directory, 'files'))
+    os.system('adb -s %s shell rm -r /sdcard/Android/data/com.example.android.camera2video/files'
+                % (devices[i]))
