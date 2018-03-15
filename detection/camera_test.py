@@ -1,7 +1,7 @@
 import os
 from time import time
 
-
+os.system('adb kill-server')
 os.system('adb devices > temp.txt')
 
 devices = list()
@@ -14,7 +14,7 @@ for line in f:
         devices.append(line.split('\t')[0])
 
 for i in range(100):
-    T = float(time())
-    os.system('adb -s %s shell input tap 0 0 ' % (devices[0]))
-    T1 = time()
-    print(float(T1) - T)
+    for device in devices:
+        T = float(time())
+        os.system('adb -s %s shell input tap 0 0 ' % (device))
+        print(float(time()) - T)

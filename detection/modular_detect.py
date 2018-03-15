@@ -87,7 +87,7 @@ startX, endX, n_frame = 0, 0, 0
 
 #vid0_sequences = [hip_seq_0, knee_seq_0, ankle_seq_0]
 #vid1_sequences = [hip_seq_1, knee_seq_1, ankle_seq_1]
-angle = func.compute_rotation_angle(opts, ssd)
+angle = func.compute_rotation_angle(opts.video, ssd)
 
 while(True):
     ret, frame = cap.read()

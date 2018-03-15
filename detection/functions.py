@@ -193,21 +193,21 @@ class marker_sequence:
 
         self.colour = colour
         self.coordinates = np.ndarray([2, total_frame_count])
-        self.coordinates[:,:] = -1
+        self.coordinates[:,:] = np.nan
         self.id = id
 
-    def set_coordinates(self, kp, frame):
-        self.coordinates[:,frame] = (kp.pt[0], kp.pt[1])
+    def set_coordinates(self, x, y, frame):
+        self.coordinates[:,frame] = (x, y)
 
     def _interpolate(self):
         iter = np.arange(self.coordinates.shape[1] - 1, 0, -1)
 
         for i in iter:
-            if (self.coordinates[0,i]) is not -1:
+            if (self.coordinates[0,i]) is not np.nan:
                 last_valid_x = i
                 break
         for i in iter:
-            if (self.coordinates[1,i]) is not -1:
+            if (self.coordinates[1,i]) is not np.nan:
                 last_valid_y = i
                 break
 
@@ -215,6 +215,11 @@ class marker_sequence:
         y = pd.Series(self.coordinates[1, :last_valid_y])
         self.coordinates[0,:last_valid_x] = x.interpolate()
         self.coordinates[1, :last_valid_y] = y.interpolate()
+
+    def _remove_nan(self):
+        for i in np.arange(self.coordinates.shape[1]):
+            if self.coordinates[0,i] is np.nan:
+                self.coordinates[:,i] = -1
 
 
 
@@ -225,7 +230,7 @@ def generate_video_json_dict(sequences,
     for frame in range(total_frame_count):
         ptslist = list()
         for seq in sequences:
-            if all(seq.coordinates[:,frame]) is not -1:
+            if all(seq.coordinates[:,frame]) is not np.nan:
                 d = {
                     'colour': seq.colour, 'coords': list(seq.coordinates[:,frame]),
                     'id': seq.id
@@ -302,11 +307,11 @@ def set_sequence_coords(sequence_list, n_frame, current_markers):
     return sequence_list
 
 
-def compute_rotation_angle(opts, ssd):
+def compute_rotation_angle(video, ssd):
     # computes video rotation correction
     n_frame, startX, endX = 0, 0, 0
     total_confidence = np.zeros([2])
-    cap = cv2.VideoCapture(opts.video)
+    cap = cv2.VideoCapture(video)
     length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     ret, frame = cap.read()
 
