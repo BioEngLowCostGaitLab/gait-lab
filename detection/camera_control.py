@@ -71,6 +71,8 @@ for device in devices:
     os.system('adb -s %s shell input tap 0 0' % (device))
     print(float(time()) - float(video_times[0]))
 
+sleep(5)
+
 print('[INFO] Saving videos')
 
 
