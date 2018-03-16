@@ -84,7 +84,7 @@ else:
 
 
 while(True):
-    if phone:
+    if opts.phone:
         ret, frame = cap.read()
         frame = np.rot90(frame, angle)
     else:
