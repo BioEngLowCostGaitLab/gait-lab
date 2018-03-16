@@ -50,9 +50,6 @@ class Trained_NN:
             output = output.argmax(axis=1)
             return output
 
-#=======================================================================================================#
 
-if __name__ == '__main__':
-    predictor = Trained_NN()
     
     
