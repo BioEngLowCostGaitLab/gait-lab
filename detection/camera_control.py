@@ -46,11 +46,10 @@ os.system('adb devices > temp.txt')
 
 devices = list()
 
-f1 = open('temp.txt', 'r').readlines()
+f = open('temp.txt', 'r').readlines()
 
 
-for line in f1:
-    print(line)
+for line in f:
     if 'device' in line and not 'devices' in line:
         devices.append(line.split('\t')[0])
 
@@ -70,10 +69,10 @@ sleep(opts.time)
 for device in devices:
     os.system('adb -s %s shell input tap 0 0' % (device))
     print(float(time()) - float(video_times[0]))
-
+print('[INFO] Saving videos')
 sleep(5)
 
-print('[INFO] Saving videos')
+print('[INFO] Pulling videos')
 
 
 # Retrieve videos
@@ -87,7 +86,8 @@ for i in range(len(devices)):
         if int(f.split('.')[0]) > video_time:
             video_time = int(f.split('.')[0])
             correct_video = f
-    video_names.append(join(opts.directory, '%i.mp4' % (int(1000 * float(video_times[i])))))
+    video_names.append(join(opts.directory,
+                            '%i.mp4' % (int(1000 * float(video_times[i])))))
     shutil.copy(join(opts.directory, 'files', correct_video),
                 video_names[-1])
     shutil.rmtree(join(opts.directory, 'files'))
@@ -103,15 +103,18 @@ for i, video_name in enumerate(video_names):
     angle = compute_rotation_angle(str(video_name), ssd)
     print('[INFO] Computed rotation angle of %d degrees' % (angle * 90))
     total_start_frame_difference = ceil((float(video_times[-1]) -
-                                        float(video_times[i]) - runs[-1] + runs[i]) * frame_rate)
-    print('[INFO] %d frames will be cropped from the start' % total_start_frame_difference)
+                                        float(video_times[i]) -
+                                        runs[-1] +
+                                        runs[i]) * frame_rate)
+    print('[INFO] %d frames will be cropped from the start' %
+            (total_start_frame_difference))
     cap = cv2.VideoCapture(str(video_name))
     if i is 0: length = (int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) -
                         total_start_frame_difference)
     frame_count, written_frame_count = 0, 0
     out_video_name = video_name.split('.')[0] + '_rotated' + '.avi'
     out = cv2.VideoWriter(out_video_name, fourcc, frame_rate, (1280,720))
-    print('[INFO] Length of video to be rotated %d frames' % (length))
+    print('[INFO] Length of videos %d frames' % (length))
 
     while True:
         ret, frame = cap.read()
@@ -120,9 +123,8 @@ for i, video_name in enumerate(video_names):
                 frame = np.rot90(frame, angle)
                 out.write(frame)
                 written_frame_count += 1
-                #print('\r')
-                #print('Written %d frames' % written_frame_count, flush=True)
-                sys.stdout.write('\rWritten %d frames' % written_frame_count) # Doesn't work if I use 'time: %d\r'
+                sys.stdout.write('\r[INFO] %d frames written' %
+                                (written_frame_count))
                 sys.stdout.flush()
         else:
             print()

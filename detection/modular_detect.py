@@ -11,7 +11,7 @@ def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    required=True,
+    default='',
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -32,7 +32,9 @@ def get_args(root):
     ap.add_argument("-d", "--dir", type=str, default=join(root, 'saved_images'),
 	help="directory to save detected keypoints")
     ap.add_argument("-n", "--noise", type=bool, default=True,
-	help="option to detect person and narrow down search area")
+	help="option to detect person and narrow down search area"),
+    ap.add_argument("--phone", type=bool, default=False,
+    help="option to use phone recorded video versus webcam captured images")
 
 
     return ap.parse_args()
@@ -49,7 +51,6 @@ except:
 print(root)
 opts = get_args(root)
 
-cap = cv2.VideoCapture(opts.video)
 
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
 classifier = cv2.dnn.readNetFromTensorflow(opts.classifier) # blob classifier
@@ -65,39 +66,33 @@ if opts.save:
         pass
 
 startX, endX, n_frame = 0, 0, 0
-#image_dir = join(root, 'resources', 'Sample_2b')
-#image_set0 = list()
-#image_set1 = list()
-#for i in range(len(os.listdir(image_dir))):
-#    for img in os.listdir(image_dir):
-#        frame_count = int(img.split('_')[-1].split('.')[0])
-#        if frame_count is len(image_set0) and 'video_0' in img:
-#            image_set0.append(img)
-#        elif frame_count is len(image_set1) and 'video_1' in img:
-#            image_set1.append(img)
 
-#total_frame_count = len(image_set0)
-#print(total_frame_count)
-#hip_seq_0 = func.marker_sequence('white', total_frame_count, 0)
-#knee_seq_0 = func.marker_sequence('yellow', total_frame_count, 1)
-#ankle_seq_0 = func.marker_sequence('white', total_frame_count, 2)
-#hip_seq_1 = func.marker_sequence('white', total_frame_count, 0)
-#knee_seq_1 = func.marker_sequence('yellow', total_frame_count, 1)
-#ankle_seq_1 = func.marker_sequence('white', total_frame_count, 2)
+if not opts.phone:
 
-#vid0_sequences = [hip_seq_0, knee_seq_0, ankle_seq_0]
-#vid1_sequences = [hip_seq_1, knee_seq_1, ankle_seq_1]
-angle = func.compute_rotation_angle(opts.video, ssd)
+    image_set = list()
+    for i in range(len(os.listdir(opts.imgdir))):
+        for img in os.listdir(opts.imgdir):
+            frame_count = int(img.split('_')[-1].split('.')[0])
+            if frame_count is len(image_set) and 'video' in img:
+                image_set.append(img)
+
+    total_frame_count = len(image_set)
+
+else:
+    cap = cv2.VideoCapture(opts.video)
+    angle = func.compute_rotation_angle(opts.video, ssd)
+
 
 while(True):
-    ret, frame = cap.read()
-    # video 0
-    #try:
-    #    frame = cv2.imread(join(image_dir, image_set0[n_frame]))
-    #except:
-    #    break
+    if phone:
+        ret, frame = cap.read()
+        frame = np.rot90(frame, angle)
+    else:
+        try:
+            frame = cv2.imread(join(image_dir, image_set[n_frame]))
+        except:
+            break
 
-    frame = np.rot90(frame, angle)
     frame = cv2.resize(frame, (1920, 1080))
     markers, colors, detector, threshold, startX, endX = func.analyse(frame, ssd,
                                                          classifier,
@@ -122,46 +117,12 @@ while(True):
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-startX, endX, n_frame = 0, 0, 0
-#while(True):
-    #ret, frame = cap.read()
 
-    # video 2
-    #try:
-    #    frame = cv2.imread(join(image_dir, image_set1[n_frame]))
-    #except:
-    #    break
-    #frame = cv2.resize(frame, (1920, 1080))
-    #markers, colors, detector, threshold, startX, endX = func.analyse(frame, ssd,
-#                                                         classifier,
-#                                                         detector,
-#                                                         n_frame,
-#                                                         threshold,
-#                                                         startX, endX,
-#                                                         verbose=True,
-#                                                         crop=False)
-#    frame = func.plot_with_colors(frame, markers[:3], colors[:3])
-#    if len(markers) > 3: markers = markers[:3]
-    #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-#    vid1_sequences = func.set_sequence_coords(vid1_sequences,
-#                                              n_frame, markers)
-
-#    cv2.imshow("output", frame)
-
-#    n_frame += 1
-#    if cv2.waitKey(1) & 0xFF == ord('q'):
-#        break
-
-
-#for seq in vid0_sequences:
+#for seq in sequences:
 #    seq._interpolate()
 
-#for seq in vid1_sequences:
-#    seq._interpolate()
 
-#all_sequences = [vid0_sequences, vid1_sequences]
+#full_string = func.generate_full_json_string(list(sequences), 1)
 
-#full_string = func.generate_full_json_string(all_sequences, 2)
-
-#with open('test.json', 'w') as f:
+#with open('test.json', 'a') as f:
 #    json.dump(full_string, f, indent=1)
