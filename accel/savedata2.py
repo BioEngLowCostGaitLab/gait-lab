@@ -2,8 +2,10 @@ import serial
 
 import time
 
-locations=['/dev/ttyUSB0','/dev/ttyUSB1','/dev/ttyUSB2','/dev/ttyUSB3',
-'/dev/ttyS0','/dev/ttyS1','/dev/ttyS2','/dev/ttyS3','COM6','COM7']  
+
+name = raw_input("Please enter the name of the port the bluetooth is connectet to (out). Example: COM5 \n")
+
+locations=[name]  
   
 for device in locations:  
 	try:  
@@ -13,18 +15,22 @@ for device in locations:
 	except:  
 		print "Failed to connect on",device   
 
-text_file = open("position7.txt", 'w')
+text_file = open("C:\\Users\\Adriensv37\\Desktop\\year_2\\GitProjects\\gait-lab\\accel\\gaitmarietta.txt", 'w')
 
-try:  
-    print arduino.read()
+try:
+	arduino.write('\n') 
+
+	for i in range(1001):
+		
+		text_file.write(arduino.readline())
+		text_file.flush()
+
+	text_file.close()
+	arduino.close()
+	
 except:  
     print "Failed to send!" 
-	
-for i in range(1001):
-	
-	text_file.write(arduino.readline())
-text_file.flush()
 
-text_file.close()
-arduino.close()
+print 'Please remember to press the reset button on the arduino between every measurement'
+
 	
