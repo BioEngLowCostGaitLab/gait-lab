@@ -26,7 +26,7 @@ class Trace_Path():
                 break
             ## Drawing performed here
 
-            #clone = self.draw_paths(clone, frame_num)
+            clone = self.draw_paths(clone, frame_num)
         
             if (save):
                 out_video.write(clone)
