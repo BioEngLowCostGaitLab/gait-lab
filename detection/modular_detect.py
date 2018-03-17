@@ -11,7 +11,7 @@ def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    default='',
+    required=True,
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
