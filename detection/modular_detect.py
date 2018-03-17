@@ -11,7 +11,7 @@ def get_args(root):
     # user defined arguments, video file in onedrive, ask Antti
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
-    required=True,
+    default='',
 	help="path to input video")
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
@@ -35,6 +35,8 @@ def get_args(root):
 	help="option to detect person and narrow down search area"),
     ap.add_argument("--phone", type=bool, default=False,
     help="option to use phone recorded video versus webcam captured images")
+    ap.add_argument("--imgdir", type=str, default='',
+    help="directory that contains webcam captured images")
 
 
     return ap.parse_args()
