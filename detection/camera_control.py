@@ -87,7 +87,7 @@ for i in range(len(devices)):
             video_time = int(f.split('.')[0])
             correct_video = f
     video_names.append(join(opts.directory,
-                            '%i.mp4' % (int(1000 * float(video_times[i])))))
+                            correct_video))  #'%i.mp4' % (int(1000 * float(video_times[i])))))
     shutil.copy(join(opts.directory, 'files', correct_video),
                 video_names[-1])
     shutil.rmtree(join(opts.directory, 'files'))

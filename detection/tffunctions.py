@@ -3,7 +3,7 @@ import tensorflow as tf
 def _parse_function(filename, label):
     image_string = tf.read_file(filename)
     image_decoded = tf.image.decode_image(image_string)
-    sess = tf.Session()  
+    sess = tf.Session()
     return image_decoded, label
 
 def augment(images, batch_size):

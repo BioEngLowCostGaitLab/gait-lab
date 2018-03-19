@@ -200,5 +200,5 @@ if __name__=='__main__':
     vid_path1 = 'detection/resources/test_video.mp4'
     vid_path2 = 'detection/resources/20180205_135429.mp4'
     vid_path3 = 'detection/resources/20180205_135556.mp4'
-    analyse_path.classify(nn,location,video=vid_path1,flip=True)
+    analyse_path.classify(nn,location,video=vid_path1,flip=True, verbose=True)
     analyse_path.pickle_balls()
