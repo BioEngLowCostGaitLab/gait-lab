@@ -54,7 +54,7 @@ class Analyse_Path():
 
         frame_num = 0
         while ret:
-            current_frame_objects = []
+            self.current_frame_objects = []
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
             cv.imshow("Video", clone)
@@ -62,7 +62,7 @@ class Analyse_Path():
             ret, clone = cap.read()
             if not ret:
                 break
-            clone = cv.resize(clone, (width,height))
+            clone = cv.resize(clone, (width*2,height*2))
             if(flip): clone = cv.flip(clone, 0)
             global detector
             keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, classifier, detector, 0, self.threshold, 
@@ -107,9 +107,10 @@ class Analyse_Path():
                             cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
                 if (len(frame_coords)>0):            
                     self.video_coords.append((frame_num, frame_coords))
-                    self.track(self.start_analysis,10,current_frame_objects)
+                    self.track(self.start_analysis,10)
                     clone = self.draw_paths(clone)
-            print("Current frame objects: ", current_frame_objects)
+            clone = cv.resize(clone, (width,height))
+            print("Current frame objects: ", self.current_frame_objects)
             print("-------------------------------------------")
             if (verbose):
                 print("-------------------------------------------")
@@ -132,7 +133,7 @@ class Analyse_Path():
                     return evaluating_point
         return
     
-    def track(self, start_track, view_past, current_frame_objs, verbose=False):
+    def track(self, start_track, view_past, verbose=False):
         #if verbose:
         print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
         if (len(self.video_coords) > start_track):
@@ -150,11 +151,11 @@ class Analyse_Path():
                     else:
                         print("New ball")
                         current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
-                        current_frame_objs.append(current_id)
+                        self.current_frame_objects.append(current_id)
                 else:
                     print("New ball | Possible false point")
                     current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
-                    current_frame_objs.append(current_id)
+                    self.current_frame_objects.append(current_id)
         
 
     def add_ball(self, first_frame, first_pnt):
@@ -200,5 +201,5 @@ if __name__=='__main__':
     vid_path1 = 'detection/resources/test_video.mp4'
     vid_path2 = 'detection/resources/20180205_135429.mp4'
     vid_path3 = 'detection/resources/20180205_135556.mp4'
-    analyse_path.classify(nn,location,video=vid_path1,flip=True, verbose=True)
+    analyse_path.classify(nn,location,video=vid_path2,flip=False, verbose=True)
     analyse_path.pickle_balls()
