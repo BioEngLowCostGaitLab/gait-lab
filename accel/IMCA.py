@@ -150,7 +150,7 @@ g3 = [] #roll
 
 
 #open file
-f = open(r'calibratedIMUdata.txt')
+f = open(r'60cmmvt.txt')
 
 file = f.readlines()
 
@@ -167,21 +167,23 @@ for i, line in enumerate(file):
         g2v.append(int(line.split('\t')[5]))
         g3v.append(int(line.split('\t')[6]))
 
+
+def getangles():
 #initialisation with acceleration while immobile, allows us to calculate initial angles. calculate the mean over 10 measures for better accuracy		
-in_mean_x=0
-in_mean_y=0
-in_mean_z=0
-for i in range (0,10):
-	in_mean_x+=x1[i]
-	in_mean_y+=y1[i]
-	in_mean_z+=z1[i]
-in_mean_x=in_mean_x/10
-in_mean_x=in_mean_x/10
-in_mean_x=in_mean_x/10
-	
-g1 = it.cumtrapz(g1v, t1, initial = 0)
-g2 = it.cumtrapz(g2v, t1, initial = math.acos(in_mean_x/in_mean_z))
-g3 = it.cumtrapz(g3v, t1, initial = math.acos(in_mean_y/in_mean_z))
+	in_mean_x=0
+	in_mean_y=0
+	in_mean_z=0
+	for i in range (0,10):
+		in_mean_x+=x1[i]
+		in_mean_y+=y1[i]
+		in_mean_z+=z1[i]
+	in_mean_x=in_mean_x/10
+	in_mean_x=in_mean_x/10
+	in_mean_x=in_mean_x/10
+		
+	g1 = it.cumtrapz(g1v, t1, initial = 0)
+	g2 = it.cumtrapz(g2v, t1, initial = math.acos(in_mean_x/in_mean_z))
+	g3 = it.cumtrapz(g3v, t1, initial = math.acos(in_mean_y/in_mean_z))
 
 #Store the resolved acceleration data
 a = []
@@ -213,9 +215,17 @@ r_x, r_y, r_z = integrate_zupt(x1, y1, z1, 5, 10)
 #plt.plot(t1, v_y)
 #plt.plot(t1, v_z)
 
-plt.plot(t1, r_x) #Data is very very noisy
-plt.plot(t1, r_y)
-plt.plot(t1, r_z)
+plt.plot(t1, r_x, 'b') #Data is very very noisy
+#plt.plot(t1, r_y, 'r')
+#plt.plot(t1, r_z, 'g')
+plt.show()
+plt.clf()
+plt.cla()
+plt.close()
+
+plt.plot(t1, r_x, 'b') #Data is very very noisy
+#plt.plot(t1, r_y, 'r')
+#plt.plot(t1, r_z, 'g')
 plt.show()
 plt.clf()
 plt.cla()
