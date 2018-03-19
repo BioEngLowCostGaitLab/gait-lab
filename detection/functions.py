@@ -96,25 +96,33 @@ def save_keypoints(kp, frame, n_frame, opts):
     for i, keypoint in enumerate(kp):
         final_image = frame[int(keypoint.pt[1]) - 18:int(keypoint.pt[1]) + 18,
                             int(keypoint.pt[0]) - 18:int(keypoint.pt[0]) + 18]
-        final_image = cv2.resize(final_image, (24, 24))
-        if opts.phone:
-            cv2.imwrite(join(opts.savedir, '%s_%d_%d.png' %
+        try:
+            final_image = cv2.resize(final_image, (24, 24))
+            if opts.phone:
+                cv2.imwrite(join(opts.savedir, '%s_%d_%d.png' %
                         (opts.video.split('\\')[-1], n_frame, i)), final_image)
-        else:
-            cv2.imwrite(join(opts.savedir, '%s.png' % time()), final_image)
+            else:
+                cv2.imwrite(join(opts.savedir, '%s.png' % time()), final_image)
+        except: pass
 
 def get_keypoint_images(kp, frame):
     out = []
     for i, keypoint in enumerate(kp):
         image = frame[int(keypoint.pt[1]) - 18:int(keypoint.pt[1]) + 18,
                             int(keypoint.pt[0]) - 18:int(keypoint.pt[0]) + 18]
-        image = cv2.resize(image, (24, 24))
-        out.append(image)
+        try:
+            image = cv2.resize(image, (24, 24))
+            out.append(image)
+        except:
+            kp = kp[:i] + kp[i+1:]
+
     return out
 
 def separate(preds, kp):
     markers = []
     ghosts = []
+    print(len(preds))
+    print(len(kp))
     for i in range(len(preds)):
         if preds[i] > 0.5:
             markers.append(kp[i])
@@ -135,7 +143,7 @@ def get_marker_color(image):
 def plot_with_colors(frame, kp, colors):
     if colors is 0:
         return cv2.drawKeypoints(frame, kp, None, (0, 255, 0), 4)
-    for i in range(len(colors)):
+    for i in range(len(kp)):
         #if sum(colors[i]) > 0:
         frame = cv2.drawKeypoints(frame, [kp[i]], None, colors[i], 4)
     return frame
@@ -153,14 +161,14 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
         if use_ssd:
             startX, endX, confidence = evaluate_ssd(ssd, frame, startX, endX)
             if verbose: print('[INFO] p: %.2f%%' % (confidence * 100))
-            startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.1 * (endX - startX))
-            if (endX > w - 12):
-                endX = w - 12
-            if (startX < 12):
-                startX = 12
+            startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.2 * (endX - startX))
+            if (endX > w - 18):
+                endX = w - 18
+            if (startX < 18):
+                startX = 18
         else:
-            startX = 12
-            endX = w - 12
+            startX = 18
+            endX = w - 18
         if crop:
             grey_frame = grey_frame[int(0.35 * h):, startX:endX]
         else:

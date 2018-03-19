@@ -20,7 +20,7 @@ def get_args(root):
     default=join(root, 'resources', 'MobileNetSSD_deploy.caffemodel'),
 	help="path to Caffe pre-trained model"),
     ap.add_argument("--classifier", type=str,
-    default=join(root, 'demo_day.pb'))
+    default=join(root, 'resources', 'frozen_model_reshape_test.pb'))
     ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections"),
     ap.add_argument("-r", "--rec", type=bool, default=True,
@@ -29,7 +29,7 @@ def get_args(root):
 	help="option to save detected keypoints"),
     ap.add_argument("--classify", type=bool, default=True,
 	help="option to classify marker candidates"),
-    ap.add_argument("--savedir", type=str, default=join(root, 'saved_images'),
+    ap.add_argument("--savedir", type=str, default=join(root, 'demo_saved_images'),
 	help="directory to save detected keypoints"),
     ap.add_argument("-n", "--noise", type=bool, default=True,
 	help="option to detect person and narrow down search area"),
@@ -102,18 +102,18 @@ while(True):
                                                          threshold,
                                                          startX, endX,
                                                          verbose=True,
-                                                         crop=True,
+                                                         crop=False,
                                                          use_ssd=True,
-                                                         use_classifier=False)
+                                                         use_classifier=True)
     if opts.save: func.save_keypoints(markers, frame, n_frame, opts)
-    frame = func.plot_with_colors(frame, markers, colors)
+    frame = func.plot_with_colors(frame, markers[:3], colors)
     #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
     #if len(markers) > 3: markers = markers[:3]
     #vid0_sequences = func.set_sequence_coords(vid0_sequences,
     #                                          n_frame, markers)
-    if opts.rec and opts.noise: cv2.rectangle(frame, (startX, int(0.35 * 1080)), (endX, 1080),
-    (0, 255, 0), 10)
-    cv2.imshow("output", frame)#cv2.resize(frame, (640, 360)))
+    #if opts.rec and opts.noise: cv2.rectangle(frame, (startX, int(0.35 * 1080)), (endX, 1080),
+    #(0, 255, 0), 10)
+    cv2.imshow("output", cv2.resize(frame, (640, 360)))
 
     n_frame += 1
     if cv2.waitKey(1) & 0xFF == ord('q'):
