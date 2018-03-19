@@ -20,7 +20,7 @@ def get_args(root):
     default=join(root, 'resources', 'MobileNetSSD_deploy.caffemodel'),
 	help="path to Caffe pre-trained model"),
     ap.add_argument("--classifier", type=str,
-    default=join(root, 'resources', 'frozen_model_reshape_test.pb'))
+    default=join(root, 'demo_day.pb'))
     ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections"),
     ap.add_argument("-r", "--rec", type=bool, default=True,
@@ -60,7 +60,6 @@ classifier = cv2.dnn.readNetFromTensorflow(opts.classifier) # blob classifier
 threshold = 1e4
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
-print(not opts.save)
 if opts.save:
     try:
         os.mkdir(opts.savedir)
@@ -103,10 +102,10 @@ while(True):
                                                          threshold,
                                                          startX, endX,
                                                          verbose=True,
-                                                         crop = not opts.save,
-                                                         use_ssd=opts.noise,
-                                                         use_classifier=not opts.save)
-    func.save_keypoints(markers, frame, n_frame, opts)
+                                                         crop=True,
+                                                         use_ssd=True,
+                                                         use_classifier=False)
+    if opts.save: func.save_keypoints(markers, frame, n_frame, opts)
     frame = func.plot_with_colors(frame, markers, colors)
     #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
     #if len(markers) > 3: markers = markers[:3]
@@ -114,7 +113,7 @@ while(True):
     #                                          n_frame, markers)
     if opts.rec and opts.noise: cv2.rectangle(frame, (startX, int(0.35 * 1080)), (endX, 1080),
     (0, 255, 0), 10)
-    cv2.imshow("output", cv2.resize(frame, (640, 360)))
+    cv2.imshow("output", frame)#cv2.resize(frame, (640, 360)))
 
     n_frame += 1
     if cv2.waitKey(1) & 0xFF == ord('q'):

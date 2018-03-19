@@ -133,7 +133,8 @@ def get_marker_color(image):
     return tuple(colors[index, :])
 
 def plot_with_colors(frame, kp, colors):
-    if colors is 0: return frame
+    if colors is 0:
+        return cv2.drawKeypoints(frame, kp, None, (0, 255, 0), 4)
     for i in range(len(colors)):
         #if sum(colors[i]) > 0:
         frame = cv2.drawKeypoints(frame, [kp[i]], None, colors[i], 4)

@@ -36,6 +36,35 @@ def create_dataset(opts, datafile, train=True):
     labels = tf.constant(labels)
     return imgs, labels, dataset_length
 
+def create_dataset2(opts, train=True):
+    imgdir = opts.imgdir
+    imgs, labels = [], []
+    positive = 0
+    negative = 0
+
+    for item in os.listdir(imgdir):
+        if item[1] is '_':
+            print(item)
+            if train:
+                path = join(imgdir, item)
+            else:
+                path = join(imgdir, item)
+            imgs.append(path)
+            if item[0] is '0':
+                labels.append(0)
+            else:
+                labels.append(1)
+    for label in labels:
+        if label is 1: positive += 1
+        else: negative += 1
+
+    print(positive)
+    print(negative)
+    dataset_length = len(labels)
+    imgs = tf.constant(imgs)
+    labels = tf.constant(labels)
+    return imgs, labels, dataset_length
+
 opts = get_args()
 
 # Training Parameters
@@ -45,7 +74,6 @@ n_epochs = opts.maxEpochs * 2 # fix this bug
 opts = get_args()
 
 images, labels, dataset_length = create_dataset(opts, 'labels_new.txt')
-print(labels.eval(session = tf.Session()))
 
 dataset = tf.contrib.data.Dataset.from_tensor_slices((images, labels))
 dataset = dataset.map(_parse_function)
@@ -90,17 +118,17 @@ with tf.Session() as sess:
         for i in range(n_batches):
             batch_x, batch_y = next_train_element
             batch_y = tf.reshape(batch_y, [batch_size, 1])
-            batch_x = tf.squeeze(augment(batch_x, 32), [1])
+            #batch_x = tf.squeeze(augment(batch_x, 32), [1])
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={x: batch_x.eval(),
                                                           y: batch_y.eval()})
-            #predict_marker = tf.greater(tf.squeeze(tf.squeeze(pred, [-1]), [-1]), 0.5)
-            #correct_prediction = tf.equal(tf.to_float(predict_marker), y)
+            predict_marker = tf.greater(pred, 0.5)
+            correct_prediction = tf.equal(tf.to_float(predict_marker), y)
         # Calculate accuracy
-            #accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-            #X_test, Y_test = test_iterator.get_next()
-            #Y_test = tf.reshape(Y_test, [test_length, 1])
-            #print("Accuracy:", accuracy.eval({x: batch_x.eval(), y: batch_y.eval()}))
+            accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+            X_test, Y_test = test_iterator.get_next()
+            Y_test = tf.reshape(Y_test, [test_length, 1])
+            print("Accuracy:", accuracy.eval({x: batch_x.eval(), y: batch_y.eval()}))
             # Compute average loss
             avg_cost += c / batch_size
         # Display logs per epoch step
