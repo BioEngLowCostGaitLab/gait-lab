@@ -91,12 +91,17 @@ def filter_kp(kp, h, w, startX, crop):
     return filtered
 
 def save_keypoints(kp, frame, n_frame, opts):
-    # save detected keypoints as 32x32 images
+    # save detected keypoints as 24x24 images
     print('[INFO] saving images')
     for i, keypoint in enumerate(kp):
-        final_image = frame[int(keypoint.pt[1]) - 12:int(keypoint.pt[1]) + 12,
-                            int(keypoint.pt[0]) - 12:int(keypoint.pt[0]) + 12]
-        cv2.imwrite(join(opts['dir'], '%s_%d_%d.png' % (opts['video'].split('\\')[-1], n_frame, i)), final_image)
+        final_image = frame[int(keypoint.pt[1]) - 18:int(keypoint.pt[1]) + 18,
+                            int(keypoint.pt[0]) - 18:int(keypoint.pt[0]) + 18]
+        final_image = cv2.resize(final_image, (24, 24))
+        if opts.phone:
+            cv2.imwrite(join(opts.savedir, '%s_%d_%d.png' %
+                        (opts.video.split('\\')[-1], n_frame, i)), final_image)
+        else:
+            cv2.imwrite(join(opts.savedir, '%s.png' % time()), final_image)
 
 def get_keypoint_images(kp, frame):
     out = []

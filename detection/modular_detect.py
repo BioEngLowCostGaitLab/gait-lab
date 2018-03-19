@@ -12,29 +12,35 @@ def get_args(root):
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--video", type=str,
     default='',
-	help="path to input video")
+	help="path to input video"),
     ap.add_argument("-p", "--prototxt", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.prototxt'),
-	help="path to Caffe 'deploy' prototxt file")
+	help="path to Caffe 'deploy' prototxt file"),
     ap.add_argument("-m", "--model", type=str,
     default=join(root, 'resources', 'MobileNetSSD_deploy.caffemodel'),
 	help="path to Caffe pre-trained model"),
     ap.add_argument("--classifier", type=str,
     default=join(root, 'resources', 'frozen_model_reshape_test.pb'))
     ap.add_argument("-c", "--confidence", type=float, default=0.2,
-	help="minimum probability to filter weak detections")
+	help="minimum probability to filter weak detections"),
     ap.add_argument("-r", "--rec", type=bool, default=True,
-	help="option to draw rectangle")
+	help="option to draw rectangle"),
     ap.add_argument("-s", "--save", type=bool, default=False,
-	help="option to save detected keypoints")
+	help="option to save detected keypoints"),
     ap.add_argument("--classify", type=bool, default=True,
-	help="option to classify marker candidates")
-    ap.add_argument("-d", "--dir", type=str, default=join(root, 'saved_images'),
-	help="directory to save detected keypoints")
+	help="option to classify marker candidates"),
+    ap.add_argument("--savedir", type=str, default=join(root, 'saved_images'),
+	help="directory to save detected keypoints"),
     ap.add_argument("-n", "--noise", type=bool, default=True,
 	help="option to detect person and narrow down search area"),
     ap.add_argument("--phone", type=bool, default=False,
+<<<<<<< HEAD
         help="option to use phone recorded video versus webcam captured images")
+=======
+    help="option to use phone recorded video versus webcam captured images"),
+    ap.add_argument("--imgdir", type=str, default='',
+    help="directory that contains webcam captured images")
+>>>>>>> f7843c83530e888e9337e9887f0f58c93f7981ad
 
 
     return ap.parse_args()
@@ -58,10 +64,10 @@ classifier = cv2.dnn.readNetFromTensorflow(opts.classifier) # blob classifier
 threshold = 1e4
 detector = cv2.xfeatures2d.SURF_create(threshold) # SURF feature detector
 detector.setUpright(True) # we dont need blob orientation
-
+print(not opts.save)
 if opts.save:
     try:
-        os.mkdir(opts.dir)
+        os.mkdir(opts.savedir)
     except:
         pass
 
@@ -90,7 +96,7 @@ while(True):
         frame = np.rot90(frame, angle)
     else:
         try:
-            frame = cv2.imread(join(image_dir, image_set[n_frame]))
+            frame = cv2.imread(join(opts.imgdir, image_set[n_frame]))
         except:
             break
 
@@ -102,10 +108,15 @@ while(True):
                                                          threshold,
                                                          startX, endX,
                                                          verbose=True,
-                                                         crop=opts.noise,
+                                                         crop = not opts.save,
                                                          use_ssd=opts.noise,
+<<<<<<< HEAD
                                                          use_classifier=opts.classify)
     print(len(markers))
+=======
+                                                         use_classifier=not opts.save)
+    func.save_keypoints(markers, frame, n_frame, opts)
+>>>>>>> f7843c83530e888e9337e9887f0f58c93f7981ad
     frame = func.plot_with_colors(frame, markers, colors)
     #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
     #if len(markers) > 3: markers = markers[:3]
