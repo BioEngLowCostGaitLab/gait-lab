@@ -34,7 +34,7 @@ def get_args(root):
     ap.add_argument("-n", "--noise", type=bool, default=True,
 	help="option to detect person and narrow down search area"),
     ap.add_argument("--phone", type=bool, default=False,
-    help="option to use phone recorded video versus webcam captured images")
+        help="option to use phone recorded video versus webcam captured images")
 
 
     return ap.parse_args()
@@ -82,6 +82,7 @@ else:
     cap = cv2.VideoCapture(opts.video)
     angle = func.compute_rotation_angle(opts.video, ssd)
 
+print("Classifier: ", opts.classify)
 
 while(True):
     if opts.phone:
@@ -104,6 +105,7 @@ while(True):
                                                          crop=opts.noise,
                                                          use_ssd=opts.noise,
                                                          use_classifier=opts.classify)
+    print(len(markers))
     frame = func.plot_with_colors(frame, markers, colors)
     #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
     #if len(markers) > 3: markers = markers[:3]

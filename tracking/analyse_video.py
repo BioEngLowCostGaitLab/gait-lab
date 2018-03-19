@@ -10,12 +10,20 @@ from os.path import join
 import pickle
 
 class Ball():
+    ball_id = 0
     def __init__(self, first_point, first_frame):
+        self.id = Ball.ball_id
+        Ball.ball_id += 1
+        
+        print("#q")
+        print("ID: ", self.id)
+        print("Ball_ID: ", Ball.ball_id)
         print("New Ball created: ", first_point, first_frame)
-        self.first_point = first_point
-        self.first_frame = first_frame
+        print("################################")
+        
         self.pts = []
         self.pts.append((first_frame, first_point))
+        
         self.iter = first_frame
         self.iter_pos = 0
 
@@ -23,17 +31,19 @@ class Ball():
         self.pts.append((frame, point))
 
 class Analyse_Path():
-    def __init__(self):
+    def __init__(self, threshold = 2000, start_analysis = 5):
         self.video_coords = []
-        self.threshold = 2000
+        self.threshold = threshold
         self.balls = []
+        self.start_analysis = start_analysis
+        self.frames_objects = []
     
     def pad(self, arr):
         r = np.zeros((24,24,3))
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, location, video='/resources/test_video.mp4', width = 960, height = 540, flip = True, verbose=False, display=True):
+    def classify(self, nn, location, video='/tracking/resources/20180205_135429.mp4', width = 960, height = 540, flip = True, verbose=False, display=True,path=True):
         file = location + video
         cap = cv.VideoCapture(file)
         ret, frame = cap.read()
@@ -44,6 +54,7 @@ class Analyse_Path():
 
         frame_num = 0
         while ret:
+            current_frame_objects = []
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
             cv.imshow("Video", clone)
@@ -74,10 +85,9 @@ class Analyse_Path():
                 pts.append(pt_img)
                 if (verbose):
                     print(x_img, y_img)
-                    print(pt_img.shape)
-                    cv.circle(clone, (x_img, y_img), 10, (255,255,255),3)
+                    cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
 
-            if (len(pts) > 0):
+            if (path & len(pts) > 0):
                 shape = list(pts[0].shape)
                 shape[:0] = [len(pts)]
                 pts_np = np.concatenate(pts).reshape(shape)
@@ -97,8 +107,10 @@ class Analyse_Path():
                             cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
                 if (len(frame_coords)>0):            
                     self.video_coords.append((frame_num, frame_coords))
-                    self.track(10,10)
+                    self.track(self.start_analysis,10,current_frame_objects)
                     clone = self.draw_paths(clone)
+            print("Current frame objects: ", current_frame_objects)
+            print("-------------------------------------------")
             if (verbose):
                 print("-------------------------------------------")
         cap.release()
@@ -106,9 +118,9 @@ class Analyse_Path():
 
     def get_distance(self, pt1, pt2):
         dist = (pt2[0] - pt1[0])**2 + (pt2[1] - pt1[1])**2
-        return dist
+        return (dist)**0.5
 
-    def track_past(self, view_past, current_point, dist, verbose=False):
+    def track_past(self, position, view_past, current_point, dist, verbose=False):
         past_points = self.video_coords[-view_past:-1]
         for frame in range(len(past_points)-1,-1,-1):
             for point in range(len(past_points[frame][1])):
@@ -116,17 +128,18 @@ class Analyse_Path():
                     print("Point: ", past_points[frame][1][point])
                 evaluating_point = past_points[frame][1][point]
                 evaluating_dist = self.get_distance(current_point, evaluating_point)
-                if (evaluating_dist < dist):
+                if (evaluating_dist < dist * (position+1)):
                     return evaluating_point
         return
     
-    def track(self, start_track, view_past, verbose=False):
-        if verbose:
-            print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
+    def track(self, start_track, view_past, current_frame_objs, verbose=False):
+        #if verbose:
+        print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
+                print("POsition: ", i)
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(view_past, current_pnt, 300)
+                last_pnt = self.track_past(i, view_past, current_pnt, 30)
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
@@ -136,15 +149,18 @@ class Analyse_Path():
                         self.balls[pos].add_point(self.video_coords[-1][0], current_pnt)
                     else:
                         print("New ball")
-                        self.add_ball(self.video_coords[-1][0],current_pnt)
+                        current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
+                        current_frame_objs.append(current_id)
                 else:
-                    self.add_ball(self.video_coords[-1][0],current_pnt)
                     print("New ball | Possible false point")
+                    current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
+                    current_frame_objs.append(current_id)
         
 
     def add_ball(self, first_frame, first_pnt):
         ball = Ball(first_pnt, first_frame)
         self.balls.append(ball)
+        return ball.id
 
     def check_in_balls(self,last_pnt):
         for i in range(len(self.balls)):
@@ -171,15 +187,18 @@ class Analyse_Path():
             pickle.dump(self.balls,f)
     
 if __name__=='__main__':
-    location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection/"
-    ssd = cv.dnn.readNetFromCaffe(join(location, 'resources', 'MobileNetSSD_deploy.prototxt'), 
-                              join(location, 'resources', 'MobileNetSSD_deploy.caffemodel'))
-    classifier = cv.dnn.readNetFromTensorflow(join(location, 'frozen_model.pb'))
+    location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/"
+    ssd = cv.dnn.readNetFromCaffe(join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'), 
+                              join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
+    classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/frozen_model.pb'))
     detector = cv.xfeatures2d.SURF_create(2000)
     detector.setUpright(True)
     
     nn = Trained_NN()
     
     analyse_path = Analyse_Path()
-    analyse_path.classify(nn,location)
+    vid_path1 = 'detection/resources/test_video.mp4'
+    vid_path2 = 'detection/resources/20180205_135429.mp4'
+    vid_path3 = 'detection/resources/20180205_135556.mp4'
+    analyse_path.classify(nn,location,video=vid_path1,flip=True)
     analyse_path.pickle_balls()

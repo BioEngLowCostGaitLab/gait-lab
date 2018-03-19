@@ -73,10 +73,16 @@ class Train_NN:
                        'b_out':tf.Variable(tf.random_normal([self.n_classes]),name='b_out')}
         
         self.model = self.nn_model()
-        
-        self.cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.model, labels=self.y) )
-        self.train_op = tf.train.AdamOptimizer().minimize(self.cost)
+
+        self.learning_rate=0.001        
+        self.init_train_op()
         self.saver = tf.train.Saver()
+
+    def init_train_op(self):
+        self.cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.model, labels=self.y) )
+        #self.train_op = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(self.cost)
+        self.train_op = tf.train.AdagradOptimizer(learning_rate=self.learning_rate).minimize(self.cost)
+
         
     def conv2d(self, tf_in, W, b):
         conv = tf.nn.conv2d(tf_in, W, strides=[1,1,1,1], padding='SAME')
@@ -110,10 +116,9 @@ class Train_NN:
             sess.run(tf.global_variables_initializer())
             loss_plot = []
             hm_zeros = 0
+            ###last_error = -1
             for epoch in range(self.hm_epochs):
-                c = 0
-                _, c_tmp = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x, self.y: self.train_data_y})
-                c += c_tmp
+                _, c = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x, self.y: self.train_data_y})
                 loss_plot.append(c)
                 if (verbose):
                     print('Epoch: ', epoch + 1, ' completed out of: ', self.hm_epochs, ' loss: ', c)
@@ -153,10 +158,10 @@ class Train_NN:
 
 if __name__ == '__main__':
     print('-- Loading Data --')
-    predictor = Train_NN(hm_epochs=200)
+    predictor = Train_NN(hm_epochs=5000,split_ratio=0.10)
     predictor.nn_load_data(verbose=True)
     print('-- Training --')
-    predictor.nn_train(zero_catch=2,verbose=True)
+    predictor.nn_train(zero_catch=10,verbose=True)
     print('-- Testing --')
     predictor.nn_test(verbose=True)
 
