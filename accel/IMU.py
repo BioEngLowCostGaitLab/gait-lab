@@ -63,102 +63,101 @@ def data_centering(x):
    return xcent
 
 #Define function ZUPT integration
-def integrate_zupt(x, y, z, level, variance):
-    #Create filtered x, y and z data structures
-    x_filter = data_centering(kalman_filter(x, level, variance))
-    y_filter = data_centering(kalman_filter(y, level, variance))
-    z_filter = data_centering(kalman_filter(z, level, variance))
-    
-    #Find out when ZUPT should be applied for velocity
-    t_temp_x = []
-    for i in range(0, len(a)-1):
-        if x_filter[i-1]<x_filter[i] and x_filter[i+1]<x_filter[i] or x_filter[i-1]>x_filter[i] and x_filter[i+1]>x_filter[i]:
-            t_temp_x.append(i)
-        else:
-            t_temp_x.append(0)
-    t_temp_y = []
-    for i in range(0, len(a)-1):
-        if y_filter[i-1]<y_filter[i] and y_filter[i+1]<y_filter[i] or y_filter[i-1]>y_filter[i] and y_filter[i+1]>y_filter[i]:
-            t_temp_y.append(i)
-        else:
-            t_temp_y.append(0)
-    t_temp_z = []
-    for i in range(0, len(a)-1):
-        if z_filter[i-1]<z_filter[i] and z_filter[i+1]<z_filter[i] or z_filter[i-1]>z_filter[i] and z_filter[i+1]>z_filter[i]:
-            t_temp_z.append(i)
-        else:
-            t_temp_z.append(0)
+def integrate_zupt(t1, x, y, z, level, variance):
+	#Create filtered x, y and z data structures
+	x_filter = data_centering(kalman_filter(x, level, variance))
+	y_filter = data_centering(kalman_filter(y, level, variance))
+	z_filter = data_centering(kalman_filter(z, level, variance))
             
-    #Integrate with discrete summation for velocity
-    v_x = np.zeros(len(a))
-    v_y = np.zeros(len(a))
-    v_z = np.zeros(len(a))
-    for i in range(1, len(a)-1): #Need to consider that x direction should not be put to zero, since it is movement forwards. Find out what is x, y and z on IMU
-        if t_temp_x[i] == i:
-            v_x[i] = 0
-            v_y[i] = v_y[i-1] + y_filter[i-1]
-            v_z[i] = v_z[i-1] + z_filter[i-1]
-            
-        elif t_temp_y[i] == i:
-            v_x[i] = v_x[i-1] + x_filter[i-1]
-            v_y[i] = 0
-            v_z[i] = v_z[i-1] + z_filter[i-1]
+	vx=it.cumtrapz(x_filter, t1 , initial=0)
+	vy=it.cumtrapz(y_filter, t1 , initial=0)
+	vz=it.cumtrapz(z_filter, t1 , initial=0)
 
-        elif t_temp_z[i] == i:
-            v_x[i] = v_x[i-1] + x_filter[i-1]
-            v_y[i] = v_y[i-1] + y_filter[i-1]
-            v_z[i] = 0
-
-        else:
-            v_x[i] = v_x[i-1] + x_filter[i-1]
-            v_y[i] = v_y[i-1] + y_filter[i-1]
-            v_z[i] = v_z[i-1] + z_filter[i-1]
-
-    return v_x, v_y, v_z
+	x=it.cumtrapz(vx, t1 , initial=0)
+	y=it.cumtrapz(vy, t1 , initial=0)
+	z=it.cumtrapz(vz, t1 , initial=0)	
+	
+	return x,y,z 
 
 #Lists containing acceleration and gyroscope data 
-t1 = []
-x1 = []
-y1 = []
-z1 = []
-g1 = [] #yaw
-g2 = [] #pitch
-g3 = [] #roll
 
+
+def readfile(filename):
 #open file
-f = open(r'Nathan.txt')
 
-file = f.readlines()
+	t = []
+	x = []
+	y = []
+	z = []
+	yaw = [] #yaw
+	pitch = [] #pitch
+	roll = [] #roll
+	
+	f = open(filename)
 
-#read in each column containing time, acceleration and gyrsocope data
-for i, line in enumerate(file):
-    if i < 0:
-        continue
-    else:
-        t1.append(int(line.split('\t')[0]))
-        x1.append(int(line.split('\t')[1]))
-        y1.append(int(line.split('\t')[2]))
-        z1.append(int(line.split('\t')[3]))
-        g1.append(int(line.split('\t')[4]))
-        g2.append(int(line.split('\t')[5]))
-        g3.append(int(line.split('\t')[6]))
+	file = f.readlines()
 
+	#read in each column containing time, acceleration and gyrsocope data
+	for i, line in enumerate(file):
+		if i < 0:
+			continue
+		else:
+			t.append(int(line.split('\t')[0]))
+			x.append(int(line.split('\t')[1]))
+			y.append(int(line.split('\t')[2]))
+			z.append(int(line.split('\t')[3]))
+			yaw.append(int(line.split('\t')[4]))
+			pitch.append(int(line.split('\t')[5]))
+			roll.append(int(line.split('\t')[6]))
+
+	return t,x,y,z,yaw,pitch,roll
+	
+	
+def getacceleration(x1,y1,z1,g1,g2,g3):
 #Store the resolved acceleration data
-a = []
-for i in range(0, len(t1)):
-    a.append(a_I(x1[i], y1[i], z1[i], g1[i], g2[i], g3[i]))
 
-#Store x y and z acceleration data in lists
-x = []
-y = []
-z = []
-for i in range(0, len(a)):
-    x.append(int(a[i][0]))
-    y.append(int(a[i][1]))
-    z.append(int(a[i][2]))
+	yaw=[]
+	pitch=[]
+	roll=[]
+	
+	#initialisation with acceleration while immobile, allows us to calculate initial angles. calculate the mean over 10 measures for better accuracy		
+	in_mean_x=0
+	in_mean_y=0
+	in_mean_z=0
+	for i in range (0,10):
+		in_mean_x+=x1[i]
+		in_mean_y+=y1[i]
+		in_mean_z+=z1[i]
+	in_mean_x=in_mean_x/10
+	in_mean_x=in_mean_x/10
+	in_mean_x=in_mean_x/10
+	
+	yaw = it.cumtrapz(g1v, t1, initial = 0)
+	pitch = it.cumtrapz(g2v, t1, initial = math.acos(in_mean_x/in_mean_z))
+	roll = it.cumtrapz(g3v, t1, initial = math.acos(in_mean_y/in_mean_z))
+		
 
+	a = []
+	for i in range(0, len(t1)):
+		a.append(a_I(x1[i], y1[i], z1[i], yaw[i], pitch[i], roll[i]))
+
+	#Store x y and z acceleration data in lists
+	x = []
+	y = []
+	z = []
+	for i in range(0, len(a)):
+		x.append(int(a[i][0]))
+		y.append(int(a[i][1]))
+		z.append(int(a[i][2]))
+	return x,y,z
+	
 #Define positions
-r_x, r_y, r_z = integrate_zupt(x1, y1, z1, 5, 10)
+
+t1,x1,y1,z1,g1,g2,g3=readfile('60cmmvt.txt')
+
+ax,ay,az=getacceleration(  x1,y1,z1,g1,g2,g3)
+
+r_x, r_y, r_z = integrate_zupt(t1, ax, ay, az, 5, 10)
 
 #Plot data
 #plt.plot(t1, x_filter) #Data is very very noisy
@@ -174,6 +173,8 @@ r_x, r_y, r_z = integrate_zupt(x1, y1, z1, 5, 10)
 #plt.plot(t1, v_z)
 
 plt.plot(t1, r_x) #Data is very very noisy
-plt.plot(t1, r_y)
-plt.plot(t1, r_z)
 plt.show()
+plt.clf()
+plt.cla()
+plt.close()
+

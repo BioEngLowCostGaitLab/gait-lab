@@ -4,6 +4,7 @@ import numpy as np
 import math
 from mpl_toolkits import mplot3d
 
+
 #Define rotation matrices
 def R_v1_I(psi):
     return np.matrix([[math.cos(psi), math.sin(psi), 0], [-math.sin(psi), math.cos(psi), 0], [0, 0, 1]])
@@ -24,6 +25,7 @@ def a_I(a_x, a_y, a_z, psi, theta, phi):
     R = R_I_B(psi, theta, phi)
     g = np.matrix([[0], [0], [1]]) #1 refers to 1g, which is 9.81   
     return R*a_m+g
+	
 
 #Kalman filter adapted from online resources
 def kalman_filter(x, level, variance): #x is data to be smoothed, level is blending factor, variance is process variance
@@ -63,62 +65,7 @@ def data_centering(x):
       xcent[i] = x[i] - xavg
 
    return xcent
-"""
-#Define function ZUPT integration
-def integrate_zupt(x, y, z, level, variance):
-    #Create filtered x, y and z data structures
-    x_filter = data_centering(kalman_filter(x, level, variance))
-    y_filter = data_centering(kalman_filter(y, level, variance))
-    z_filter = data_centering(kalman_filter(z, level, variance))
-
-    #Find out when ZUPT should be applied for velocity
-    t_temp_x = []
-    for i in range(0, len(a)-1):
-        if x_filter[i-1]<x_filter[i] and x_filter[i+1]<x_filter[i] or x_filter[i-1]>x_filter[i] and x_filter[i+1]>x_filter[i]:
-            t_temp_x.append(i)
-        else:
-            t_temp_x.append(0)
-    t_temp_y = []
-    for i in range(0, len(a)-1):
-        if y_filter[i-1]<y_filter[i] and y_filter[i+1]<y_filter[i] or y_filter[i-1]>y_filter[i] and y_filter[i+1]>y_filter[i]:
-            t_temp_y.append(i)
-        else:
-            t_temp_y.append(0)
-    t_temp_z = []
-    for i in range(0, len(a)-1):
-        if z_filter[i-1]<z_filter[i] and z_filter[i+1]<z_filter[i] or z_filter[i-1]>z_filter[i] and z_filter[i+1]>z_filter[i]:
-            t_temp_z.append(i)
-        else:
-            t_temp_z.append(0)
-            
-    #Integrate with discrete summation for velocity
-    v_x = np.zeros(len(a))
-    v_y = np.zeros(len(a))
-    v_z = np.zeros(len(a))
-    for i in range(1, len(a)-1): #Need to consider that x direction should not be put to zero, since it is movement forwards. Find out what is x, y and z on IMU
-        if t_temp_x[i] == i:
-            v_x[i] = 0
-            v_y[i] = v_y[i-1] + y_filter[i-1]
-            v_z[i] = v_z[i-1] + z_filter[i-1]
-            
-        elif t_temp_y[i] == i:
-            v_x[i] = v_x[i-1] + x_filter[i-1]
-            v_y[i] = 0
-            v_z[i] = v_z[i-1] + z_filter[i-1]
-
-        elif t_temp_z[i] == i:
-            v_x[i] = v_x[i-1] + x_filter[i-1]
-            v_y[i] = v_y[i-1] + y_filter[i-1]
-            v_z[i] = 0
-
-        else:
-            v_x[i] = v_x[i-1] + x_filter[i-1]
-            v_y[i] = v_y[i-1] + y_filter[i-1]
-            v_z[i] = v_z[i-1] + z_filter[i-1]
-			
-    return x_int2, y_int2, z_int2
-			
-	"""
+   
 #Define function ZUPT integration
 def integrate_zupt(x, y, z, level, variance):
 	#Create filtered x, y and z data structures
@@ -167,7 +114,7 @@ def readfile(filename):
 	return t,x,y,z,yaw,pitch,roll
 #Lists containing acceleration and gyroscope data 
 
-t1,x1,y1,z1,g1v0,g2v0,g3v0= readfile('YawPitchRollIMUdata.txt')
+t1,x1,y1,z1,g1v0,g2v0,g3v0= readfile('testrayson3.txt')
 
 
 #initialisation with acceleration while immobile, allows us to calculate initial angles. calculate the mean over 10 measures for better accuracy	
@@ -215,9 +162,7 @@ def get_angles(yaw, pitch, roll):
 #Store the resolved acceleration data
 g1,g2,g3= get_angles(g1v0,g2v0,g3v0)
 a = []
-g10=[0]*len(x1)
-g20=[0]*len(x1)
-g30=[0]*len(x1)
+
 for i in range(0, len(t1)):
     a.append(a_I(x1[i], y1[i], z1[i], g1[i], g2[i], g3[i]))
 
@@ -304,6 +249,9 @@ def remove_outlying_data(poi,sway,average):
 	return poi, sway, avg
 	
 r_xAC= dc_blocker(r_x)
+r_yAC= dc_blocker(r_y)
+r_zAC= dc_blocker(r_z)
+
 poi0,sway0,avg0=get_sway(r_xAC)
 poi,sway,avg=remove_outlying_data(poi0,sway0,avg0)
 #poi,sway,avg=remove_outlying_data(poi0,sway0,avg0)
@@ -338,15 +286,14 @@ plt.clf()
 plt.cla()
 plt.close()
 
-ninja
 
 
 
-"""
+
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot3D(r_xAC, r_y, r_z, 'gray')
+ax.plot3D(r_xAC, r_yAC, r_zAC, 'gray')
 
 plt.show()
-"""
+
 

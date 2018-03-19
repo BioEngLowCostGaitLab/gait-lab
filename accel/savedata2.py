@@ -15,7 +15,7 @@ for device in locations:
 	except:  
 		print "Failed to connect on",device   
 
-text_file = open("C:\\Users\\Adriensv37\\Desktop\\year_2\\GitProjects\\gait-lab\\accel\\gaitmarietta.txt", 'w')
+text_file = open("C:\\Users\\Adriensv37\\Desktop\\year_2\\GitProjects\\gait-lab\\accel\\testrayson3.txt", 'w')
 
 try:
 	arduino.write('\n') 

@@ -86,7 +86,6 @@ def kalman_filter(x, level):
 #plt.xlabel('Iteration')
 #plt.ylabel('Voltage')
 
-"""
 #Assumption of 0 velocity
 
 
@@ -110,7 +109,8 @@ z_int = it.cumtrapz(z, t, initial = 0)
 x_int2 = it.cumtrapz(x_int, t, initial = 0)
 y_int2 = it.cumtrapz(y_int, t, initial = 0)
 z_int2 = it.cumtrapz(z_int, t, initial = 0)
-"""
+
+
 xfilter = kalman_filter(x, 3)
 yfilter = kalman_filter(y, 2)
 zfilter = kalman_filter(z, 2)
