@@ -2,7 +2,7 @@ from run_model import Trained_NN
 import sys
 functions_path = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection'
 sys.path.insert(0, functions_path)
-from functions import analyse
+from functions import analyse, marker_sequence, generate_full_json_string
 import cv2 as cv
 import numpy as np
 import os
@@ -11,15 +11,15 @@ import pickle
 
 class Ball():
     ball_id = 0
-    def __init__(self, first_point, first_frame):
+    def __init__(self, first_point, first_frame, verbose=False):
         self.id = Ball.ball_id
         Ball.ball_id += 1
-        
-        print("#q")
-        print("ID: ", self.id)
-        print("Ball_ID: ", Ball.ball_id)
-        print("New Ball created: ", first_point, first_frame)
-        print("################################")
+        if verbose:
+            print("#q")
+            print("ID: ", self.id)
+            print("Ball_ID: ", Ball.ball_id)
+            print("New Ball created: ", first_point, first_frame)
+            print("################################")
         
         self.pts = []
         self.pts.append((first_frame, first_point))
@@ -29,6 +29,9 @@ class Ball():
 
     def add_point(self, frame, point):
         self.pts.append((frame, point))
+
+
+
 
 class Analyse_Path():
     def __init__(self, threshold = 2000, start_analysis = 5):
@@ -43,7 +46,7 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, location, video='/tracking/resources/20180205_135429.mp4', width = 960, height = 540, flip = True, verbose=False, display=True,path=True):
+    def classify(self, nn, location, video='/tracking/resources/20180205_135429.mp4', width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
         file = location + video
         cap = cv.VideoCapture(file)
         ret, frame = cap.read()
@@ -65,8 +68,13 @@ class Analyse_Path():
             clone = cv.resize(clone, (width*2,height*2))
             if(flip): clone = cv.flip(clone, 0)
             global detector
-            keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, classifier, detector, 0, self.threshold, 
-                                                                           use_classifier=False)
+            classifier = detect_classifier
+            if (detect_classifier==""):
+                use_class = False
+            else:
+                use_class = True
+            keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, detect_classifier, detector, 0, self.threshold,
+                                                                                    use_classifier=use_class)  
             if(verbose):
                 print("Keypoints: ", len(keypoints))
                 print("Colors: ", colors)
@@ -110,9 +118,9 @@ class Analyse_Path():
                     self.track(self.start_analysis,10)
                     clone = self.draw_paths(clone)
             clone = cv.resize(clone, (width,height))
-            print("Current frame objects: ", self.current_frame_objects)
-            print("-------------------------------------------")
+            self.frames_objects.append(self.current_frame_objects)
             if (verbose):
+                print("Current frame objects: ", self.current_frame_objects)
                 print("-------------------------------------------")
         cap.release()
         cv.destroyAllWindows()
@@ -140,7 +148,7 @@ class Analyse_Path():
             for i in range(len(self.video_coords[-1][1])):
                 print("POsition: ", i)
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(i, view_past, current_pnt, 30)
+                last_pnt = self.track_past(i, view_past, current_pnt, 50)
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
@@ -148,6 +156,7 @@ class Analyse_Path():
                         if (verbose):
                             print("Position: ", pos, " Current Point: ", current_pnt, " Evaluating: ", last_pnt, "Frame: ", self.video_coords[-1][0]," Ball: ", self.balls[pos])
                         self.balls[pos].add_point(self.video_coords[-1][0], current_pnt)
+                        self.current_frame_objects.append(pos)
                     else:
                         print("New ball")
                         current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
@@ -180,26 +189,33 @@ class Analyse_Path():
             cv.line(clone, ball.pts[i-1][1], ball.pts[i][1], (255,255,0),3)
         return clone
 
-    def save_paths(self):
-        return
-
     def pickle_balls(self, name="balls"):
         with open(name + '.pkl','wb') as f:
             pickle.dump(self.balls,f)
+
+    def prepare_json(self, cam_id):
+        print(self.frames_objects)
+        #for i in self.frames_objects:
+        #   print(len(i))
+
+
+        
     
 if __name__=='__main__':
     location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/"
     ssd = cv.dnn.readNetFromCaffe(join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'), 
                               join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
+    #classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/resouces/frozen_model_reshape_test.pb'))
     classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/frozen_model.pb'))
     detector = cv.xfeatures2d.SURF_create(2000)
     detector.setUpright(True)
     
     nn = Trained_NN()
-    
     analyse_path = Analyse_Path()
     vid_path1 = 'detection/resources/test_video.mp4'
     vid_path2 = 'detection/resources/20180205_135429.mp4'
     vid_path3 = 'detection/resources/20180205_135556.mp4'
-    analyse_path.classify(nn,location,video=vid_path2,flip=False, verbose=True)
-    analyse_path.pickle_balls()
+    analyse_path.classify(nn,location,video=vid_path2,flip=False, verbose=True, detect_classifier=classifier)
+    ##analyse_path.pickle_balls()
+
+    analyse_path.prepare_json(0)
