@@ -75,7 +75,7 @@ class Trace_Path():
 def export_video(video_path, video_name, save_path, flip=False):
     path = Trace_Path(video_path,video_name)
     path.unpickle_sequences(video_name)
-    path.play_video(save_path,save=True, flip=False)
+    path.play_video(save_path,flip, save=True)
 
 
 

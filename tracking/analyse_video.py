@@ -255,13 +255,13 @@ def analyse_video(video_path, location=os.path.join(os.getcwd(),".."), display=T
     return analyse_path.prepare_json_for_this_video()
 
 def pickle_sequences(sequences, video_name):
-    with open("pickle_files/sequences" + video_name + '.pkl','wb') as f:
+    with open("pickle_files/sequences_" + video_name + '.pkl','wb') as f:
         pickle.dump(sequences,f)
 
 
 def analyse_and_pickle(video_path, video_name, location, display):
     seq = analyse_video(video_path, location,display)
-    pickle_sequences(seq, display)
+    pickle_sequences(seq, video_name)
 
 
 if __name__=='__main__':
