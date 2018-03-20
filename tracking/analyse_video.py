@@ -15,11 +15,11 @@ class Ball():
         self.id = Ball.ball_id
         Ball.ball_id += 1
         if verbose:
-            print("#q")
+            print("_____________________________________________")
             print("ID: ", self.id)
             print("Ball_ID: ", Ball.ball_id)
             print("New Ball created: ", first_point, first_frame)
-            print("################################")
+            print("_____________________________________________")
         
         self.pts = []
         self.pts.append((first_frame, first_point))
@@ -44,7 +44,7 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, location, ssd, detector, video='/tracking/resources/20180205_135429.mp4', width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
+    def classify(self, nn, location, ssd, detector, video='/tracking/resources/video2/video0.mp4', width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
         file = location + video
         cap = cv.VideoCapture(file)
         ret, frame = cap.read()
@@ -249,8 +249,7 @@ class Analyse_Path():
 
 ## Needs to be converted to relative paths
 
-def analyse_video(video_path,display):
-    location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/"
+def analyse_video(location=os.getcwd(),video_path,display):
     ssd = cv.dnn.readNetFromCaffe(join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'), 
                               join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
     classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/frozen_model.pb'))
@@ -277,9 +276,11 @@ if __name__=='__main__':
     vid_path1 = 'detection/resources/test_video.mp4'
     vid_path2 = 'detection/resources/20180205_135429.mp4'
     vid_path3 = 'detection/resources/20180205_135556.mp4'
-    analyse_path.classify(nn,location,video=vid_path2,flip=False, verbose=True, detect_classifier=classifier, ssd=ssd, detector=detector)
+    vid_path4 = 'detection/resources/video2/video0.mp4'
+    analyse_path.classify(nn,location,video=vid_path4,flip=False, verbose=True, detect_classifier=classifier, ssd=ssd, detector=detector)
     seq = analyse_path.prepare_json_for_this_video()
     analyse_path.pickle_sequences(seq)
+    
 
 
 
