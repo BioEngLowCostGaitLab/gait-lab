@@ -142,8 +142,8 @@ class Analyse_Path():
         return
     
     def track(self, start_track, view_past, verbose=False):
-        #if verbose:
-        print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
+        if verbose:
+            print(len(self.video_coords), self.video_coords[-1][0], self.video_coords[-1][1])
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 print("POsition: ", i)
@@ -193,12 +193,58 @@ class Analyse_Path():
         with open(name + '.pkl','wb') as f:
             pickle.dump(self.balls,f)
 
-    def prepare_json(self, cam_id):
-        print(self.frames_objects)
-        #for i in self.frames_objects:
-        #   print(len(i))
+    def prepare_json(self, cam_id, verbose=False):
+        sequences = []
+        
+        for pos in range(len(self.balls)): ##Creates marker sequence objects
+            sequences.append( marker_sequence("", len(self.frames_objects), pos) ) 
 
+        if verbose: 
+            print("Number of sequences: ", len(sequences))
+            
+        for frame_num in range(len(self.frames_objects)):
+            
+            if verbose:
+                print("---------------------")
+                print("Frame number: ", frame_num + 1)
 
+            for ball_object in range( len(self.balls) ):
+                if verbose:
+                    print("==== New Ball ====")
+                
+                if verbose:
+                    print("Ball iter", self.balls[ball_object].iter)
+                    print("Ball ID: ", ball_object)
+                    print("Current iter: ", self.balls[ball_object].iter)
+                    print("Current iter pos: ", self.balls[ball_object].iter_pos)
+                    
+                if (frame_num + 1) < self.balls[ball_object].iter:
+                    ## Need to assign a -1 here
+                    if (verbose):
+                        print("frame num < iter, therefore adding position of -1")
+                    sequences[ball_object].set_coordinates(-1,-1, frame_num)
+                
+                elif (frame_num + 1) == self.balls[ball_object].iter:
+                    ## Need to do stuff here, add this point to frame, move to next iter
+                    ball_id = self.frames_objects[frame_num][ball_object]
+                    iter_position = self.balls[ball_object].iter_pos
+                    current_ball = self.balls[ball_id]
+                    current_coords = current_ball.pts[iter_position][1]
+                    sequences[ball_object].set_coordinates(current_coords[0],current_coords[1],frame_num)
+                    
+                    ## Update iter value
+                    self.balls[ball_object].iter_pos += 1
+                    if self.balls[ball_object].iter_pos < len(current_ball.pts):
+                        self.balls[ball_object].iter = current_ball.pts[self.balls[ball_object].iter_pos][0]
+                    
+                elif (frame_num + 1) > self.balls[ball_object].iter:
+                    ## Run out of ball objects, keep assigning -1
+                    if (verbose):
+                        print("frame num > iter, therefore adding position of -1")
+                    sequences[ball_object].set_coordinates(-1,-1,frame_num)
+                    
+    
+        
         
     
 if __name__=='__main__':
@@ -217,5 +263,4 @@ if __name__=='__main__':
     vid_path3 = 'detection/resources/20180205_135556.mp4'
     analyse_path.classify(nn,location,video=vid_path2,flip=False, verbose=True, detect_classifier=classifier)
     ##analyse_path.pickle_balls()
-
     analyse_path.prepare_json(0)
