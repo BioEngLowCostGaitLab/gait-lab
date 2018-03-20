@@ -1,3 +1,6 @@
+[![gait-lab](tracking/examples/path_1.png)](https://github.com/anttilankinen/gait-lab)
+
+
 Step 1:
 
 	label_videos.py: annotation to label videos, most effective at labeling incorrect images. 
