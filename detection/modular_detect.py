@@ -35,8 +35,12 @@ def get_args(root):
 	help="option to detect person and narrow down search area"),
     ap.add_argument("--phone", type=bool, default=False,
     help="option to use phone recorded video versus webcam captured images"),
-    ap.add_argument("--imgdir", type=str, default='',
-    help="directory that contains webcam captured images")
+    ap.add_argument("--imgdir0", type=str, default='',
+    help="directory that contains webcam captured images"),
+    ap.add_argument("--imgdir1", type=str, default='',
+    help="directory that contains webcam captured images"),
+    ap.add_argument("--videonumber", type=int, default=0,
+    help="which video from the whole set")
 
 
     return ap.parse_args()
@@ -70,61 +74,83 @@ startX, endX, n_frame = 0, 0, 0
 
 if not opts.phone:
 
-    image_set = list()
-    for i in range(len(os.listdir(opts.imgdir))):
-        for img in os.listdir(opts.imgdir):
+    image_set0 = list()
+    for i in range(len(os.listdir(opts.imgdir0))):
+        for img in os.listdir(opts.imgdir0):
             frame_count = int(img.split('_')[-1].split('.')[0])
-            if frame_count is len(image_set) and 'video' in img:
-                image_set.append(img)
-
-    total_frame_count = len(image_set)
+            if frame_count is len(image_set0) and 'video' in img:
+                image_set0.append(img)
+    image_set1 = list()
+    for i in range(len(os.listdir(opts.imgdir1))):
+        for img in os.listdir(opts.imgdir1):
+            frame_count = int(img.split('_')[-1].split('.')[0])
+            if frame_count is len(image_set1) and 'video' in img:
+                image_set1.append(img)
+    image_sets = [image_set0, image_set1]
+    total_frame_count = len(image_set0)
 
 else:
     cap = cv2.VideoCapture(opts.video)
     angle = func.compute_rotation_angle(opts.video, ssd)
 
+seq00 = func.marker_sequence(0, total_frame_count, 0)
+seq01= func.marker_sequence(0, total_frame_count, 1)
+seq02 = func.marker_sequence(0, total_frame_count, 2)
+sequences0 = [seq00, seq01, seq02]
 
-while(True):
-    if opts.phone:
-        ret, frame = cap.read()
-        frame = np.rot90(frame, angle)
-    else:
-        try:
-            frame = cv2.imread(join(opts.imgdir, image_set[n_frame]))
-        except:
-            break
+seq10 = func.marker_sequence(0, total_frame_count, 0)
+seq11= func.marker_sequence(0, total_frame_count, 1)
+seq12 = func.marker_sequence(0, total_frame_count, 2)
+sequences1 = [seq10, seq11, seq12]
 
-    frame = cv2.resize(frame, (1920, 1080))
-    markers, colors, detector, threshold, startX, endX = func.analyse(frame, ssd,
-                                                         classifier,
-                                                         detector,
-                                                         n_frame,
-                                                         threshold,
-                                                         startX, endX,
-                                                         verbose=True,
-                                                         crop=False,
-                                                         use_ssd=True,
-                                                         use_classifier=True)
-    if opts.save: func.save_keypoints(markers, frame, n_frame, opts)
-    frame = func.plot_with_colors(frame, markers[:3], colors)
+sequences = [sequences0, sequences1]
+
+dirs = [opts.imgdir0, opts.imgdir1]
+
+for i, video in enumerate(image_sets):
+    startX, endX, n_frame = 0, 0, 0
+    while(True):
+        if opts.phone:
+            ret, frame = cap.read()
+            frame = np.rot90(frame, angle)
+        else:
+            try:
+                frame = cv2.imread(join(dirs[i], video[n_frame]))
+            except:
+                break
+
+            frame = cv2.resize(frame, (1920, 1080))
+            markers, colors, detector, threshold, startX, endX = func.analyse(frame, ssd,
+                                                            classifier,
+                                                            detector,
+                                                            n_frame,
+                                                            threshold,
+                                                            startX, endX,
+                                                            verbose=True,
+                                                            crop=False,
+                                                            use_ssd=True,
+                                                            use_classifier=True)
+            if opts.save: func.save_keypoints(markers, frame, n_frame, opts)
+            if len(markers) > 3: markers = markers[:3]
+            frame = func.plot_with_colors(frame, markers, colors)
     #frame = cv2.drawKeypoints(frame,markers,None,(0, 255 ,0),4)
-    #if len(markers) > 3: markers = markers[:3]
-    #vid0_sequences = func.set_sequence_coords(vid0_sequences,
-    #                                          n_frame, markers)
+            sequences[i] = func.set_sequence_coords(sequences[i], n_frame, markers)
     #if opts.rec and opts.noise: cv2.rectangle(frame, (startX, int(0.35 * 1080)), (endX, 1080),
     #(0, 255, 0), 10)
-    cv2.imshow("output", cv2.resize(frame, (640, 360)))
+        cv2.imshow("output", cv2.resize(frame, (640, 360)))
 
-    n_frame += 1
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-
-#for seq in sequences:
-#    seq._interpolate()
+        n_frame += 1
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
 
-#full_string = func.generate_full_json_string(list(sequences), 1)
+        for seq in sequences[i]:
+            seq._interpolate()
+            seq._remove_nan()
 
-#with open('test.json', 'a') as f:
-#    json.dump(full_string, f, indent=1)
+
+
+
+full_string = func.generate_full_json_string(sequences, 2, total_frame_count)
+with open('demo.json', 'w') as f:
+    json.dump(full_string, f, indent=1)

@@ -121,8 +121,6 @@ def get_keypoint_images(kp, frame):
 def separate(preds, kp):
     markers = []
     ghosts = []
-    print(len(preds))
-    print(len(kp))
     for i in range(len(preds)):
         if preds[i] > 0.5:
             markers.append(kp[i])
@@ -232,14 +230,14 @@ class marker_sequence:
 
     def _remove_nan(self):
         for i in np.arange(self.coordinates.shape[1]):
-            if self.coordinates[0,i] is np.nan:
-                self.coordinates[:,i] = -1
+            if np.isnan(self.coordinates[0,i]):
+                self.set_coordinates(-1, -1, i)
 
 
 
 def generate_video_json_dict(sequences,
-                                camera):
-    total_frame_count = np.shape(sequences[1].coordinates)[1]
+                                camera, total_frame_count):
+    #total_frame_count = np.shape(sequences[1].coordinates)[1]
     imglist = list()
     for frame in range(total_frame_count):
         ptslist = list()
@@ -257,12 +255,12 @@ def generate_video_json_dict(sequences,
     out = {'camera': camera, 'imglist': imglist}
     return out
 
-def generate_full_json_string(all_sequences, camera_count):
+def generate_full_json_string(all_sequences, camera_count, total_frame_count):
 
     markerpts = list()
 
     for camera in range(camera_count):
-        markerpts.append(generate_video_json_dict(all_sequences[camera], camera))
+        markerpts.append(generate_video_json_dict(all_sequences[camera], camera, total_frame_count))
 
     out = {'markerpts': markerpts}
     return out
@@ -309,13 +307,13 @@ def set_sequence_coords(sequence_list, n_frame, current_markers):
     if len(current_markers) is 3:
         markers = sort_markers(current_markers)
         for i in range(len(markers)):
-            sequence_list[i].set_coordinates(markers[i], n_frame)
+            sequence_list[i].set_coordinates(markers[i].pt[0], markers[i].pt[1], n_frame)
     #elif n_frame > 0:
     #    markers = compute_minimal_travel(sequence_list, n_frame, current_markers)
-    elif n_frame is 0:
-        markers = sort_markers(current_markers)
-        for i in range(2):
-            sequence_list[i+1].set_coordinates(markers[i], n_frame)
+    #elif n_frame is 0:
+    #    markers = sort_markers(current_markers)
+    #    for i in range(2):
+    #        sequence_list[i+1].set_coordinates(markers[i], n_frame)
 
 
     return sequence_list
