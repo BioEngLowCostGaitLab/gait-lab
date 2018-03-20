@@ -41,8 +41,8 @@ opts = get_args(root)
 
 
 # List all connected devices
-os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe kill-server')
-os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe devices > temp.txt')
+os.system('C:\\Gait-Lab\\resources\\adb\\platform-tools\\adb.exe kill-server')
+os.system('C:\\Gait-Lab\\resources\\adb\\platform-tools\\adb.exe devices > temp.txt')
 
 devices = list()
 
@@ -61,13 +61,13 @@ video_times = list()
 runs = list()
 for device in devices:
     T = float(time())
-    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s shell input tap 0 0' % (device))
+    os.system('C:\\Gait-Lab\\resources\\adb\\platform-tools\\adb.exe -s %s shell input tap 0 0' % (device))
     video_times.append(time() )
     runs.append(float(video_times[-1]) - T)
 print('[INFO] All videos recording')
 sleep(opts.time)
 for device in devices:
-    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s shell input tap 0 0' % (device))
+    os.system('C:\\Gait-Lab\\resources\\adb\\platform-tools\\adb.exe -s %s shell input tap 0 0' % (device))
 print('[INFO] Saving videos')
 sleep(5)
 
@@ -77,7 +77,7 @@ print('[INFO] Pulling videos')
 # Retrieve videos
 video_names = list()
 for i in range(len(devices)):
-    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s pull /sdcard/Android/data/com.example.android.camera2video/files %s' %
+    os.system('C:\\Gait-Lab\\resources\\adb\\platform-tools\\adb.exe -s %s pull /sdcard/Android/data/com.example.android.camera2video/files %s' %
               (devices[i], opts.directory))
     video_time = 0
     correct_video = None
@@ -90,7 +90,7 @@ for i in range(len(devices)):
     shutil.copy(join(opts.directory, 'files', correct_video),
                 video_names[-1])
     shutil.rmtree(join(opts.directory, 'files'))
-    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s shell rm -r /sdcard/Android/data/com.example.android.camera2video/files'
+    os.system('C:\\Gait-Lab\\resources\\adb\\platform-tools\\adb.exe -s %s shell rm -r /sdcard/Android/data/com.example.android.camera2video/files'
                 % (devices[i]))
 
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model)
