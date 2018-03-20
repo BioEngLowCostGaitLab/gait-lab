@@ -1,4 +1,4 @@
-[![gait-lab](tracking/examples/path_1.PNG)](https://github.com/anttilankinen/gait-lab)
+[![gait-lab](examples/path_1.PNG)](https://github.com/anttilankinen/gait-lab/tracking)
 
 
 Step 1:
