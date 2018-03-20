@@ -1,3 +1,6 @@
+## Needs to be changed to work with sequences
+
+"""
 import cv2 as cv
 import numpy as np
 import os
@@ -98,3 +101,6 @@ if (__name__=='__main__'):
     #path.unpickle_balls()
     #path.play_video(location)
     export_video()
+
+
+"""
