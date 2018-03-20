@@ -41,8 +41,8 @@ opts = get_args(root)
 
 
 # List all connected devices
-os.system('adb kill-server')
-os.system('adb devices > temp.txt')
+os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe kill-server')
+os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe devices > temp.txt')
 
 devices = list()
 
@@ -61,14 +61,13 @@ video_times = list()
 runs = list()
 for device in devices:
     T = float(time())
-    os.system('adb -s %s shell input tap 0 0' % (device))
+    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s shell input tap 0 0' % (device))
     video_times.append(time() )
     runs.append(float(video_times[-1]) - T)
 print('[INFO] All videos recording')
 sleep(opts.time)
 for device in devices:
-    os.system('adb -s %s shell input tap 0 0' % (device))
-    print(float(time()) - float(video_times[0]))
+    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s shell input tap 0 0' % (device))
 print('[INFO] Saving videos')
 sleep(5)
 
@@ -78,7 +77,7 @@ print('[INFO] Pulling videos')
 # Retrieve videos
 video_names = list()
 for i in range(len(devices)):
-    os.system('adb -s %s pull /sdcard/Android/data/com.example.android.camera2video/files %s' %
+    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s pull /sdcard/Android/data/com.example.android.camera2video/files %s' %
               (devices[i], opts.directory))
     video_time = 0
     correct_video = None
@@ -91,7 +90,7 @@ for i in range(len(devices)):
     shutil.copy(join(opts.directory, 'files', correct_video),
                 video_names[-1])
     shutil.rmtree(join(opts.directory, 'files'))
-    os.system('adb -s %s shell rm -r /sdcard/Android/data/com.example.android.camera2video/files'
+    os.system('C:\\Gait-Lab\\adb\\platform-tools\\adb.exe -s %s shell rm -r /sdcard/Android/data/com.example.android.camera2video/files'
                 % (devices[i]))
 
 ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model)
@@ -100,6 +99,8 @@ fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 
 for i, video_name in enumerate(video_names):
     print('[INFO] Opening video: %s' % (video_name))
+    print('[INFO] Computing rotation angle')
+    sys.stdout.flush()
     angle = compute_rotation_angle(str(video_name), ssd)
     print('[INFO] Computed rotation angle of %d degrees' % (angle * 90))
     total_start_frame_difference = ceil((float(video_times[-1]) -
@@ -112,7 +113,7 @@ for i, video_name in enumerate(video_names):
     if i is 0: length = (int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) -
                         total_start_frame_difference)
     frame_count, written_frame_count = 0, 0
-    out_video_name = video_name.split('.')[0] + '_rotated' + '.avi'
+    out_video_name = 'video' + str(i) + '.avi'
     out = cv2.VideoWriter(out_video_name, fourcc, frame_rate, (1280,720))
     print('[INFO] Length of videos %d frames' % (length))
 
@@ -123,8 +124,8 @@ for i, video_name in enumerate(video_names):
                 frame = np.rot90(frame, angle)
                 out.write(frame)
                 written_frame_count += 1
-                sys.stdout.write('\r[INFO] %d frames written' %
-                                (written_frame_count))
+                sys.stdout.write('\r[INFO] %d/%d frames written' %
+                                (written_frame_count, length))
                 sys.stdout.flush()
         else:
             print()
