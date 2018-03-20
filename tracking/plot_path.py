@@ -9,18 +9,17 @@ import numpy as np
 import pickle
 
 class Trace_Path():
-    def __init__(self, video_path,video_name):
+    def __init__(self):
         self.sequences = []
         self.seq_coords = []
-        self.video_path = video_path
-        self.video_name = video_name
         
-    def play_video(self, save_path, width = 960, height = 540, flip = True, verbose=False, display=True, save=False):
-        cap = cv.VideoCapture(self.video_path)
+    def play_video(self, video_path, video_name, save_path, width = 960, height = 540, flip = True, verbose=False, display=True, save=False):
+        cap = cv.VideoCapture(video_path)
         ret, frame = cap.read()
+
         clone = frame.copy()
-        clone = cv.resize(clone, (width,height))
-        
+        clone = cv.resize(frame, (width,height))
+
         if(flip):
             clone = cv.flip(clone, 0)
         if (display):
@@ -30,11 +29,11 @@ class Trace_Path():
         
         frame_num = 0
         while ret:
-            print(frame_num)
+            
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
             
-            ##clone = self.draw_paths(clone, frame_num)
+            clone = self.draw_paths(clone, frame_num)
             
             if (display):
                 cv.imshow("Video", clone)
@@ -61,7 +60,11 @@ class Trace_Path():
             x_coords = self.seq_coords[i][0][start:i]
             y_coords = self.seq_coords[i][1][start:i]
             for i in range(1,len(x_coords)):
-                cv.line(clone, (x_coord[i-1],y_coord[i-1]), (x_coord[i],y_coord[i]), (255,255,0),3)
+                print(x_coords[i-1], x_coords[i])
+                
+                if (x_coords[i-1] ==  np.nan) or (x_coords[i] == np.nan):
+                    cv.line(clone, (int(x_coords[i-1]),int(y_coords[i-1])), (int(x_coords[i]),int(y_coords[i])), (255,255,0),3)
+                
         return clone
 
 
@@ -72,11 +75,13 @@ class Trace_Path():
         for i in self.sequences:
             self.seq_coords.append(i.coordinates)
 
+
+
     
 def export_video(video_path, video_name, save_path, flip=False):
-    path = Trace_Path(video_path,video_name)
+    path = Trace_Path()
     path.unpickle_sequences(video_name)
-    path.play_video(save_path,flip, save=True)
+    path.play_video(video_path, video_name, save_path, flip=flip, save=True)
 
 
 

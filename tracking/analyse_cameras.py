@@ -16,5 +16,7 @@ def analyse_cameras(video_list, name='test', display=False):
         json.dump(full_string, f, indent=1)
     
 if __name__=='__main__':
-    vid_list = ['tracking/resources/video2/video0.mp4','tracking/resources/video2/video1.mp4']
+    vid_list = ['resources/video2/video0.mp4','resources/video2/video1.mp4']
+    for i in range(len(vid_list)):
+        vid_list[i] = os.path.join(os.getcwd(),vid_list[i])
     analyse_cameras(vid_list,display=True)    
