@@ -32,8 +32,8 @@ def play_videos(videos, window_title):
     cv.destroyAllWindows()
     
 if __name__=='__main__':
-    videos = ['video_1_1.avi','video_1_2.avi']
-    window_title = ['Lunge Side', 'Lunge 45 degrees']
+    videos = ['video_1_1.avi','video_1_2.avi','video_2_1.avi']
+    window_title = ['Lunge Side', 'Lunge 45 degrees','Side Walk']
     
     play_videos(videos, window_title)
 

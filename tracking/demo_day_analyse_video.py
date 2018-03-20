@@ -75,7 +75,7 @@ class Analyse_Path():
             else:
                 use_class = True
             keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, detect_classifier, detector, 0, self.threshold,
-                                                                                    use_classifier=use_class)  
+                                                                                    use_classifier=use_class, crop=False)  
             if(verbose):
                 print("Keypoints: ", len(keypoints))
                 print("Colors: ", colors)
@@ -106,8 +106,9 @@ class Analyse_Path():
                 frame_coords.append((x_pred,y_pred))
                         
                 if (display):
+                    pass
                     #cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
-                    cv.drawKeypoints(clone, 
+            clone = cv.drawKeypoints(clone, keypoints, None, (0,255,0), 4)
             if (len(frame_coords)>0):            
                 self.video_coords.append((frame_num, frame_coords))
                 self.track(self.start_analysis,10)
@@ -143,7 +144,7 @@ class Analyse_Path():
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(i, view_past, current_pnt, 50)
+                last_pnt = self.track_past(i, view_past, current_pnt, 55)
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
