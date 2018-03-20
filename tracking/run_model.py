@@ -1,6 +1,7 @@
 import tensorflow as tf
 import cv2 as cv
 import numpy as np
+import os
 
 class Trained_NN:
     def __init__(self, n_classes=2, keep_rate=0.8):
@@ -44,8 +45,8 @@ class Trained_NN:
     def nn_predict(self, predict_data_x):
         with tf.Session() as sess:
             tf.get_variable_scope().reuse_variables()
-            location = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/tracking/saved_model/'
-            self.saver.restore(sess, location + "ball_model.ckpt")
+            location = os.path.join(os.getcwd(),"saved_model","ball_model.ckpt")
+            self.saver.restore(sess, location)
             output = sess.run(self.nn_model(), feed_dict={self.x: predict_data_x})
             output = output.argmax(axis=1)
             return output

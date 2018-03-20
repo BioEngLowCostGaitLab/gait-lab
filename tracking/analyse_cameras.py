@@ -1,5 +1,5 @@
 import sys
-functions_path = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection'
+functions_path = os.path.join(os.getcwd(),"..","detection")
 sys.path.insert(0, functions_path)
 from functions import generate_full_json_string
 from analyse_video import analyse_video

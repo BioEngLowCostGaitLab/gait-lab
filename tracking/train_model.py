@@ -116,7 +116,6 @@ class Train_NN:
             sess.run(tf.global_variables_initializer())
             loss_plot = []
             hm_zeros = 0
-            ###last_error = -1
             for epoch in range(self.hm_epochs):
                 _, c = sess.run([self.train_op, self.cost], feed_dict = {self.x: self.train_data_x, self.y: self.train_data_y})
                 loss_plot.append(c)
@@ -133,16 +132,16 @@ class Train_NN:
             plt.plot(loss_plot)
             plt.yscale('log')
             plt.show()
-            location = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/tracking/saved_model/'
-            save_path = self.saver.save(sess, location + "ball_model.ckpt")
+            location = os.path.join(os.getcwd(),"saved_model","ball_model.ckpt")
+            self.saver.restore(sess, location)
             if (verbose):
                 print("Model saved in path: %s" % save_path)
 
     def nn_test(self, verbose=True):
         with tf.Session() as sess:
             tf.get_variable_scope().reuse_variables()
-            location = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/tracking/saved_model/'
-            self.saver.restore(sess, location + "ball_model.ckpt")
+            location = os.path.join(os.getcwd(),"saved_model","ball_model.ckpt")
+            self.saver.restore(sess, location)
             length = len(self.test_data_x)
             output = sess.run(self.nn_model(), feed_dict={self.x: self.test_data_x})
             output_result = output.argmax(axis=1)

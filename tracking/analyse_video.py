@@ -1,12 +1,11 @@
 from run_model import Trained_NN
+import os
 import sys
-functions_path = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection'
+functions_path = os.path.join(os.getcwd(),"..","detection")
 sys.path.insert(0, functions_path)
 from functions import analyse, marker_sequence
 import cv2 as cv
 import numpy as np
-import os
-from os.path import join
 import pickle
 
 class Ball():
@@ -44,16 +43,16 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, location, ssd, detector, video='/tracking/resources/video2/video0.mp4', width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
-        file = location + video
-        cap = cv.VideoCapture(file)
+    def classify(self, nn, video_path, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
+        
+        cap = cv.VideoCapture(video_path)
         ret, frame = cap.read()
         clone = frame.copy()
         clone = cv.resize(clone, (width,height))
         if(flip): clone = cv.flip(clone, 0)
         if (self.display):
             cv.namedWindow("Video")
-
+            
         frame_num = 0
         while ret:
             self.current_frame_objects = []
@@ -194,12 +193,10 @@ class Analyse_Path():
         
         for pos in range(len(self.balls)): ##Creates marker sequence objects
             sequences.append( marker_sequence("", len(self.frames_objects), pos) ) 
-
         if verbose: 
             print("Number of sequences: ", len(sequences))
             
         for frame_num in range(len(self.frames_objects)):
-            
             if verbose:
                 print("---------------------")
                 print("Frame number: ", frame_num + 1)
@@ -242,44 +239,37 @@ class Analyse_Path():
 
         return sequences
                     
-    def pickle_sequences(self, sequences, name="sequences"):
-        with open("pickle_files/" + name + '.pkl','wb') as f:
-            pickle.dump(sequences,f)
 
 
-## Needs to be converted to relative paths
-
-def analyse_video(location=os.getcwd(),video_path,display):
-    ssd = cv.dnn.readNetFromCaffe(join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'), 
-                              join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
-    classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/frozen_model.pb'))
+def analyse_video(video_path, location=os.path.join(os.getcwd(),".."), display=True):
+    ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
+                                  os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
+    #classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resouces/frozen_model_reshape_test.pb'))
+    classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/frozen_model.pb'))
     detector = cv.xfeatures2d.SURF_create(2000)
     detector.setUpright(True)
 
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
-    analyse_path.classify(nn,location,video=video_path,flip=False, detect_classifier=classifier, ssd=ssd, detector=detector)
+    analyse_path.classify(nn, video_path, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
     return analyse_path.prepare_json_for_this_video()
+
+def pickle_sequences(sequences, video_name):
+    with open("pickle_files/sequences" + video_name + '.pkl','wb') as f:
+        pickle.dump(sequences,f)
+
+
+def analyse_and_pickle(video_path, video_name, location, display):
+    seq = analyse_video(video_path, location,display)
+    pickle_sequences(seq, display)
 
 
 if __name__=='__main__':
-    location = "C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/"
-    ssd = cv.dnn.readNetFromCaffe(join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'), 
-                              join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
-    #classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/resouces/frozen_model_reshape_test.pb'))
-    classifier = cv.dnn.readNetFromTensorflow(join(location, 'detection/frozen_model.pb'))
-    detector = cv.xfeatures2d.SURF_create(2000)
-    detector.setUpright(True)
+    location = os.path.join(os.getcwd(),"..")
+    vid_path = os.path.join(location,"tracking","resources", "20180205_135429.mp4")
     
-    nn = Trained_NN()
-    analyse_path = Analyse_Path()
-    vid_path1 = 'detection/resources/test_video.mp4'
-    vid_path2 = 'detection/resources/20180205_135429.mp4'
-    vid_path3 = 'detection/resources/20180205_135556.mp4'
-    vid_path4 = 'detection/resources/video2/video0.mp4'
-    analyse_path.classify(nn,location,video=vid_path4,flip=False, verbose=True, detect_classifier=classifier, ssd=ssd, detector=detector)
-    seq = analyse_path.prepare_json_for_this_video()
-    analyse_path.pickle_sequences(seq)
+    seq = analyse_video(vid_path, location, True)
+    pickle_sequences(seq, "20180205_135429")
     
 
 

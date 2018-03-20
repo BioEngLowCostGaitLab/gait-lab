@@ -1,5 +1,6 @@
+import os
 import sys
-functions_path = 'C:/Users/joear/OneDrive - Imperial College London/General/Code/Github/gait-lab/detection'
+functions_path = os.path.join(os.getcwd(),"..","detection")
 sys.path.insert(0, functions_path)
 from functions import analyse
 import cv2 as cv
@@ -8,8 +9,7 @@ import os
 from os.path import join
 from datetime import datetime as dt
 
-# Features include: frame number, coordinate (x,y), image (extracted from coord and frame number)
-# Global variables
+
 image_pos = 0
 seq_pos = 0
 move_frame = False
