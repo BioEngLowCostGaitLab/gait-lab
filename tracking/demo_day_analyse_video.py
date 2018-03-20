@@ -94,29 +94,23 @@ class Analyse_Path():
                 pts.append(pt_img)
                 if (verbose):
                     print(x_img, y_img)
-                    cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
+                #cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
 
-            if (path & len(pts) > 0):
-                shape = list(pts[0].shape)
-                shape[:0] = [len(pts)]
-                pts_np = np.concatenate(pts).reshape(shape)
-                output = nn.nn_predict(pts_np)
-                if (verbose):    
-                    print("Output predictions: ", output)
-                frame_coords = []
-                for i in range(len(output)):
-                    if (output[i] == 0):
-                        if (verbose):
-                            print("Position of detected: ", i)
-                        x_pred = int(keypoints[i].pt[0])
-                        y_pred = int(keypoints[i].pt[1])
-                        frame_coords.append((x_pred,y_pred))
+            frame_coords = []
+            for i in range(len(keypoints)):
+                    
+                if (verbose):
+                    print("Position of detected: ", i)
+                x_pred = int(keypoints[i].pt[0])
+                y_pred = int(keypoints[i].pt[1])
+                frame_coords.append((x_pred,y_pred))
                         
-                        #if (display):
-                        #    cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
-                if (len(frame_coords)>0):            
-                    self.video_coords.append((frame_num, frame_coords))
-                    self.track(self.start_analysis,10)
+                if (display):
+                    #cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
+                    cv.drawKeypoints(clone, 
+            if (len(frame_coords)>0):            
+                self.video_coords.append((frame_num, frame_coords))
+                self.track(self.start_analysis,10)
             clone = self.draw_paths(clone)
             clone = cv.resize(clone, (width,height))
             self.frames_objects.append(self.current_frame_objects)
@@ -196,8 +190,8 @@ class Analyse_Path():
 def analyse_video(video_path, video_name, location=os.path.join(os.getcwd(),".."), display=True):
     ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
                                   os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
-    #classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resouces/frozen_model_reshape_test.pb'))
-    classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/frozen_model.pb'))
+    classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resources/frozen_model_reshape_test.pb'))
+    #classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/frozen_model.pb'))
     detector = cv.xfeatures2d.SURF_create(2000)
     detector.setUpright(True)
 

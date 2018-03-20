@@ -4,8 +4,8 @@ import os
 if __name__=="__main__":
     
     tracking_path = os.getcwd()
-    video_names = ["video_1_1","video_1_2"]
-    #video_names = ["video_2_1","video_2_2"]
+    #video_names = ["video_1_1","video_1_2"]
+    video_names = ["video_2_1","video_2_2"]
 
     for i in range(len(video_names)):
         video_path = os.path.join(tracking_path,"resources",video_names[i] + ".avi")
