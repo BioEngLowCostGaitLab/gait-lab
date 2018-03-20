@@ -44,11 +44,11 @@ class Analyse_Path():
         return r
 
     def classify(self, nn, video_path, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
-        
         cap = cv.VideoCapture(video_path)
         ret, frame = cap.read()
         clone = frame.copy()
         clone = cv.resize(clone, (width,height))
+        
         if(flip): clone = cv.flip(clone, 0)
         if (self.display):
             cv.namedWindow("Video")

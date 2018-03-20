@@ -30,6 +30,7 @@ class Trace_Path():
         
         frame_num = 0
         while ret:
+            print(frame_num)
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
             

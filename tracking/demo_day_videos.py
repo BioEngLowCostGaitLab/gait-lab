@@ -8,7 +8,7 @@ if __name__=="__main__":
     video_path = os.path.join(tracking_path,"resources",video_name + ".avi")
     location = os.path.join(tracking_path,"..")
     
-    #analyse_and_pickle(video_path, video_name, location, True)
+    analyse_and_pickle(video_path, video_name, location, True)
 
     print("ANALYSED AND PICKLED")
 
