@@ -1,7 +1,7 @@
 import serial
 import time
 
-locations=['COM6']  
+locations=['COM7']  
   
 for device in locations:  
 	try:  
@@ -12,8 +12,9 @@ for device in locations:
 		print "Failed to connect on",device   
 
 text_file = open("position8.txt", 'w')
+
 try:  
-    arduino.write('\n')  
-    print arduino.readline()
+	text_file.write("ninja")
+	print arduino.readline()
 except:  
     print "Failed to send!" 

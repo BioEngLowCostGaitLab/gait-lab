@@ -15,13 +15,13 @@ for device in locations:
 	except:  
 		print "Failed to connect on",device   
 
-text_file = open("C:\\Users\\Adriensv37\\Desktop\\year_2\\GitProjects\\gait-lab\\accel\\testrayson3.txt", 'w')
+text_file = open("C:\\Users\\Adriensv37\\Desktop\\year_2\\GitProjects\\gait-lab\\accel\\anttigabor1.txt", 'w')
 
 try:
 	arduino.write('\n') 
 
-	for i in range(1001):
-		
+	for i in range(301):
+		#text_filewrite(time.time())
 		text_file.write(arduino.readline())
 		text_file.flush()
 

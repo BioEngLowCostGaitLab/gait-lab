@@ -167,7 +167,7 @@ def readfile(filename):
 	return t,x,y,z,yaw,pitch,roll
 #Lists containing acceleration and gyroscope data 
 
-t1,x1,y1,z1,g1v0,g2v0,g3v0= readfile('YawPitchRollIMUdata.txt')
+t1,x1,y1,z1,g1v0,g2v0,g3v0= readfile('testrayson2.txt')
 
 
 #initialisation with acceleration while immobile, allows us to calculate initial angles. calculate the mean over 10 measures for better accuracy	

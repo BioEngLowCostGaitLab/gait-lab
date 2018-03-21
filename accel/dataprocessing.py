@@ -114,7 +114,7 @@ def readfile(filename):
 	return t,x,y,z,yaw,pitch,roll
 #Lists containing acceleration and gyroscope data 
 
-t1,x1,y1,z1,g1v0,g2v0,g3v0= readfile('testrayson3.txt')
+t1,x1,y1,z1,g1v0,g2v0,g3v0= readfile('anttigabor.txt')
 
 
 #initialisation with acceleration while immobile, allows us to calculate initial angles. calculate the mean over 10 measures for better accuracy	
@@ -255,9 +255,6 @@ r_zAC= dc_blocker(r_z)
 poi0,sway0,avg0=get_sway(r_xAC)
 poi,sway,avg=remove_outlying_data(poi0,sway0,avg0)
 #poi,sway,avg=remove_outlying_data(poi0,sway0,avg0)
-
-print sway
-print avg
 
 plt.plot(t1, r_xAC, '-gD', markevery=poi) #Data is very very noisy
 #plt.plot(t1, r_y)
