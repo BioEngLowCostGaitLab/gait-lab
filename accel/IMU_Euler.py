@@ -4,8 +4,11 @@ import numpy as np
 import math
 from mpl_toolkits import mplot3d
 
-lower_limit = 0
-upper_limit = 1000
+lower_limit = int(input('Input start point of gait: '))
+upper_limit = int(input('Input end point of gait: '))
+
+#lower_limit = 70
+#upper_limit = 120
 
 #Lists containing acceleration and gyroscope data 
 t1 = []
@@ -185,7 +188,7 @@ def integrate_normal(v_x, v_y, v_z):
     return r_x, r_y, r_z
     
 #Store data from file
-t,x,y,z,g1,g2,g3 = readfile(r'NathanTest2.txt')
+t,x,y,z,g1,g2,g3 = readfile(r'anttigabor.txt')
 
 #Saving data into correct coordinate frame
 new_x = x
@@ -214,21 +217,25 @@ z_filter = kalman_filter(z_block, 5, 15)
 v_x_temp, v_y_temp, v_z_temp = integrate_zupt(x_filter, y_filter, z_filter)
 
 v_x = kalman_filter(v_x_temp, 10, 15)
-v_y = kalman_filter(v_x_temp, 10, 15)
-v_z = kalman_filter(v_x_temp, 10, 15)
+v_y = kalman_filter(v_y_temp, 10, 15)
+v_z = kalman_filter(v_z_temp, 10, 15)
 
 r_x_temp, r_y_temp, r_z_temp = integrate_normal(v_x, v_y, v_z)
 
 r_x_temp2, r_y_temp2, r_z_temp2 = dc_blocker(r_x_temp, r_y_temp, r_z_temp)
 
 r_x = kalman_filter(r_x_temp, 10, 15)
-r_y = kalman_filter(r_x_temp, 10, 15)
-r_z = kalman_filter(r_x_temp, 10, 15)
+r_y = kalman_filter(r_y_temp, 10, 15)
+r_z = kalman_filter(r_z_temp, 10, 15)
 
 #Test test data
 v_x_test = kalman_filter(dc_blocker_single(kalman_filter(v_x, 6, 15)), 6, 16)
+v_y_test = kalman_filter(dc_blocker_single(kalman_filter(v_y, 6, 15)), 6, 16)
+v_z_test = kalman_filter(dc_blocker_single(kalman_filter(v_z, 6, 15)), 6, 16)
 
 r_x_test = it.cumtrapz(v_x_test, t, initial = 0)
+r_y_test = it.cumtrapz(v_y_test, t, initial = 0)
+r_z_test = it.cumtrapz(v_z_test, t, initial = 0)
 
 #Resolving data for inertial frame
 
@@ -280,17 +287,19 @@ fig = plt.figure(3, figsize=(16,9))
 ax3 = plt.subplot()
 
 #ax2.plot(t, v_x, label = 'Velocity')
-ax3.plot(t, r_x_test, label = 'Position')
+ax3.plot(t, r_x_test, label = 'Position x')
+#ax3.plot(t, r_y_test, label = 'Position y')
+#ax3.plot(t, r_z_test, label = 'Position z')
 
-plt.ylabel('Velocity [\u221Dm/s]', size = 25)
+plt.ylabel('Position [\u221Dm]', size = 25)
 plt.xlabel('Time [\u221Ds]', size = 25)
 ax3.legend(loc=2, prop={'size': 25})
-plt.show()
-"""
+#plt.show()
+
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot3D(r_x_res, r_y_res, r_z_res, 'gray')
+ax.plot3D(r_x_test, r_y_test, r_z_test, 'gray')
 
 plt.show()
-"""
+
