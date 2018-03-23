@@ -1,4 +1,5 @@
-![Demo](demo_day_videos/video_1_1.gif "Demonstation of path tracing")
+![Demo](demo_day_videos/video_1_1.gif "Path tracing of a lunge")
+![Demo](demo_day_videos/video_2_1.gif "Path tracing of walking")
 
 
 Step 1:
