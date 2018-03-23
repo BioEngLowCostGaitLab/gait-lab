@@ -1,4 +1,4 @@
-![Alt Text](https://github.com/anttilankinen/gait-lab/tree/master/tracking/demo_day_videos/video_1_1.gif)
+![Demo](demo_day_videos/video_1_1.gif "Demonstation of path tracing")
 
 
 Step 1:
