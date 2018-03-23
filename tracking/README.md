@@ -1,4 +1,5 @@
 ![Demo](demo_day_videos/video_1_1.gif "Path tracing of a lunge")
+![Demo](demo_day_videos/video_1_2.gif "Path tracing of a lunge, from different angle")
 ![Demo](demo_day_videos/video_2_1.gif "Path tracing of walking")
 
 
