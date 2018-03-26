@@ -9,7 +9,7 @@
 
 We track the markers to determine joint angles. Joint angles are import for diagnosising neurological disorders, issues with prosthetics.
 
-In order to get accurate continuous joint angles, we need to know a 3D continous path. To map the markers accurately to a 3D position: two continous 2D paths from different camera angles are required. Using vector mathematics, we can find where the mackers are in 3D fro the two 2D sequences.
+In order to get accurate continuous joint angles, we need to know a 3D continous path. To map the markers accurately to a 3D position: two continous 2D paths from different camera angles are required. Using vector mathematics, we can find where the mackers are in 3D from the two 2D sequences.
 
 
 ### How it works:
