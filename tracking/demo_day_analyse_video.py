@@ -8,6 +8,8 @@ import cv2 as cv
 import numpy as np
 import pickle
 
+
+
 class Ball():
     ball_id = 0
     def __init__(self, first_point, first_frame, verbose=False):
@@ -29,6 +31,9 @@ class Ball():
     def add_point(self, frame, point):
         self.pts.append((frame, point))
 
+
+
+
 class Analyse_Path():
     def __init__(self, threshold = 2000, start_analysis = 5, display = True):
         self.video_coords = []
@@ -43,9 +48,9 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, video_path, video_name, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
+    def classify(self, nn, video_path, video_name, video_format, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
         cap = cv.VideoCapture(video_path)
-        save_path = os.path.join(video_path,"..","..","analysed_videos",video_name + ".avi")
+        save_path = os.path.join(video_path,"..","..","analysed_videos",video_name + video_format)
         out_video = cv.VideoWriter(save_path, -1, 20.0, (width,height))
         ret, frame = cap.read()
         clone = frame.copy()
@@ -85,17 +90,6 @@ class Analyse_Path():
                 print("endX: ", endX)
                 print("clone shape", clone.shape)
                 
-            pts = []
-            for i in range(len(keypoints)):
-                x_img = int(keypoints[i].pt[0])
-                y_img = int(keypoints[i].pt[1])
-                pt_img = clone[y_img-12:y_img+12, x_img-12:x_img+12]
-                pt_img = self.pad(pt_img)
-                pts.append(pt_img)
-                if (verbose):
-                    print(x_img, y_img)
-                #cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
-
             frame_coords = []
             for i in range(len(keypoints)):
                     
@@ -187,27 +181,40 @@ class Analyse_Path():
             cv.line(clone, ball.pts[i-1][1], ball.pts[i][1], (255,255,0),3)
         return clone
 
+
+
+
     
-def analyse_video(video_path, video_name, location=os.path.join(os.getcwd(),".."), display=True):
+def analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), display=True):
     ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
                                   os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
     classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resources/frozen_model_reshape_test.pb'))
-    #classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/frozen_model.pb'))
     detector = cv.xfeatures2d.SURF_create(2000)
     detector.setUpright(True)
 
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
-    analyse_path.classify(nn, video_path, video_name, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
+    analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
     
 
+def analyse_and_export(video_path, video_name, video_format, location, display):
+    analyse_video(video_path, video_name, video_format, location,display)
 
-def analyse_and_export(video_path, video_name, location, display):
-    analyse_video(video_path, video_name, location,display)
+
+
+
+
     
-
-
-    
-
-
+if __name__=="__main__":
+    tracking_path = os.getcwd()
+    #video_names = ["video_1_1","video_1_2"]
+    video_names = ["video_2_1","video_2_2"]
+    video_format = ".avi"
+    for i in range(len(video_names)):
+        video_path = os.path.join(tracking_path,"resources",video_names[i] + ".avi")
+        location = os.path.join(tracking_path,"..")
+        
+        print("Analysing: " + video_names[i])
+        analyse_and_export(video_path, video_names[i], video_format,location,True)
+        print("Video analysed and exported.\n")
 

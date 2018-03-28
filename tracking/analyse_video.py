@@ -8,6 +8,8 @@ import cv2 as cv
 import numpy as np
 import pickle
 
+
+
 class Ball():
     ball_id = 0
     def __init__(self, first_point, first_frame, verbose=False):
@@ -29,6 +31,9 @@ class Ball():
     def add_point(self, frame, point):
         self.pts.append((frame, point))
 
+
+
+
 class Analyse_Path():
     def __init__(self, threshold = 2000, start_analysis = 5, display = True):
         self.video_coords = []
@@ -43,8 +48,10 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, video_path, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,path=True, detect_classifier=""):
+    def classify(self, nn, video_path, video_name, video_format, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,detect_classifier=""):
         cap = cv.VideoCapture(video_path)
+        save_path = os.path.join(video_path,"..","..","analysed_videos",video_name + video_format)
+        out_video = cv.VideoWriter(save_path, -1, 20.0, (width,height))
         ret, frame = cap.read()
         clone = frame.copy()
         clone = cv.resize(clone, (width,height))
@@ -61,6 +68,7 @@ class Analyse_Path():
             if (self.display):
                 cv.imshow("Video", clone)
             frame_num += 1
+            out_video.write(clone)
             ret, clone = cap.read()
             if not ret:
                 break
@@ -72,7 +80,7 @@ class Analyse_Path():
             else:
                 use_class = True
             keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, detect_classifier, detector, 0, self.threshold,
-                                                                                    use_classifier=use_class)  
+                                                                                    use_classifier=use_class, crop=False)  
             if(verbose):
                 print("Keypoints: ", len(keypoints))
                 print("Colors: ", colors)
@@ -81,45 +89,52 @@ class Analyse_Path():
                 print("startX: ", startX)
                 print("endX: ", endX)
                 print("clone shape", clone.shape)
-                
-            pts = []
-            for i in range(len(keypoints)):
-                x_img = int(keypoints[i].pt[0])
-                y_img = int(keypoints[i].pt[1])
-                pt_img = clone[y_img-12:y_img+12, x_img-12:x_img+12]
-                pt_img = self.pad(pt_img)
-                pts.append(pt_img)
-                if (verbose):
-                    print(x_img, y_img)
-                    cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
 
-            if (path & len(pts) > 0):
+            if (use_class == False):
+                ## Convert pad keypoints detected and store in pts
+                pts = []
+                for i in range(len(keypoints)):
+                    x_img = int(keypoints[i].pt[0])
+                    y_img = int(keypoints[i].pt[1])
+                    pt_img = clone[y_img-12:y_img+12, x_img-12:x_img+12]
+                    pt_img = self.pad(pt_img)
+                    pts.append(pt_img)
+                    if (verbose):
+                        print(x_img, y_img)
+                    if (display):
+                        cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
+                ## Use different cnn on data
                 shape = list(pts[0].shape)
                 shape[:0] = [len(pts)]
                 pts_np = np.concatenate(pts).reshape(shape)
                 output = nn.nn_predict(pts_np)
                 if (verbose):    
                     print("Output predictions: ", output)
-                frame_coords = []
-                for i in range(len(output)):
-                    if (output[i] == 0):
-                        if (verbose):
-                            print("Position of detected: ", i)
-                        x_pred = int(keypoints[i].pt[0])
-                        y_pred = int(keypoints[i].pt[1])
-                        frame_coords.append((x_pred,y_pred))
+
+            frame_coords = []
+            for i in range(len(keypoints)):
+                if (verbose):
+                    print("Position of detected: ", i)
+                if (use_class or output[i] == 0):
+    
+                    x_pred = int(keypoints[i].pt[0])
+                    y_pred = int(keypoints[i].pt[1])
+                    frame_coords.append((x_pred,y_pred))
                         
-                        if (display):
-                            cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
-                if (len(frame_coords)>0):            
-                    self.video_coords.append((frame_num, frame_coords))
-                    self.track(self.start_analysis,10)
-                    clone = self.draw_paths(clone)
+                if (display):
+                    cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
+                
+            clone = cv.drawKeypoints(clone, keypoints, None, (0,255,0), 4)
+            if (len(frame_coords)>0):            
+                self.video_coords.append((frame_num, frame_coords))
+                self.track(self.start_analysis,10)
+            clone = self.draw_paths(clone)
             clone = cv.resize(clone, (width,height))
             self.frames_objects.append(self.current_frame_objects)
             if (verbose):
                 print("Current frame objects: ", self.current_frame_objects)
                 print("-------------------------------------------")
+        out_video.release()
         cap.release()
         cv.destroyAllWindows()
 
@@ -145,7 +160,7 @@ class Analyse_Path():
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(i, view_past, current_pnt, 50)
+                last_pnt = self.track_past(i, view_past, current_pnt, 55)
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
@@ -188,24 +203,20 @@ class Analyse_Path():
             cv.line(clone, ball.pts[i-1][1], ball.pts[i][1], (255,255,0),3)
         return clone
 
+
     def prepare_json_for_this_video(self, verbose=False):
         sequences = []
-        
         for pos in range(len(self.balls)): ##Creates marker sequence objects
             sequences.append( marker_sequence("", len(self.frames_objects), pos) ) 
         if verbose: 
             print("Number of sequences: ", len(sequences))
-            
         for frame_num in range(len(self.frames_objects)):
             if verbose:
                 print("---------------------")
                 print("Frame number: ", frame_num + 1)
-
             for ball_object in range( len(self.balls) ):
                 if verbose:
                     print("==== New Ball ====")
-                
-                if verbose:
                     print("Ball iter", self.balls[ball_object].iter)
                     print("Ball ID: ", ball_object)
                     print("Current iter: ", self.balls[ball_object].iter)
@@ -216,61 +227,49 @@ class Analyse_Path():
                     if (verbose):
                         print("frame num < iter, therefore adding position of np.nan")
                     sequences[ball_object].set_coordinates(np.nan,np.nan, frame_num)
-                
                 elif (frame_num + 1) == self.balls[ball_object].iter:
                     ## Ball is in frame
-                        ## No need to pull out index from frames_objects since it loops from the balls objects instead
-                        ##ball_id = self.frames_objects[frame_num][ball_object]
                     iter_position = self.balls[ball_object].iter_pos
                     current_ball = self.balls[ball_object]
                     current_coords = current_ball.pts[iter_position][1]
                     sequences[ball_object].set_coordinates(current_coords[0],current_coords[1],frame_num)
-                    
                     ## Update iter value
                     self.balls[ball_object].iter_pos += 1
                     if self.balls[ball_object].iter_pos < len(current_ball.pts):
                         self.balls[ball_object].iter = current_ball.pts[self.balls[ball_object].iter_pos][0]
-                    
                 elif (frame_num + 1) > self.balls[ball_object].iter:
                     ## Run out of ball objects, keep assigning -1
                     if (verbose):
                         print("frame num > iter, therefore adding position of np.nan")
                     sequences[ball_object].set_coordinates(np.nan,np.nan,frame_num)
-
         return sequences
-                    
 
-
-def analyse_video(video_path, location=os.path.join(os.getcwd(),".."), display=True):
+    
+def setup_analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), display=True):
     ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
                                   os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
-    #classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resouces/frozen_model_reshape_test.pb'))
-    classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/frozen_model.pb'))
+    classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resources/frozen_model_reshape_test.pb'))
     detector = cv.xfeatures2d.SURF_create(2000)
     detector.setUpright(True)
 
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
-    analyse_path.classify(nn, video_path, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
+    analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
     return analyse_path.prepare_json_for_this_video()
-
+    
 def pickle_sequences(sequences, video_name):
     with open("pickle_files/sequences_" + video_name + '.pkl','wb') as f:
         pickle.dump(sequences,f)
 
-
-def analyse_and_pickle(video_path, video_name, location, display):
-    seq = analyse_video(video_path, location,display)
+def analyse_and_export(video_path, video_name, video_format, location, display):
+    seq = setup_analyse_video(video_path, video_name, video_format, location, display)
     pickle_sequences(seq, video_name)
 
 
 if __name__=='__main__':
     location = os.path.join(os.getcwd(),"..")
-    vid_path = os.path.join(location,"tracking","resources", "20180205_135429.mp4")
-    
-    seq = analyse_video(vid_path, location, True)
-    pickle_sequences(seq, "20180205_135429")
-    
-
-
-
+    video_name = "video_2_1"
+    video_format = ".avi"
+    vid_path = os.path.join(location,"tracking","resources",video_name+video_format)
+        
+    analyse_and_export(vid_path, video_name, video_format, location, True)
