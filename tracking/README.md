@@ -50,3 +50,7 @@ To Do:
 	3) Add velocity and acceleration of points. (For low velocity consider points in a sphere, for higher velocity consider points in a cone)
 	4) Improve the annotation software to be better for labelling correct images. (eg click on closest -> ball/not ball)
 	5) Threshold for distance between points (Check if the change in velocity is very rapid, if it is lower threshold)
+	
+## Possible Future Plans:
+
+Solution above could be significantly improved if an LSTM cell is used to track previous states and this is information is used in the model to predict if a marker belongs to a path. Additionally, redesigning the tracking to use a Mask R-CNN structure would provide faster results and possibly a higher accuracy. The current limitations for these additions is that not enough data has been collected for the models to sufficiently generalise. 
