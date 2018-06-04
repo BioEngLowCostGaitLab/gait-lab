@@ -14,14 +14,7 @@ class Ball():
     ball_id = 0
     def __init__(self, first_point, first_frame, verbose=False):
         self.id = Ball.ball_id
-        Ball.ball_id += 1
-        if verbose:
-            print("_____________________________________________")
-            print("ID: ", self.id)
-            print("Ball_ID: ", Ball.ball_id)
-            print("New Ball created: ", first_point, first_frame)
-            print("_____________________________________________")
-        
+        Ball.ball_id += 1        
         self.pts = []
         self.pts.append((first_frame, first_point))
         
@@ -48,7 +41,7 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, video_path, video_name, video_format, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,detect_classifier=""):
+    def classify(self, nn, video_path, video_name, video_format, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,detect_classifier="",draw_circles=False,draw_kp=False):
         cap = cv.VideoCapture(video_path)
         save_path = os.path.join(video_path,"..","..","analysed_videos",video_name + video_format)
         out_video = cv.VideoWriter(save_path, -1, 20.0, (width,height))
@@ -57,7 +50,7 @@ class Analyse_Path():
         clone = cv.resize(clone, (width,height))
         
         if(flip): clone = cv.flip(clone, 0)
-        if (self.display):
+        if (display):
             cv.namedWindow("Video")
             
         frame_num = 0
@@ -65,7 +58,7 @@ class Analyse_Path():
             self.current_frame_objects = []
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
-            if (self.display):
+            if (display):
                 cv.imshow("Video", clone)
             frame_num += 1
             out_video.write(clone)
@@ -101,15 +94,16 @@ class Analyse_Path():
                     pts.append(pt_img)
                     if (verbose):
                         print(x_img, y_img)
-                    if (display):
+                    if (draw_circles):
                         cv.circle(clone, (x_img, y_img), 10, (255,255,255), 3)
                 ## Use different cnn on data
-                shape = list(pts[0].shape)
-                shape[:0] = [len(pts)]
-                pts_np = np.concatenate(pts).reshape(shape)
-                output = nn.nn_predict(pts_np)
-                if (verbose):    
-                    print("Output predictions: ", output)
+                if (len(pts)>0):
+                    shape = list(pts[0].shape)
+                    shape[:0] = [len(pts)]
+                    pts_np = np.concatenate(pts).reshape(shape)
+                    output = nn.nn_predict(pts_np)
+                    if (verbose):    
+                        print("Output predictions: ", output)
 
             frame_coords = []
             for i in range(len(keypoints)):
@@ -121,10 +115,11 @@ class Analyse_Path():
                     y_pred = int(keypoints[i].pt[1])
                     frame_coords.append((x_pred,y_pred))
                         
-                if (display):
+                if (draw_circles):
                     cv.circle(clone, (x_pred, y_pred), 15, (0,255,0),4)
-                
-            clone = cv.drawKeypoints(clone, keypoints, None, (0,255,0), 4)
+
+            if (draw_kp):
+                clone = cv.drawKeypoints(clone, keypoints, None, (0,255,0), 4)
             if (len(frame_coords)>0):            
                 self.video_coords.append((frame_num, frame_coords))
                 self.track(self.start_analysis,10)
@@ -200,7 +195,7 @@ class Analyse_Path():
     
     def draw_lines(self, ball, clone):
         for i in range(1, len(ball.pts)):
-            cv.line(clone, ball.pts[i-1][1], ball.pts[i][1], (255,255,0),3)
+            cv.line(clone, ball.pts[i-1][1], ball.pts[i][1], (0,128,255),3)
         return clone
 
 
@@ -271,5 +266,4 @@ if __name__=='__main__':
     video_name = "video_2_1"
     video_format = ".avi"
     vid_path = os.path.join(location,"tracking","resources",video_name+video_format)
-        
     analyse_and_export(vid_path, video_name, video_format, location, True)
