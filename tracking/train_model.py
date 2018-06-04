@@ -34,6 +34,8 @@ def load_labels(randomise=True):
     shape = list(x_values[0].shape)
     shape[:0] = [len(x_values)]
     x_np = np.concatenate(x_values).reshape(shape)
+
+    
     y_np = np.array(y_values)
     x_np, y_np = random_np(x_np, y_np)
     return x_np, y_np
