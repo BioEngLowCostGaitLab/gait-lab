@@ -245,7 +245,7 @@ def split_np(x_data, y_data, percent):
 
 
 x_cnn, y_cnn = cnn_prepare(x_img, y)
-x_train, y_train, x_test, y_test = split_np(x_cnn, y_cnn, 0.2)
+x_train, y_train, x_test, y_test = split_np(x_cnn, y_cnn, 0.8)
 
 
 # In[14]:
