@@ -319,6 +319,7 @@ OpenCover/
 *.pickle
 *.h5
 *.hdf5
+*.p
 
 # Built application files
 *.apk
