@@ -62,6 +62,10 @@ print("model built")
 monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=20, verbose=1, mode='auto')
 checkpointer = ModelCheckpoint(filepath="dnn/tmp_best_weights.hdf5", verbose=0, save_best_only=True) # save best model
 
+print("load weights")
+
+model.load_weights('dnn/tmp_best_weights-1.hdf5')
+
 print("training model")
 
 batch_size = 32
