@@ -306,10 +306,11 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
-# video and jpg files
+# video and jpg & bmp files
 *.MOV
 *.mp4
 *.jpg
+*.bmp
 *.png
 *.avi
 
