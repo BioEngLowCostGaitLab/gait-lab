@@ -19,9 +19,9 @@ def read_images(save_path, load_path, width=1280, height=720, flip=True, verbose
     print("Completed.\nVideo file name: {}\nStored at: {}".format(save_name,save_path))
     
 if __name__=='__main__':
-    folder_name = "Rayson- High_light"
+    folder_name = "Rayson-Mid_light"
     load_path = join(os.getcwd(), folder_name)
-    save_name, save_format = "v10-0", ".avi"
+    save_name, save_format = "v11-0", ".avi"
     save_path = join(os.getcwd(), "..", "resources", save_name + save_format)
     read_images(save_path, load_path)
     print("Save path: {}".format(save_path))
