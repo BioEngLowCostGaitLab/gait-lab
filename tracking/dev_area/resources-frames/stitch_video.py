@@ -1,69 +1,31 @@
-from run_model import Trained_NN
 import os
-import sys
-functions_path = os.path.join(os.getcwd(),"..","detection")
-sys.path.insert(0, functions_path)
-from functions import marker_sequence
+from os.path import join
 import cv2 as cv
-import numpy as np
-import pickle
-
-
-        
-def play_video(save_path, save_format, load_path, width=960, height=540, flip=True, verbose=False):
-    print(save_path)
-    print(save_format)
-    print(load_path)
-    
-    cap = cv.VideoCapture(video_path)
-    ret, frame = cap.read()
-
-    clone = frame.copy()
-    clone = cv.resize(frame, (width,height))
-
-    if(flip):
-        clone = cv.flip(clone, 0)
-    if (display):
-        cv.namedWindow("Video")
-    
-    out_video = cv.VideoWriter(save_path, -1, 20.0, (width,height))
-        
-    frame_num = 0
-    while ret:
-            
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            break
-            
-        clone = self.draw_paths(clone, frame_num)
-            
-        if (display):
-            cv.imshow("Video", clone)
-        if (save):
-            out_video.write(clone)
-            
-        frame_num += 1
-        ret, clone = cap.read()
-        if not ret:
-            break
-        clone = cv.resize(clone, (width,height))
-        if(flip):
-            clone = cv.flip(clone, 0)
-            
-    cap.release()
-    if (save):
-        out_video.release()
+  
+def read_images(save_path, load_path, width=1280, height=720, flip=True, verbose=False):
+    frame_names = []
+    for file in os.listdir(load_path):
+        file_id = file.split(".")[0]
+        frame = int(file_id.split("_")[2])
+        frame_names.append([file,frame])
+    frame_names.sort(key=lambda x: x[1])
+    out_video = cv.VideoWriter(save_path, -1, 30.0, (width,height) )
+    for j in frame_names:
+        img = cv.imread(join(load_path, j[0]))
+        print(j[1])
+        out_video.write(img)
     cv.destroyAllWindows()
-
+    out_video.release()
+    print("Completed.\nVideo file name: {}\nStored at: {}".format(save_name,save_path))
     
-def export_video(video_path, video_name, save_path, flip=False):
-    path = Trace_Path()
-    path.unpickle_sequences(video_name)
-    path.play_video(video_path, video_name, save_path, flip=flip, save=True)
-
-
-
 if __name__=='__main__':
-    
+    folder_name = "Rayson- High_light"
+    load_path = join(os.getcwd(), folder_name)
+    save_name, save_format = "v10-0", ".avi"
+    save_path = join(os.getcwd(), "..", "resources", save_name + save_format)
+    read_images(save_path, load_path)
+    print("Save path: {}".format(save_path))
+    print("Load path: {}".format(load_path))
 
 
 

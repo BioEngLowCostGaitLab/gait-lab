@@ -61,7 +61,8 @@ def classify(file = 'C:/Users/joear/OneDrive - Imperial College London/General/C
     cap = cv.VideoCapture(file)
     ret, frame = cap.read()
     clone = cv.resize(frame, (width,height))
-    if(flip): clone = cv.flip(clone, 0)
+    if(flip):
+        clone = cv.flip(clone, 0)
     cv.namedWindow("Video")
     cv.setMouseCallback("Video", next_frame)
     global move_frame
@@ -91,7 +92,8 @@ def classify(file = 'C:/Users/joear/OneDrive - Imperial College London/General/C
             image_pos += 1
             ret, frame = cap.read()
             clone = cv.resize(frame, (width,height))
-            if(flip): clone = cv.flip(clone, 0)
+            if(flip):
+                clone = cv.flip(clone, 0)
     cap.release()
     cv.destroyAllWindows()
     
@@ -100,14 +102,16 @@ def play_video(file = 'C:/Users/joear/OneDrive - Imperial College London/General
     cap = cv.VideoCapture(file)
     ret, frame = cap.read()
     clone = cv.resize(frame, (width,height))
-    if(flip): clone = cv.flip(clone, 0)
+    if(flip):
+        clone = cv.flip(clone, 0)
     while ret:
         cv.imshow("Input", clone)
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
         ret, frame = cap.read()
         clone = cv.resize(frame, (width,height))
-        if(flip): clone = cv.flip(clone, 0)
+        if(flip):
+            clone = cv.flip(clone, 0)
     cap.release()
     cv.destroyAllWindows()
 
