@@ -29,6 +29,7 @@ class Ball():
 
 class Analyse_Path():
     def __init__(self, threshold = 2000, start_analysis = 5, display = True):
+        print("Creating analyse path object")
         self.video_coords = []
         self.threshold = threshold
         self.balls = []
@@ -42,19 +43,26 @@ class Analyse_Path():
         return r
 
     def classify(self, nn, video_path, video_name, video_format, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,detect_classifier="",draw_circles=False,draw_kp=False):
+        print("Classifing video")
+        print("path: {}", video_path)
         cap = cv.VideoCapture(video_path)
-        save_path = os.path.join(video_path,"..","..","analysed_videos",video_name + video_format)
-        out_video = cv.VideoWriter(save_path, -1, 20.0, (width,height))
+        print(video_name + video_format)
+        save_path = os.path.join(video_path,"..","..","analysed_videos", video_name + video_format)
+        print(save_path)
+        out_video = cv.VideoWriter(save_path, -1, 20.0, (width ,height))
+        print("video read")
         ret, frame = cap.read()
+        print("Ret: {}".format(ret))
         clone = frame.copy()
         clone = cv.resize(clone, (width,height))
-        
+        print("first frame read")
         if(flip): clone = cv.flip(clone, 0)
         if (display):
             cv.namedWindow("Video")
             
         frame_num = 0
         while ret:
+            print(frame_num,end=', ')
             self.current_frame_objects = []
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -155,7 +163,7 @@ class Analyse_Path():
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(i, view_past, current_pnt, 55)
+                last_pnt = self.track_past(i, view_past, current_pnt, 45)
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
@@ -200,6 +208,7 @@ class Analyse_Path():
 
 
     def prepare_json_for_this_video(self, verbose=False):
+        print("Preparing JSON for video")
         sequences = []
         for pos in range(len(self.balls)): ##Creates marker sequence objects
             sequences.append( marker_sequence("", len(self.frames_objects), pos) ) 
@@ -241,6 +250,7 @@ class Analyse_Path():
 
     
 def setup_analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), display=True):
+    print("setting up analyse vid")
     ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
                                   os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
     classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resources/frozen_model_reshape_test.pb'))
@@ -249,7 +259,9 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
 
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
+    print("Analysising path")
     analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
+    print("Analyse path classified")
     return analyse_path.prepare_json_for_this_video()
     
 def pickle_sequences(sequences, video_name):
@@ -261,9 +273,10 @@ def analyse_and_export(video_path, video_name, video_format, location, display):
     pickle_sequences(seq, video_name)
 
 
-if __name__=='__main__':
-    location = os.path.join(os.getcwd(),"..")
-    video_name = "video_2_1"
-    video_format = ".avi"
-    vid_path = os.path.join(location,"tracking","resources",video_name+video_format)
-    analyse_and_export(vid_path, video_name, video_format, location, True)
+##
+##if __name__=='__main__':
+##    location = os.path.join(os.getcwd(),"..")
+##    video_name = "video_2_1"
+##    video_format = ".avi"
+##    vid_path = os.path.join(location,"tracking","resources",video_name+video_format)
+##    analyse_and_export(vid_path, video_name, video_format, location, True)
