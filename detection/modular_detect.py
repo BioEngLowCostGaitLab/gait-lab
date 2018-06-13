@@ -58,7 +58,7 @@ print(root)
 opts = get_args(root)
 
 
-ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector
+ssd = cv2.dnn.readNetFromCaffe(opts.prototxt, opts.model) # SSD person detector, files from https://github.com/chuanqi305/MobileNet-SSD
 classifier = cv2.dnn.readNetFromTensorflow(opts.classifier) # blob classifier
 
 threshold = 1e4
