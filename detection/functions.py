@@ -148,7 +148,7 @@ def plot_with_colors(frame, kp, colors):
 
 
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
-            MIN_BLOBS=6, MAX_BLOBS=12, MIN_THRESHOLD=5e2, MAX_THRESHOLD=3e4,
+            MIN_BLOBS=10, MAX_BLOBS=20, MIN_THRESHOLD=5e2, MAX_THRESHOLD=3e4,
             use_ssd=True, use_classifier=True, start_frame=0, verbose=False,
             flip=False, crop=True):
     if flip:

@@ -18,14 +18,12 @@ def analyse_cameras(video_list, name, display):
     print("cameras generated, generating json...")
     full_string = generate_full_json_string(cameras, len(cameras), 149)
     print("dumping json")
-    with open('json/'+name+'.json', 'w') as f:
+    with open('json/'+name+'-2.json', 'w') as f:
         json.dump(full_string, f, indent=1)
     
 if __name__=='__main__':
-    test_num = 2
-    vid_num = 2
-    vid_list = ['accuracy_resources\\gait_{}_{}\\video0.avi'.format(test_num, vid_num),'accuracy_resources\\gait_{}_{}\\video1.avi'.format(test_num, vid_num)]
+    vid_list = ['accuracy_resources\\90_2\\video0.avi','accuracy_resources\\90_2\\video1.avi']
     for i in range(len(vid_list)):
         vid_list[i] = os.path.join(os.getcwd(),vid_list[i])
     print("Analysing cameras")
-    analyse_cameras(vid_list, name='acc_{}_{}'.format(test_num, vid_num), display=True)    
+    analyse_cameras(vid_list, name='acc_90_2', display=True)    

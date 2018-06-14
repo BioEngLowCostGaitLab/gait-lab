@@ -42,7 +42,10 @@ class Analyse_Path():
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
         return r
 
-    def classify(self, nn, video_path, video_name, video_format, ssd, detector, width = 960, height = 540, flip = True, verbose=False, display=True,detect_classifier="",draw_circles=False,draw_kp=False):
+    def classify(self, nn, video_path, video_name, video_format,
+                 ssd, detector, width = 960, height = 540,
+                 flip = True, verbose=False, display=True, detect_classifier="",
+                 draw_circles=True,draw_kp=True):
         print("Classifing video")
         print("path: {}", video_path)
         cap = cv.VideoCapture(video_path)
