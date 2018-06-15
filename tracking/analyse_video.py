@@ -1,5 +1,6 @@
 from run_model import Trained_NN
 import os
+from os.path import join
 import sys
 functions_path = os.path.join(os.getcwd(),"..","detection")
 sys.path.insert(0, functions_path)
@@ -45,24 +46,25 @@ class Analyse_Path():
     def classify(self, nn, video_path, video_name, video_format,
                  ssd, detector, width = 960, height = 540,
                  flip = True, verbose=False, display=True, detect_classifier="",
-                 draw_circles=True,draw_kp=True):
+                 draw_circles=True,draw_kp=True,save_output=False):
         print("Classifing video")
         print("path: {}", video_path)
-        cap = cv.VideoCapture(video_path)
+        
+        cap = cv.VideoCapture(join(video_path, video_name + video_format))
         print(video_name + video_format)
-        save_path = os.path.join(video_path,"..","..","analysed_videos", video_name + video_format)
-        print(save_path)
-        out_video = cv.VideoWriter(save_path, -1, 20.0, (width ,height))
+        if save_output:
+            save_path = os.path.join(os.getcwd(),"analysed_videos", video_name + video_format)
+            print(save_path)
+            out_video = cv.VideoWriter(save_path, -1, 20.0, (width ,height))
         print("video read")
         ret, frame = cap.read()
         print("Ret: {}".format(ret))
         clone = frame.copy()
-        clone = cv.resize(clone, (width,height))
+        clone = cv.resize(clone, (width, height))
         print("first frame read")
         if(flip): clone = cv.flip(clone, 0)
         if (display):
             cv.namedWindow("Video")
-            
         frame_num = 0
         while ret:
             print(frame_num,end=', ')
@@ -72,19 +74,21 @@ class Analyse_Path():
             if (display):
                 cv.imshow("Video", clone)
             frame_num += 1
-            out_video.write(clone)
+            if save_output:
+                out_video.write(clone)
             ret, clone = cap.read()
             if not ret:
                 break
-            clone = cv.resize(clone, (width*2,height*2))
-            if(flip): clone = cv.flip(clone, 0)
+            clone = cv.resize(clone, (width*2, height*2))
+            if(flip):
+                clone = cv.flip(clone, 0)
             classifier = detect_classifier
             if (detect_classifier==""):
                 use_class = False
             else:
                 use_class = True
             keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, detect_classifier, detector, 0, self.threshold,
-                                                                                    use_classifier=use_class, crop=False, use_ssd=False, MIN_THRESHOLD=1e2)  
+                                                                                    use_classifier=use_class, crop=True, use_ssd=True, MIN_THRESHOLD=1e2)  
             if(verbose):
                 print("Keypoints: ", len(keypoints))
                 print("Colors: ", colors)
@@ -140,7 +144,8 @@ class Analyse_Path():
             if (verbose):
                 print("Current frame objects: ", self.current_frame_objects)
                 print("-------------------------------------------")
-        out_video.release()
+        if save_output:
+            out_video.release()
         cap.release()
         cv.destroyAllWindows()
 
@@ -150,6 +155,7 @@ class Analyse_Path():
 
     def track_past(self, position, view_past, current_point, dist, verbose=False):
         past_points = self.video_coords[-view_past:-1]
+        pts = []
         for frame in range(len(past_points)-1,-1,-1):
             for point in range(len(past_points[frame][1])):
                 if verbose:
@@ -157,8 +163,13 @@ class Analyse_Path():
                 evaluating_point = past_points[frame][1][point]
                 evaluating_dist = self.get_distance(current_point, evaluating_point)
                 if (evaluating_dist < dist * (position+1)):
-                    return evaluating_point
-        return
+                    pts.append([evaluating_point,evaluating_dist])
+        #print(pts)
+        #print("---")
+        last_pt = None
+        if len(pts) > 0:
+            last_pt = pts[0][0]
+        return last_pt
     
     def track(self, start_track, view_past, verbose=False):
         if verbose:
@@ -167,6 +178,7 @@ class Analyse_Path():
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
                 last_pnt = self.track_past(i, view_past, current_pnt, 55)
+                ##print("last pnt: {}".format(last_pnt))
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
@@ -263,7 +275,7 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
     print("Analysising path")
-    analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier, verbose=True)
+    analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier, verbose=False)
     print("Analyse path classified")
     return analyse_path.prepare_json_for_this_video()
     
@@ -276,10 +288,7 @@ def analyse_and_export(video_path, video_name, video_format, location, display):
     pickle_sequences(seq, video_name)
 
 
-##
-##if __name__=='__main__':
-##    location = os.path.join(os.getcwd(),"..")
-##    video_name = "video_2_1"
-##    video_format = ".avi"
-##    vid_path = os.path.join(location,"tracking","resources",video_name+video_format)
-##    analyse_and_export(vid_path, video_name, video_format, location, True)
+if __name__=='__main__':
+    vid_name, vid_format = 'video0', '.avi'
+    vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2')
+    setup_analyse_video(vid_path, vid_name, vid_format)

@@ -41,7 +41,7 @@ def evaluate_classifier(classifier, kp, frame):
     output = classifier.forward()
     colors = list()
     for i in range(len(output)):
-        if output[i] > 0:
+        if output[i] > 0.5:
             colors.append(get_marker_color(images[i]))
     return output, colors
 
@@ -149,7 +149,7 @@ def plot_with_colors(frame, kp, colors):
 
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=10, MAX_BLOBS=20, MIN_THRESHOLD=5e2, MAX_THRESHOLD=3e4,
-            use_ssd=False, use_classifier=True, start_frame=0, verbose=True,
+            use_ssd=True, use_classifier=True, start_frame=0, verbose=True,
             flip=False, crop=False):
     if flip:
         frame = cv2.flip(frame, 0)
