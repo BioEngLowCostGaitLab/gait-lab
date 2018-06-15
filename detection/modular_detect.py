@@ -128,7 +128,7 @@ for i, video in enumerate(image_sets):
                                                             startX, endX,
                                                             verbose=True,
                                                             crop=False,
-                                                            use_ssd=True,
+                                                            use_ssd=False,
                                                             use_classifier=True)
             if opts.save: func.save_keypoints(markers, frame, n_frame, opts)
             if len(markers) > 3: markers = markers[:3]

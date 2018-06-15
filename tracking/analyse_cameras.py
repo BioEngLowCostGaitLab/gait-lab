@@ -22,8 +22,8 @@ def analyse_cameras(video_list, name, display):
         json.dump(full_string, f, indent=1)
     
 if __name__=='__main__':
-    vid_list = ['accuracy_resources\\90_2\\video0.avi','accuracy_resources\\90_2\\video1.avi']
+    vid_list = ['accuracy_resources\\gait_3_2\\video0.avi','accuracy_resources\\gait_3_2\\video1.avi']
     for i in range(len(vid_list)):
         vid_list[i] = os.path.join(os.getcwd(),vid_list[i])
     print("Analysing cameras")
-    analyse_cameras(vid_list, name='acc_90_2', display=True)    
+    analyse_cameras(vid_list, name='acc_3_2', display=True)    

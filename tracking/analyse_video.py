@@ -84,7 +84,7 @@ class Analyse_Path():
             else:
                 use_class = True
             keypoints, colors, detector, self.threshold, startX, endX = analyse(clone, ssd, detect_classifier, detector, 0, self.threshold,
-                                                                                    use_classifier=use_class, crop=False)  
+                                                                                    use_classifier=use_class, crop=False, use_ssd=False, MIN_THRESHOLD=1e2)  
             if(verbose):
                 print("Keypoints: ", len(keypoints))
                 print("Colors: ", colors)
@@ -166,7 +166,7 @@ class Analyse_Path():
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(i, view_past, current_pnt, 45)
+                last_pnt = self.track_past(i, view_past, current_pnt, 55)
                 pos = self.check_in_balls(last_pnt)
                 if not (last_pnt == None):
                     pos = self.check_in_balls(last_pnt)
@@ -263,7 +263,7 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
     print("Analysising path")
-    analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier)
+    analyse_path.classify(nn, video_path, video_name, video_format, ssd=ssd, detector=detector, flip=False, detect_classifier=classifier, verbose=True)
     print("Analyse path classified")
     return analyse_path.prepare_json_for_this_video()
     
