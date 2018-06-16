@@ -149,7 +149,7 @@ def plot_with_colors(frame, kp, colors):
 
 def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX=0,
             MIN_BLOBS=10, MAX_BLOBS=20, MIN_THRESHOLD=5e2, MAX_THRESHOLD=3e4,
-            use_ssd=True, use_classifier=True, start_frame=0, verbose=True,
+            use_ssd=True, use_classifier=True, start_frame=0, verbose=False,
             flip=False, crop=False):
     if flip:
         frame = cv2.flip(frame, 0)
@@ -158,7 +158,8 @@ def analyse(frame, ssd, classifier, detector, n_frame, threshold, startX=0, endX
     if n_frame >= start_frame:
         if use_ssd:
             startX, endX, confidence = evaluate_ssd(ssd, frame, startX, endX)
-            if verbose: print('[INFO] p: %.2f%%' % (confidence * 100))
+            if verbose:
+                print('[INFO] p: %.2f%%' % (confidence * 100))
             startX, endX = startX - int(0.2 * (endX - startX)), endX + int(0.2 * (endX - startX))
             if (endX > w - 18):
                 endX = w - 18

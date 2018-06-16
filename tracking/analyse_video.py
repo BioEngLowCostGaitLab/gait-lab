@@ -56,14 +56,22 @@ class Ball():
 
 
 class Analyse_Path():
-    def __init__(self, threshold = 2000, start_analysis = 5, display = True):
-        print("Creating analyse path object")
+    def __init__(self, threshold = 2000, start_analysis = 5, display = True, verbose = False):
+        if verbose:
+            print("Creating analyse path object")
         self.video_coords = []
         self.threshold = threshold
         self.balls = []
         self.start_analysis = start_analysis
         self.frames_objects = []
         self.display = display
+
+    def print_paths(self):
+        for idx, path in enumerate(self.balls):
+            
+            print("\nBall num: {}".format(idx))
+            path.print_history()
+            print("-----")
     
     def pad(self, arr):
         r = np.zeros((24,24,3))
@@ -75,27 +83,36 @@ class Analyse_Path():
                  flip = True, verbose=False, display=True, detect_classifier="",
                  draw_circles=True,draw_kp=True,save_output=False,
                  past_points = 10, radius_filter = 55):
-        print("Classifing video")
-        print("path: {}", video_path)
-        
-        cap = cv.VideoCapture(join(video_path, video_name + video_format))
-        print(video_name + video_format)
+        if verbose:
+            print("Classifing video")
+            print("path: {}".format(video_path))
+        if len(video_path.split(".")) == 1:
+            video_path = join(video_path, video_name + video_format)
+        cap = cv.VideoCapture(video_path)
+        if verbose:
+            print(video_name + video_format)
         if save_output:
             save_path = os.path.join(os.getcwd(),"analysed_videos", video_name + video_format)
-            print(save_path)
+            if verbose:
+                print(save_path)
             out_video = cv.VideoWriter(save_path, -1, 20.0, (width ,height))
-        print("video read")
+        if verbose:
+            print("video read")
         ret, frame = cap.read()
-        print("Ret: {}".format(ret))
+        if verbose:
+            print("Ret: {}".format(ret))
         clone = frame.copy()
         clone = cv.resize(clone, (width, height))
-        print("first frame read")
-        if(flip): clone = cv.flip(clone, 0)
+        if verbose:
+            print("first frame read")
+        if(flip):
+            clone = cv.flip(clone, 0)
         if (display):
             cv.namedWindow("Video")
         frame_num = 0
         while ret:
-            print(frame_num,end=', ')
+            if verbose:
+                print(frame_num,end=', ')
             self.current_frame_objects = []
             if cv.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -164,8 +181,8 @@ class Analyse_Path():
                 clone = cv.drawKeypoints(clone, keypoints, None, (0,255,0), 4)
             if (len(frame_coords)>0):            
                 self.video_coords.append((frame_num, frame_coords))
-                self.track(self.start_analysis, past_points, radius_filter)
-                print("########################")
+                self.track(self.start_analysis, past_points, radius_filter, verbose)
+
             clone = self.draw_paths(clone)
             clone = cv.resize(clone, (width,height))
             self.frames_objects.append(self.current_frame_objects)
@@ -184,9 +201,10 @@ class Analyse_Path():
     def track_past(self, position, view_past, current_point, dist, verbose=True):
         past_points = self.video_coords[-view_past:-1]
         current_frame_num = self.video_coords[-1][0]
-        print("--------------")
-        print("Past points: {}".format(past_points))
-        print("Position: {}".format(position))
+        if verbose:
+            print("--- track past ---")
+            print("Past points: {}".format(past_points))
+            print("Position: {}".format(position))
         pts = []
         predictions = []
         min_est_dist = dist
@@ -197,37 +215,17 @@ class Analyse_Path():
             if est_dist < min_est_dist:
                 min_est_dist = est_dist
                 best_pred = idx
-            print("Predictions: {}, Distance: {}".format(predictions[-1], est_dist))
-        if best_pred != None:
-            print("Best prediction: {}, index: {}, distance: {}".format(self.balls[best_pred].pts[-1], best_pred, min_est_dist))
-        else:
-            print("Unable to find good prediction")
+            if verbose:
+                print("Predictions: {}, Distance: {}".format(predictions[-1], est_dist))
+        if verbose:
+            print("--> Current Point: {}".format(current_point))
+            if best_pred != None:
+                print("--> Best prediction: {}, index: {}, distance: {}".format(self.balls[best_pred].pts[-1], best_pred, min_est_dist))
+            else:
+                
+                print("==> ## Unable to find good prediction ##")
         return best_pred
-        
-######        print("=============")
-######        for frame in range(len(past_points)-1,-1,-1):
-######            print("Frame num: {}, Frame: {}".format(frame, past_points[frame]))
-######            for point in range(len(past_points[frame][1])):
-######                if verbose:
-######                    print("Evaluating Point: {}".format(past_points[frame][1][point]))
-######                    print("Current Point: {}".format(current_point))
-######                    ## print("Frame: {}".format(self.video_coords[-1][0]))
-######                evaluating_point = past_points[frame][1][point]
-######                evaluating_dist = self.get_distance(current_point, evaluating_point)
-######                
-######                ### predicted_pos
-######                if (evaluating_dist < dist * (position + 1)):
-######                    print("Correct point: {}".format(evaluating_point))
-######                    pts.append([evaluating_point,evaluating_dist])
-######                    return evaluating_point
-######        ## get distance from last point, calculate velocity predict next point. determine why points are being ignored.           
-######        last_pt = None
-######        if len(pts) > 0:
-######            last_pt = pts[0][0]
-######        else:
-######            if verbose:
-######                print("Unable to find a point")
-######        return last_pt
+
     
     def track(self, start_track, view_past, radius_filter, verbose=True):
         if verbose:
@@ -235,47 +233,22 @@ class Analyse_Path():
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
-                last_pnt = self.track_past(i, view_past, current_pnt, radius_filter)
-                
-                ## print("last pnt: {}".format(last_pnt))
-                pos = self.check_in_balls(last_pnt) ##What happens here?
-
-                
-                if not (last_pnt == None):
-                    pos = self.check_in_balls(last_pnt)
-                    if (pos > -1):
-                        if (verbose):
-                            print("Position: {}, Current Point: {}, Evaluating: {}, Frame: {}, Ball: {}".format(pos,
-                                                                                                                current_pnt,
-                                                                                                                last_pnt,
-                                                                                                                self.video_coords[-1][0],
-                                                                                                                self.balls[pos]))
-                        self.balls[pos].add_point(self.video_coords[-1][0], current_pnt)
-                        self.current_frame_objects.append(pos)
-                    else:
-                        if verbose:
-                            print("New ball")
-                        current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
-                        self.current_frame_objects.append(current_id)
+                best_pred = self.track_past(i, view_past, current_pnt, radius_filter, verbose)
+                if best_pred != None:
+                    if verbose:
+                        print("-----> Adding to sequence num: {}, Frame: {}, Coords: {}".format(best_pred, self.video_coords[-1][0],current_pnt))
+                    self.balls[best_pred].add_point(self.video_coords[-1][0], current_pnt)
+                    self.current_frame_objects.append(best_pred)
                 else:
                     if verbose:
-                        print("New ball | Possible false point")
+                        print("-----> Creating new ball. Frame: {}, Coords: {}".format(self.video_coords[-1][0],current_pnt))
                     current_id = self.add_ball(self.video_coords[-1][0],current_pnt)
                     self.current_frame_objects.append(current_id)
-        
-
+            
     def add_ball(self, first_frame, first_pnt):
         ball = Ball(first_pnt, first_frame)
         self.balls.append(ball)
         return ball.id
-
-    def check_in_balls(self,last_pnt):
-        ## print("check_in_balls, last_pnt: {}".format(last_pnt))
-        for i in range(len(self.balls)):
-            if self.balls[i].pts[-1][1] == last_pnt:
-                return i
-        else:
-            return -1
 
     def draw_paths(self, clone):
         for i in range(len(self.balls)):
@@ -288,8 +261,10 @@ class Analyse_Path():
         return clone
 
 
+
     def prepare_json_for_this_video(self, verbose=False):
-        print("Preparing JSON for video")
+        if verbose:
+            print("Preparing JSON for video")
         sequences = []
         for pos in range(len(self.balls)): ##Creates marker sequence objects
             sequences.append( marker_sequence("", len(self.frames_objects), pos) ) 
@@ -330,8 +305,9 @@ class Analyse_Path():
         return sequences
 
     
-def setup_analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), display=True):
-    print("setting up analyse vid")
+def setup_analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), display=True, verbose=False):
+    if verbose:
+        print("Setting up analyse vid")
     ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
                                   os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.caffemodel'))
     classifier = cv.dnn.readNetFromTensorflow(os.path.join(location, 'detection/resources/frozen_model_reshape_test.pb'))
@@ -340,11 +316,14 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
 
     nn = Trained_NN()
     analyse_path = Analyse_Path(display=display)
-    print("Analysising path")
+    if verbose:
+        print("Analysising path")
     analyse_path.classify(nn, video_path, video_name, video_format,
                           ssd=ssd, detector=detector, flip=False, detect_classifier=classifier,
-                          verbose=False, past_points = 10, radius_filter = 55)
-    print("Analyse path classified")
+                          verbose=verbose, past_points = 15, radius_filter = 55)
+    if verbose:
+        print("Analyse path classified")
+    analyse_path.print_paths()
     return analyse_path.prepare_json_for_this_video()
     
 def pickle_sequences(sequences, video_name):
@@ -360,3 +339,5 @@ if __name__=='__main__':
     vid_name, vid_format = 'video1', '.avi'
     vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2')
     setup_analyse_video(vid_path, vid_name, vid_format)
+    
+    
