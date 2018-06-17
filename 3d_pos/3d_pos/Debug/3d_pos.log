@@ -1,0 +1,167 @@
+﻿  vidcamera.cpp
+  to3d.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\to3d.cpp(72): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\to3d.cpp(84): warning C4018: '<': signed/unsigned mismatch
+  store.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\store.cpp(22): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\store.cpp(26): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\store.cpp(30): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\store.cpp(34): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\store.cpp(53): warning C4018: '<': signed/unsigned mismatch
+  stereo_calib.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo_calib.cpp(1): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo_calib.cpp(1): error C2146: syntax error: missing ';' before identifier 'is'
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo_calib.cpp(1): warning C4138: '*/' found outside of comment
+c:\opencv\build\include\opencv2\core\cvdef.h(58): error C2143: syntax error: missing ';' before '{'
+c:\opencv\build\include\opencv2\core\cvdef.h(58): error C2447: '{': missing function header (old-style formal list?)
+c:\opencv\build\include\opencv2\core\mat.hpp(411): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(411): error C2143: syntax error: missing ';' before '&'
+c:\opencv\build\include\opencv2\core\mat.hpp(411): error C2530: 'cv::InputArray': references must be initialized
+c:\opencv\build\include\opencv2\core\mat.hpp(412): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(412): error C2378: 'cv::InputArray': redefinition; symbol cannot be overloaded with a typedef
+  c:\opencv\build\include\opencv2\core\mat.hpp(411): note: see declaration of 'cv::InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(412): error C2146: syntax error: missing ';' before identifier 'InputArrayOfArrays'
+c:\opencv\build\include\opencv2\core\mat.hpp(413): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(413): error C2143: syntax error: missing ';' before '&'
+c:\opencv\build\include\opencv2\core\mat.hpp(413): error C2530: 'cv::OutputArray': references must be initialized
+c:\opencv\build\include\opencv2\core\mat.hpp(414): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(414): error C2378: 'cv::OutputArray': redefinition; symbol cannot be overloaded with a typedef
+  c:\opencv\build\include\opencv2\core\mat.hpp(413): note: see declaration of 'cv::OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(414): error C2146: syntax error: missing ';' before identifier 'OutputArrayOfArrays'
+c:\opencv\build\include\opencv2\core\mat.hpp(415): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(415): error C2143: syntax error: missing ';' before '&'
+c:\opencv\build\include\opencv2\core\mat.hpp(415): error C2530: 'cv::InputOutputArray': references must be initialized
+c:\opencv\build\include\opencv2\core\mat.hpp(416): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(416): error C2378: 'cv::InputOutputArray': redefinition; symbol cannot be overloaded with a typedef
+  c:\opencv\build\include\opencv2\core\mat.hpp(415): note: see declaration of 'cv::InputOutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(416): error C2146: syntax error: missing ';' before identifier 'InputOutputArrayOfArrays'
+c:\opencv\build\include\opencv2\core\mat.hpp(418): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\opencv\build\include\opencv2\core\mat.hpp(418): error C2040: 'cv::InputOutputArray': 'int' differs in levels of indirection from 'int &'
+c:\opencv\build\include\opencv2\core\mat.hpp(418): error C2146: syntax error: missing ';' before identifier 'noArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1190): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1198): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1198): error C2535: 'void cv::Mat::copyTo(void) const': member function already defined or declared
+  c:\opencv\build\include\opencv2\core\mat.hpp(1190): note: see declaration of 'cv::Mat::copyTo'
+c:\opencv\build\include\opencv2\core\mat.hpp(1213): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1235): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1302): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1311): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(1321): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(2418): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(2420): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(2420): error C2535: 'void cv::UMat::copyTo(void) const': member function already defined or declared
+  c:\opencv\build\include\opencv2\core\mat.hpp(2418): note: see declaration of 'cv::UMat::copyTo'
+c:\opencv\build\include\opencv2\core\mat.hpp(2422): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(2429): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(2440): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.hpp(2443): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core\mat.inl.hpp(764): error C2660: 'cv::Mat::copyTo': function does not take 1 arguments
+c:\opencv\build\include\opencv2\core\mat.inl.hpp(774): error C2660: 'cv::Mat::convertTo': function does not take 2 arguments
+c:\opencv\build\include\opencv2\core\mat.inl.hpp(3685): error C2660: 'cv::UMat::copyTo': function does not take 1 arguments
+c:\opencv\build\include\opencv2\core\mat.inl.hpp(3695): error C2660: 'cv::UMat::convertTo': function does not take 2 arguments
+c:\opencv\build\include\opencv2\core\persistence.hpp(452): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core.hpp(323): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(363): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(403): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(428): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(451): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(455): error C2061: syntax error: identifier 'InputArray'
+c:\opencv\build\include\opencv2\core.hpp(476): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(503): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(531): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(543): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(559): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(568): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(577): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(605): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(618): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(640): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(679): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(692): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(716): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(723): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(787): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(817): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(845): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(884): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(905): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core.hpp(913): error C2146: syntax error: missing ')' before identifier 'mv'
+c:\opencv\build\include\opencv2\core.hpp(936): error C2146: syntax error: missing ')' before identifier 'm'
+c:\opencv\build\include\opencv2\core.hpp(996): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1012): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1021): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1029): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1063): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1081): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1096): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1128): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core.hpp(1149): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1168): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1190): error C2061: syntax error: identifier 'OutputArray'
+c:\opencv\build\include\opencv2\core.hpp(1214): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1232): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1259): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1286): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1314): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1331): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1357): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1378): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1407): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1420): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1441): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1460): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1485): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1501): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1514): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1536): error C2146: syntax error: missing ')' before identifier 'magnitude'
+c:\opencv\build\include\opencv2\core.hpp(1557): error C2146: syntax error: missing ')' before identifier 'x'
+c:\opencv\build\include\opencv2\core.hpp(1577): error C2146: syntax error: missing ')' before identifier 'x'
+c:\opencv\build\include\opencv2\core.hpp(1591): error C2146: syntax error: missing ')' before identifier 'x'
+c:\opencv\build\include\opencv2\core.hpp(1608): error C2146: syntax error: missing ')' before identifier 'a'
+c:\opencv\build\include\opencv2\core.hpp(1613): error C2146: syntax error: missing ')' before identifier 'a'
+c:\opencv\build\include\opencv2\core.hpp(1643): error C2146: syntax error: missing ')' before identifier 'src1'
+c:\opencv\build\include\opencv2\core.hpp(1674): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1687): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1713): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1740): error C2146: syntax error: missing ')' before identifier 'src'
+c:\opencv\build\include\opencv2\core.hpp(1740): fatal error C1003: error count exceeds 100; stopping compilation
+  stereoind.cpp
+  stereobackup.cpp
+  stereo.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo.cpp(57): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo.cpp(61): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo.cpp(66): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo.cpp(78): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\stereo.cpp(82): warning C4018: '<': signed/unsigned mismatch
+  read.cpp
+  markergetter.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(50): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(55): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(60): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(79): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(84): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(89): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(145): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(157): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\markergetter.cpp(167): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(136): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(178): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(195): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(264): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(297): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(312): error C2440: 'initializing': cannot convert from 'int' to 'cv::Point_<float>'
+  c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(312): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+c:\users\brandon\source\repos\3d_pos\3d_pos\main.cpp(361): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  get.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\get.cpp(32): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\get.cpp(92): warning C4018: '<': signed/unsigned mismatch
+  calibrate2.cpp
+  calibrate.cpp
+c:\users\brandon\source\repos\3d_pos\3d_pos\calibrate.cpp(51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\brandon\source\repos\3d_pos\3d_pos\calibrate.cpp(70): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\calibrate.cpp(84): warning C4018: '>': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\calibrate.cpp(106): warning C4018: '<': signed/unsigned mismatch
+c:\users\brandon\source\repos\3d_pos\3d_pos\calibrate.cpp(36): warning C4101: 'dist': unreferenced local variable
+  Generating Code...
