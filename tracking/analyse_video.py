@@ -42,7 +42,11 @@ class Ball():
                 y_change = item[1][1] - previous[1][1]
                 x_cum_velocity += x_change / frame_change
                 y_cum_velocity += y_change / frame_change
+                ##print("x_change: {}, frame change: {}".format(x_change, frame_change))
             previous = item
+            if len(historical) > 1:
+                x_cum_velocity /= (len(historical) - 1)
+                y_cum_velocity /= (len(historical) - 1)
         return x_cum_velocity, y_cum_velocity
 
     def next_location(self, frame, num_past_points):
@@ -52,6 +56,7 @@ class Ball():
         x_cum_velocity, y_cum_velocity = self.average_velocity(num_past_points)
         x_change = x_cum_velocity * frame_change
         y_change = y_cum_velocity * frame_change
+        ##print("frame change: {}".format(frame_change))
         x += x_change
         y += y_change
         return (x, y)
@@ -103,10 +108,11 @@ class Analyse_Path():
             if x_min == None:
                 x_min = x.min()
                 y_min = y.min()
-            elif x_min > x.min():
-                x_min = x.min()
-            elif y_min > y.min():
-                y_min = y.min()
+            else:
+                if x_min > x.min():
+                    x_min = x.min()
+                if y_min > y.min():
+                    y_min = y.min()
                 
         plt.xlim(int(x_min * 0.95), int(x_max * 1.05))
         plt.ylim(int(y_max * 1.05), int(y_min * 0.95))
@@ -247,34 +253,31 @@ class Analyse_Path():
         dist = (pt2[0] - pt1[0])**2 + (pt2[1] - pt1[1])**2
         return (dist)**0.5
 
-    def track_past(self, position, view_past, current_point, dist, verbose=True):
+    def track_past(self, view_past, current_point, dist, verbose=True):
         past_points = self.video_coords[-view_past:-1]
         current_frame_num = self.video_coords[-1][0]
-        if verbose:
-            print("--- track past ---")
-            print("Past points: {}".format(past_points))
-            print("Position: {}".format(position))
-        pts = []
         predictions = []
         min_est_dist = dist
         best_pred = None
         for idx, ball in enumerate(self.balls):
             previous_current_dist = self.get_distance(current_point, ball.pts[-1][1])
-            if verbose:
-                print("Last position: {}".format(ball.pts[-1][1]))
             predictions.append(ball.next_location(current_frame_num, 10))
             est_dist = self.get_distance(current_point, predictions[-1])
-            if (est_dist < min_est_dist) & (previous_current_dist < dist):
+            if (est_dist < min_est_dist) & (previous_current_dist < (dist * 2)):
                 min_est_dist = est_dist
                 best_pred = idx
             if verbose:
-                print("Predictions: {}, Distance: {}".format(predictions[-1], est_dist))
+                print("Idx: {}, Last position: {}, Predictions: {}, Distance: {}, Distance from Previous: {}".format(idx,
+                                                                                                                     ball.pts[-1][1],
+                                                                                                                     predictions[-1],
+                                                                                                                     est_dist,
+                                                                                                                     previous_current_dist))
         if verbose:
-            print("--> Current Point: {}".format(current_point))
+            print("- Current Point: {}".format(current_point))
             if best_pred != None:
-                print("--> Best prediction: {}, index: {}, distance: {}".format(self.balls[best_pred].pts[-1], best_pred, min_est_dist))
+                print("- Best prediction: {}, index: {}, distance: {}".format(self.balls[best_pred].pts[-1], best_pred, min_est_dist))
             else:
-                print("==> ## Unable to find good prediction ##")
+                print("=======> ## Unable to find good prediction ##")
         return best_pred
 
     
@@ -284,7 +287,7 @@ class Analyse_Path():
         if (len(self.video_coords) > start_track):
             for i in range(len(self.video_coords[-1][1])):
                 current_pnt = self.video_coords[-1][1][i]
-                best_pred = self.track_past(i, view_past, current_pnt, radius_filter, verbose)
+                best_pred = self.track_past(view_past, current_pnt, radius_filter, verbose)
                 if best_pred != None:
                     if verbose:
                         print("-----> Adding to sequence num: {}, Frame: {}, Coords: {}".format(best_pred, self.video_coords[-1][0],current_pnt))
@@ -371,7 +374,7 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
         print("Analysising path")
     analyse_path.classify(nn, video_path, video_name, video_format,
                           ssd=ssd, detector=detector, flip=False, detect_classifier=classifier,
-                          verbose=verbose, past_points = 10, radius_filter = 40)
+                          verbose=verbose, past_points = 25, radius_filter = 60)
     if verbose:
         print("Analyse path classified")
         
@@ -394,7 +397,7 @@ def analyse_and_export(video_path, video_name, video_format, location, display):
 
 if __name__=='__main__':
     vid_name, vid_format = 'video1', '.avi'
-    vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2','video1.avi')
-    setup_analyse_video(vid_path, vid_name, vid_format, verbose = False)
+    vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2','video0.avi')
+    setup_analyse_video(vid_path, vid_name, vid_format, verbose = True)
 
     
