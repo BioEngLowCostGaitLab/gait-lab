@@ -9,7 +9,9 @@ import cv2 as cv
 import numpy as np
 import pickle
 
-
+import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
+from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 class Ball():
     ball_id = 0
@@ -67,12 +69,41 @@ class Analyse_Path():
         self.display = display
 
     def print_paths(self):
+        print("Number of paths: {}\n".format(len(self.balls)))
         for idx, path in enumerate(self.balls):
-            
+            print("Ball {}, start: {}, end: {}".format(idx, self.balls[idx].pts[0], self.balls[idx].pts[-1]))
+            frames_length = self.balls[idx].pts[-1][0] - self.balls[idx].pts[0][0]
+            print("Length: {}, Balls object len: {}, Missing Frames: {}".format(frames_length, len(self.balls[idx].pts), 1 + frames_length - len(self.balls[idx].pts)))
+            print("")
+        
+        for idx, path in enumerate(self.balls):
             print("\nBall num: {}".format(idx))
             path.print_history()
             print("-----")
-    
+        self.plot_path()
+
+    def plot_path(self):
+        x_max, y_max = 0, 0
+        for idx in range(len(self.balls)):
+            vals = self.balls[idx].pts
+            t = np.asarray([i[0] for i in vals])
+            x = np.asarray([i[1][0] for i in vals])
+            y = np.asarray([i[1][1] for i in vals])
+            
+            points = np.array([x,y]).transpose().reshape(-1,1,2)
+            segs = np.concatenate([points[:-1],points[1:]],axis=1)
+            lc = LineCollection(segs, cmap=plt.get_cmap('jet'))
+            lc.set_array(t) 
+
+            plt.gca().add_collection(lc)
+            if x.max() > x_max:
+                x_max = x.max()
+            if y.max() > y_max:
+                y_max = y.max()
+        plt.xlim(0, int(x_max * 1.1))
+        plt.ylim(int(y_max * 1.1), 0)
+        plt.show()
+            
     def pad(self, arr):
         r = np.zeros((24,24,3))
         r[:arr.shape[0],:arr.shape[1],:arr.shape[2]] = arr
@@ -305,7 +336,7 @@ class Analyse_Path():
         return sequences
 
     
-def setup_analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), display=True, verbose=False):
+def setup_analyse_video(video_path, video_name, video_format, location=os.path.join(os.getcwd(),".."), manual=True, display=True, verbose=False):
     if verbose:
         print("Setting up analyse vid")
     ssd = cv.dnn.readNetFromCaffe(os.path.join(location, 'detection/resources', 'MobileNetSSD_deploy.prototxt'),
@@ -323,7 +354,11 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
                           verbose=verbose, past_points = 15, radius_filter = 55)
     if verbose:
         print("Analyse path classified")
-    analyse_path.print_paths()
+    if manual:
+        analyse_path.print_paths()
+
+
+    
     return analyse_path.prepare_json_for_this_video()
     
 def pickle_sequences(sequences, video_name):
@@ -339,5 +374,5 @@ if __name__=='__main__':
     vid_name, vid_format = 'video1', '.avi'
     vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2')
     setup_analyse_video(vid_path, vid_name, vid_format)
-    
+
     
