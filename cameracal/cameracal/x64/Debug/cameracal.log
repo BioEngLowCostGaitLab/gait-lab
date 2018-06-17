@@ -1,0 +1,23 @@
+﻿  vidcamera.cpp
+  to3d.cpp
+  store.cpp
+  stereo.cpp
+c:\gait-lab\resources\cameracal\cameracal\stereo.cpp(66): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\gait-lab\resources\cameracal\cameracal\stereo.cpp(150): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  read.cpp
+  markergetter.cpp
+  main.cpp
+c:\gait-lab\resources\cameracal\cameracal\main.cpp(195): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\gait-lab\resources\cameracal\cameracal\main.cpp(264): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\gait-lab\resources\cameracal\cameracal\main.cpp(312): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\gait-lab\resources\cameracal\cameracal\main.cpp(361): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  get.cpp
+c:\gait-lab\resources\cameracal\cameracal\get.cpp(67): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\gait-lab\resources\cameracal\cameracal\get.cpp(185): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  calibrate.cpp
+c:\gait-lab\resources\cameracal\cameracal\calibrate.cpp(51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\gait-lab\resources\cameracal\cameracal\calibrate.cpp(36): warning C4101: 'dist': unreferenced local variable
+  plot.cpp
+  Generating Code...
+  LINK : C:\Gait-Lab\resources\cameracal\x64\Debug\cameracal.exe not found or not built by the last incremental link; performing full link
+  cameracal.vcxproj -> C:\Gait-Lab\resources\cameracal\x64\Debug\cameracal.exe
