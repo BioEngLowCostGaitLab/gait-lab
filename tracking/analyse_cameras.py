@@ -18,7 +18,7 @@ def analyse_cameras(video_list, name, display):
     print("cameras generated, generating json...")
     full_string = generate_full_json_string(cameras, len(cameras), 149)
     print("dumping json")
-    with open('json/'+name+'-2.json', 'w') as f:
+    with open('json/'+name+'.json', 'w') as f:
         json.dump(full_string, f, indent=1)
     
 if __name__=='__main__':

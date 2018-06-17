@@ -80,13 +80,13 @@ class Analyse_Path():
             print("\nBall num: {}".format(idx))
             path.print_history()
             print("-----")
-        self.plot_path()
 
-    def plot_path(self):
+    def plot_path(self, save_name, show = True, save_path = None):
         x_max, y_max = 0, 0
+        x_min, y_min = None, None
+        t = np.asarray([i for i in range(150)])
         for idx in range(len(self.balls)):
             vals = self.balls[idx].pts
-            t = np.asarray([i[0] for i in vals])
             x = np.asarray([i[1][0] for i in vals])
             y = np.asarray([i[1][1] for i in vals])
             
@@ -100,9 +100,22 @@ class Analyse_Path():
                 x_max = x.max()
             if y.max() > y_max:
                 y_max = y.max()
-        plt.xlim(0, int(x_max * 1.1))
-        plt.ylim(int(y_max * 1.1), 0)
-        plt.show()
+            if x_min == None:
+                x_min = x.min()
+                y_min = y.min()
+            elif x_min > x.min():
+                x_min = x.min()
+            elif y_min > y.min():
+                y_min = y.min()
+                
+        plt.xlim(int(x_min * 0.95), int(x_max * 1.05))
+        plt.ylim(int(y_max * 1.05), int(y_min * 0.95))
+        if save_path != None:
+            plt.savefig(join(save_path, save_name + ".png"))
+        else:
+            plt.savefig(save_name + ".png")
+        if show:
+            plt.show()
             
     def pad(self, arr):
         r = np.zeros((24,24,3))
@@ -152,6 +165,7 @@ class Analyse_Path():
             frame_num += 1
             if save_output:
                 out_video.write(clone)
+            previous = clone
             ret, clone = cap.read()
             if not ret:
                 break
@@ -222,6 +236,8 @@ class Analyse_Path():
                 print("-------------------------------------------")
         if save_output:
             out_video.release()
+        video_id = str(video_path.split("\\")[-2])
+        cv.imwrite(join(os.getcwd(),"output_sequences",video_id + "_" + video_name + "_frames" + ".jpg"), previous)
         cap.release()
         cv.destroyAllWindows()
 
@@ -241,9 +257,12 @@ class Analyse_Path():
         min_est_dist = dist
         best_pred = None
         for idx, ball in enumerate(self.balls):
+            previous_current_dist = self.get_distance(current_point, ball.pts[-1][1])
+            if verbose:
+                print("Last position: {}".format(ball.pts[-1][1]))
             predictions.append(ball.next_location(current_frame_num, 10))
             est_dist = self.get_distance(current_point, predictions[-1])
-            if est_dist < min_est_dist:
+            if (est_dist < min_est_dist) & (previous_current_dist < dist):
                 min_est_dist = est_dist
                 best_pred = idx
             if verbose:
@@ -253,7 +272,6 @@ class Analyse_Path():
             if best_pred != None:
                 print("--> Best prediction: {}, index: {}, distance: {}".format(self.balls[best_pred].pts[-1], best_pred, min_est_dist))
             else:
-                
                 print("==> ## Unable to find good prediction ##")
         return best_pred
 
@@ -351,12 +369,14 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
         print("Analysising path")
     analyse_path.classify(nn, video_path, video_name, video_format,
                           ssd=ssd, detector=detector, flip=False, detect_classifier=classifier,
-                          verbose=verbose, past_points = 15, radius_filter = 55)
+                          verbose=verbose, past_points = 10, radius_filter = 40)
     if verbose:
         print("Analyse path classified")
+        
     if manual:
         analyse_path.print_paths()
-
+        video_id = str(video_path.split("\\")[-2])
+        analyse_path.plot_path(video_id + "_" + video_name, save_path= join(os.getcwd(),'output_sequences'))
 
     
     return analyse_path.prepare_json_for_this_video()
@@ -372,7 +392,7 @@ def analyse_and_export(video_path, video_name, video_format, location, display):
 
 if __name__=='__main__':
     vid_name, vid_format = 'video1', '.avi'
-    vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2')
-    setup_analyse_video(vid_path, vid_name, vid_format)
+    vid_path = join(os.getcwd(),'accuracy_resources','gait_3_2','video1.avi')
+    setup_analyse_video(vid_path, vid_name, vid_format, verbose = False)
 
     
