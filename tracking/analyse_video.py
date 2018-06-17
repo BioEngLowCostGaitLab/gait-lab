@@ -32,7 +32,7 @@ class Ball():
 
     def average_velocity(self, num_past_points):
         historical = self.pts[-num_past_points:]
-        past_points = len(historical) # number of frames recorded normally past_points unless near start
+        past_points = len(historical)                ## number of frames recorded normally past_points unless near start
         x_cum_velocity, y_cum_velocity = 0, 0
         previous = None
         for item in historical:
@@ -92,7 +92,7 @@ class Analyse_Path():
             
             points = np.array([x,y]).transpose().reshape(-1,1,2)
             segs = np.concatenate([points[:-1],points[1:]],axis=1)
-            lc = LineCollection(segs, cmap=plt.get_cmap('jet'))
+            lc = LineCollection(segs, cmap=plt.get_cmap('hsv'))
             lc.set_array(t) 
 
             plt.gca().add_collection(lc)
@@ -110,6 +110,8 @@ class Analyse_Path():
                 
         plt.xlim(int(x_min * 0.95), int(x_max * 1.05))
         plt.ylim(int(y_max * 1.05), int(y_min * 0.95))
+        plt.xlabel('Horizontal pixel location')
+        plt.ylabel('Vertical pixel location')
         if save_path != None:
             plt.savefig(join(save_path, save_name + ".png"))
         else:
@@ -374,7 +376,7 @@ def setup_analyse_video(video_path, video_name, video_format, location=os.path.j
         print("Analyse path classified")
         
     if manual:
-        analyse_path.print_paths()
+        ##analyse_path.print_paths()
         video_id = str(video_path.split("\\")[-2])
         analyse_path.plot_path(video_id + "_" + video_name, save_path= join(os.getcwd(),'output_sequences'))
 
