@@ -1,0 +1,31 @@
+if () {
+			for (i = 0; i < num_cam; i++) {
+				for (j = i + 1; j < num_cam; j++) {
+					/*check for found pairs*/
+					if (!found[i]) {
+						break;	/*since found[i] is false move to next camera*/
+					}
+					/*implies that found[i] == true*/
+					else if (found[j]) {
+						/*improve corners location accuracy*/
+						vector<Mat> image_gray(2);
+
+						cvtColor(image[i], image_gray[0], COLOR_BGR2GRAY);
+						cvtColor(image[j], image_gray[1], COLOR_BGR2GRAY);
+						cornerSubPix(image_gray[0], temp_img_pts[i], Size(11, 11), Size(-1, -1), TermCriteria(TermCriteria::EPS + TermCriteria::COUNT, 30, 0.1));
+						cornerSubPix(image_gray[1], temp_img_pts[j], Size(11, 11), Size(-1, -1), TermCriteria(TermCriteria::EPS + TermCriteria::COUNT, 30, 0.1));
+
+						/*storing image points*/
+						image_points[i][j].push_back(temp_img_pts[i]);
+						image_points[j][i].push_back(temp_img_pts[j]);
+
+						/*check for successful pairs => when there are num_img_pts image points*/
+						if ((image_points[i][j].size() == num_img_pts) && (image_points[j][i].size() == num_img_pts)) {
+							suc_pair++;
+							cout << cameraID[i] << " and " << cameraID[j] << " has required number of image pairs." << endl;
+							cout << suc_pair << "/" << req_pair << endl;
+						}
+					}
+				}
+			}
+		}

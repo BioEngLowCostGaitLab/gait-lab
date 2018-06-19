@@ -1,0 +1,14 @@
+﻿  vidcamera.cpp
+  to3d.cpp
+  store.cpp
+  read.cpp
+  markergetter.cpp
+  main.cpp
+c:\gait-lab\resources\3d_pos\3d_pos\main.cpp(183): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\gait-lab\resources\3d_pos\3d_pos\main.cpp(252): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  get.cpp
+c:\gait-lab\resources\3d_pos\3d_pos\get.cpp(67): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\gait-lab\resources\3d_pos\3d_pos\get.cpp(188): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  LINK : C:\Gait-Lab\resources\3d_pos\x64\Debug\3d_pos.exe not found or not built by the last incremental link; performing full link
+  3d_pos.vcxproj -> C:\Gait-Lab\resources\3d_pos\x64\Debug\3d_pos.exe

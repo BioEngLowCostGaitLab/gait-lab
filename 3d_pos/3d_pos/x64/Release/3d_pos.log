@@ -1,0 +1,9 @@
+﻿  main.cpp
+main.cpp(183): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+main.cpp(252): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating code
+  1 of 946 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  3d_pos.vcxproj -> C:\Gait-Lab\resources\3d_pos\x64\Release\3d_pos.exe
